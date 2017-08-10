@@ -7,7 +7,7 @@
 import Vue from 'vue/dist/vue.js';
 import axios from 'axios';
 import jquery from 'jquery';
-
+import {ipcRenderer} from 'electron';
 import App from './components/SubMain.vue';
 import router from './routes';
 
@@ -34,6 +34,12 @@ axios.interceptors.response.use((response) => {
     if (error.response && error.response.status == 401) {
         router.push({path: '/login'});
     }
+});
+
+console.log(ipcRenderer);
+ipcRenderer.on('redisAlias', function (event, arg) {
+    const message = `Asynchronous message reply: ${arg}`;
+    console.log(message);
 });
 
 /* eslint-disable no-new */

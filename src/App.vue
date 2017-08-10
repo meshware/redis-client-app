@@ -15,9 +15,9 @@
                             <Icon type="ios-navigate"></Icon>
                             GROUP1
                         </template>
-                        <Menu-item name="1-1" @click.native="showSubWindows()"><Icon type="ios-checkmark"></Icon> DB1</Menu-item>
-                        <Menu-item name="1-2"><Icon type="ios-close"></Icon> DB2</Menu-item>
-                        <Menu-item name="1-3"><Icon type="ios-close"></Icon> DB3</Menu-item>
+                        <Menu-item name="1-1" @click.native="showSubWindows('localredis')"><Icon type="ios-checkmark"></Icon> LINK1</Menu-item>
+                        <Menu-item name="1-2"><Icon type="ios-close"></Icon> LINK2</Menu-item>
+                        <Menu-item name="1-3"><Icon type="ios-close"></Icon> LINK3</Menu-item>
                     </Submenu>
                     <Submenu name="2">
                         <template slot="title">
@@ -62,14 +62,14 @@
             open(link) {
                 this.$electron.shell.openExternal(link)
             },
-            showSubWindows: function () {
-                subMain.loadNewWindow();
+            showSubWindows: function (redisAlias) {
+                subMain.loadNewWindow(redisAlias);
             }
         }
     }
 </script>
 
-<style>
+<style scoped>
     @import url('./asserts/css/iview.css');
 
     .layout{

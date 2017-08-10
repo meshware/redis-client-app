@@ -2,16 +2,18 @@
     <div class="layout" id="app">
         <Row type="flex" style="height: 100%">
             <i-col span="5" class="layout-menu-left">
-                <Menu active-name="1-2" theme="dark" width="auto" :open-names="['1']">
+                <Menu theme="dark" width="auto">
                     <div class="layout-logo-left"></div>
-                    <Submenu name="1">
+                    <Submenu v-for="(db, index) in dbs" :name="db.dbId" @click.native="openSubmenu(db.dbId)">
                         <template slot="title">
                             <Icon type="ios-navigate"></Icon>
-                            DB1
+                            DB{{db.dbId}} Keys:{{db.keySize}}
                         </template>
-                        <Menu-item name="1-1"><Icon type="ios-checkmark"></Icon> Key1</Menu-item>
-                        <Menu-item name="1-2"><Icon type="ios-close"></Icon> Key1</Menu-item>
-                        <Menu-item name="1-3"><Icon type="ios-close"></Icon> Key1</Menu-item>
+                        <template>
+                            <Menu-item v-for="(key, index) in keys" :name="key.name"><span style="color: red">{{key.type}}</span>{{key.name}}</Menu-item>
+                        </template>
+                        <!--<Menu-item name="1-2"><Icon type="ios-close"></Icon> Key1</Menu-item>-->
+                        <!--<Menu-item name="1-3"><Icon type="ios-close"></Icon> Key1</Menu-item>-->
                     </Submenu>
                     <!--<Submenu name="2">-->
                         <!--<template slot="title">-->
@@ -48,18 +50,70 @@
 </template>
 
 <script>
+    import rds from '../common/redis';
 
     export default {
         // name: 'RedisClient-client',
+        data() {
+            return {
+                dbs: [],
+                keys:[],
+                password: ''
+            }
+        },
+        computed: {
+            typeIcon: function (type) {
+                return "<Icon type=\"document-text\"></Icon>"
+            }
+        },
         methods: {
             open(link) {
                 this.$electron.shell.openExternal(link)
+            },
+
+            getDB: function () {
+                let self = this;
+                self.dbs = [
+                    {
+                        dbId: 0,
+                        keySize: 124
+                    },
+                    {
+                        dbId: 1,
+                        keySize: 1554
+                    },
+                    {
+                        dbId: 2,
+                        keySize: 164
+                    },
+                ]
+            },
+
+            openSubmenu: function (dbIndex) {
+                let self = this;
+                rds.client.select(dbIndex, function() {
+                    console.log("selected db" + dbIndex);
+                    self.keys = [{name:'123', type: 'string'},{name:'456', type: 'set'}, {name:'789', type: 'map'}];
+//                    rds.client.set("nodejstest", "test");
+//                    rds.client.get("nodejstest", function (err, reply) {
+//                        console.log(reply.toString()); // Will print `OK`
+//                    });
+//                    rds.client;
+//                    rds.client.multi().get('*').execAsync().then(function(res) {
+//                        console.log(res); // => 'bar'
+//                    });
+                });
+
             }
+        },
+        created() {
+            rds.connect();
+            this.getDB();
         }
     }
 </script>
 
-<style>
+<style scoped>
     @import url('./asserts/css/iview.css');
 
     .layout{
