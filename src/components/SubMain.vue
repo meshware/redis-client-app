@@ -58,6 +58,7 @@
             return {
                 dbs: [],
                 keys:[],
+                redisAlias: this.redisAlias,
                 password: ''
             }
         },
@@ -107,7 +108,8 @@
             }
         },
         created() {
-            rds.connect();
+            console.log(this.redisAlias);
+            rds.connect(this.redisAlias);
             this.getDB();
         }
     }

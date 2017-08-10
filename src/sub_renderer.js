@@ -7,13 +7,19 @@
 import Vue from 'vue/dist/vue.js';
 import axios from 'axios';
 import jquery from 'jquery';
-import {ipcRenderer} from 'electron';
+import {remote, ipcRenderer} from 'electron';
 import App from './components/SubMain.vue';
 import router from './routes';
 
 import iView from 'iview';
 // import 'iview/dist/styles/iview.css';    // 使用 CSS
 
+const currentWindow = remote.getCurrentWindow();
+
+//  pIndex = getQueryUrlString('index');
+// ipcRenderer.on('dataJsonPort', function(event, message) { // 监听父页面定义的端口
+//     console.log(message);
+// });
 Vue.use(iView);
 // const ipc = electron.ipcRenderer;
 
@@ -36,11 +42,13 @@ axios.interceptors.response.use((response) => {
     }
 });
 
-console.log(ipcRenderer);
-ipcRenderer.on('redisAlias', function (event, arg) {
-    const message = `Asynchronous message reply: ${arg}`;
-    console.log(message);
-});
+// console.log(currentWindow);
+// console.log(currentWindow.redisAlias);
+// ipcRenderer.on('redisAlias', function (event, arg) {
+//     const message = `Asynchronous message reply: ${arg}`;
+//     console.log(message);
+//     Vue.redisAlias = Vue.prototype.redisAlias = arg;
+// });
 
 /* eslint-disable no-new */
 new Vue({

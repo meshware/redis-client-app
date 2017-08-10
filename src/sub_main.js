@@ -34,9 +34,11 @@ sub.loadNewWindow = function (redisAlias) {
     win.on('close', function () { win = null });
     win.loadURL(modalPath);
     win.show();
-
-    ipc.send('redisAlias', redisAlias);
-
+    // win.redisAlias = redisAlias;
+    // ipc.send('redisAlias', redisAlias);
+    // win.webContents.on('did-start-loading', function(){
+    //     win.webContents.send('redisAlias', redisAlias);
+    // });
     // Open the DevTools.
     if (isDevMode) {
         win.webContents.openDevTools();

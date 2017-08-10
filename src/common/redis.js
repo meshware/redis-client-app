@@ -15,6 +15,7 @@ let RDS_PORT = 6379,        //端口号
 let rds = {};
 
 rds.connect = function (redisAlias) {
+    console.log(redisAlias);
     RDS_HOST = '172.27.35.1';
     client = Redis.createClient(RDS_PORT, RDS_HOST, RDS_OPTS);
 
