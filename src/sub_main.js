@@ -21,6 +21,8 @@ let sub = {};
 sub.loadNewWindow = function (redisAlias) {
     const modalPath = path.join('file://', __dirname, './sub_index.html');
     let win = new BrowserWindow({
+        minHeight: 600,
+        minWidth: 1000,
         height: 666,
         width: 1088,
         useContentSize: true,

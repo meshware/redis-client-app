@@ -10,6 +10,7 @@ import jquery from 'jquery';
 import {remote, ipcRenderer} from 'electron';
 import App from './components/SubMain.vue';
 import router from './routes';
+import rds from './common/redis';
 
 import iView from 'iview';
 // import 'iview/dist/styles/iview.css';    // 使用 CSS
@@ -42,6 +43,21 @@ axios.interceptors.response.use((response) => {
     }
 });
 
+if (!rds.client) {
+    new Promise(function (resolve, reject) {
+        console.log("开始创建Redis连接！");
+        resolve(rds.connect(currentWindow.redisAlias));
+        // resolve(rds.redis);
+    }).then(function (redis) {
+        console.log(redis);
+        Vue.redis = Vue.prototype.redis = redis;
+    }).catch(function (error) {
+        console.error(error);
+    });
+} else {
+    console.log("Redis连接已存在！");
+    console.log(rds.redis);
+}
 // console.log(currentWindow);
 // console.log(currentWindow.redisAlias);
 // ipcRenderer.on('redisAlias', function (event, arg) {

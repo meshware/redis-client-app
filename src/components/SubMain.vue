@@ -18,12 +18,13 @@
                     </Option>
                 </Select>
                 <div class="keys-div" id="keys">
-                <Menu theme="dark" width="auto">
-                    <Menu-item v-for="(key, index) in keys" :name="key.name" @click.native="showContent(key.name)" style="padding: 5px 24px">
-                        <Icon type="ios-navigate" :size="iconSize"></Icon>
-                        <span class="layout-text">{{key.name}}</span>
-                    </Menu-item>
-                </Menu>
+                    <Menu theme="dark" width="auto">
+                        <Menu-item v-for="(key, index) in keys" :name="key.name" @click.native="showContent(key.name)"
+                                   style="padding: 5px 24px">
+                            <Icon type="ios-navigate" :size="iconSize"></Icon>
+                            <span class="layout-text">{{key.name}}</span>
+                        </Menu-item>
+                    </Menu>
                 </div>
                 <!--<Menu theme="dark" width="auto">-->
                 <!--<Submenu v-for="(db, index) in dbs" :name="db.dbId" @click.native="openSubmenu(db.dbId)">-->
@@ -62,7 +63,8 @@
                 <!--</Input>-->
                 <!--</div>-->
                 <div class="search-div">
-                <Input class="db-select" v-model="searchKey" icon="ios-clock-outline" placeholder="请输入查询表达式..." size="small"/>
+                    <Input class="db-select" v-model="searchKey" icon="ios-clock-outline" placeholder="请输入查询表达式..."
+                           size="small"/>
                 </div>
             </i-col>
             <i-col span="19" style="height: 100%">
@@ -73,7 +75,7 @@
 </template>
 
 <script>
-    import rds from '../common/redis';
+    //    import rds from '../common/redis';
 
     export default {
         // name: 'RedisClient-client',
@@ -82,6 +84,7 @@
                 dbs: [],
                 keys: [],
                 selectedDB: 0,
+                searchKey: '',
                 redisAlias: this.redisAlias,
                 password: ''
             }
@@ -116,72 +119,35 @@
 
             openSubmenu: function (dbIndex) {
                 let self = this;
-                rds.client.select(dbIndex, function () {
-                    console.log("selected db" + dbIndex);
-                    self.selectedDB = dbIndex;
-                    self.keys = [
-                        {name: '123', type: 'string'},
-                        {name: '456', type: 'set'},
-                        {name: '789', type: 'map'},
-                        {name: '123', type: 'string'},
-                        {name: '456', type: 'set'},
-                        {name: '789', type: 'map'},
-                        {name: '123', type: 'string'},
-                        {name: '456', type: 'set'},
-                        {name: '789', type: 'map'},
-                        {name: '123', type: 'string'},
-                        {name: '456', type: 'set'},
-                        {name: '789', type: 'map'},
-                        {name: '123', type: 'string'},
-                        {name: '456', type: 'set'},
-                        {name: '789', type: 'map'},
-                        {name: '123', type: 'string'},
-                        {name: '456', type: 'set'},
-                        {name: '789', type: 'map'},
-                        {name: '123', type: 'string'},
-                        {name: '456', type: 'set'},
-                        {name: '789', type: 'map'},
-                        {name: '123', type: 'string'},
-                        {name: '456', type: 'set'},
-                        {name: '789', type: 'map'},
-                        {name: '123', type: 'string'},
-                        {name: '456', type: 'set'},
-                        {name: '789', type: 'map'},
-                        {name: '123', type: 'string'},
-                        {name: '456', type: 'set'},
-                        {name: '789', type: 'map'},
-                        {name: '123', type: 'string'},
-                        {name: '456', type: 'set'},
-                        {name: '789', type: 'map'},
-                        {name: '123', type: 'string'},
-                        {name: '456', type: 'set'},
-                        {name: '789', type: 'map'},
-                        {name: '123', type: 'string'},
-                        {name: '456', type: 'set'},
-                        {name: '789', type: 'map'},
-                        {name: '123', type: 'string'},
-                        {name: '456', type: 'set'},
-                        {name: '789', type: 'map'},
-                        {name: '123', type: 'string'},
-                        {name: '456', type: 'set'},
-                        {name: '789', type: 'map'},
-                        {name: '123', type: 'string'},
-                        {name: '456', type: 'set'},
-                        {name: '789', type: 'map'},
-                        {name: '123', type: 'string'},
-                        {name: '456', type: 'set'},
-                        {name: '789', type: 'map'}
-                        ];
-//                    rds.client.set("nodejstest", "test");
-//                    rds.client.get("nodejstest", function (err, reply) {
-//                        console.log(reply.toString()); // Will print `OK`
-//                    });
-//                    rds.client;
-//                    rds.client.multi().get('*').execAsync().then(function(res) {
-//                        console.log(res); // => 'bar'
-//                    });
-                });
+                console.log(this.redis);
 
+                this.redis.select(dbIndex).then(resolve => {
+                    if (resolve !== 'OK') {
+                        throw new Error('连接DB' + dbIndex + "失败！");
+                    }
+                    self.selectedDB = dbIndex;
+                    this.redis.keys(self.searchKey === '' ? '*' : self.searchKey).then(result => {
+//                            console.log(res)
+                        console.log(result);
+                        if (result && result.length !== 0) {
+                            result.forEach(function (key) {
+                                self.redis.type(key).then(res => {
+                                    console.log(res);
+                                    self.keys.push({
+                                        name: key,
+                                        type: res
+                                    })
+                                });
+                            })
+                        } else {
+                            console.log("该库无数据！");
+                            self.keys = [];
+                        }
+                    });
+                }).catch(error => {
+                    console.log(error);
+                    alert(error);
+                });
             },
 
             showContent: function (key) {
@@ -190,8 +156,9 @@
         },
         created() {
             console.log(this.redisAlias);
-            rds.connect(this.redisAlias);
+//            rds.connect(this.redisAlias);
             this.getDB();
+//            console.log(this.redis);
         }
     }
 </script>
@@ -199,20 +166,17 @@
 <style scoped>
     @import url('./asserts/css/iview.css');
 
-    ::-webkit-scrollbar-track
-    {
+    ::-webkit-scrollbar-track {
         border: 0px solid black;
         background-color: #464c5b;
     }
 
-    ::-webkit-scrollbar
-    {
+    ::-webkit-scrollbar {
         width: 10px;
         background-color: #464c5b;
     }
 
-    ::-webkit-scrollbar-thumb
-    {
+    ::-webkit-scrollbar-thumb {
         background-color: #373e50;
     }
 
@@ -276,9 +240,9 @@
     }
 
     .search-div {
-        position:absolute;
-        bottom:0;
-        width:100%;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
         /*height:100px;*/
         /*background-color: #ffc0cb;*/
     }

@@ -5,32 +5,42 @@
  */
 "use strict";
 import sysProcess from 'child_process';
-import Redis from 'redis';
+// import Redis from 'redis';
+import Redis from 'ioredis';
 
 let RDS_PORT = 6379,        //端口号
     RDS_HOST = '127.0.0.1',    //服务器IP
     RDS_OPTS = {},            //设置项
-    client;
+    redis;
 
 let rds = {};
 
 rds.connect = function (redisAlias) {
-    console.log(redisAlias);
+    console.log("redisAlias:" + redisAlias);
     RDS_HOST = '172.27.35.1';
-    client = Redis.createClient(RDS_PORT, RDS_HOST, RDS_OPTS);
+    redis = new Redis(RDS_PORT, RDS_HOST);
+    // redis.Command("keys *");
 
-    client.on('ready', function (res) {
-        rds.client = client;
-        console.log('ready');
+    redis.once('error', function (error) {
+        console.error("Error " + error);
     });
-
-    client.on("error", function (err) {
-        console.log("Error " + err);
+    redis.once('end', function () {
+        console.info("end");
     });
+    // redis.on('ready', function (res) {
+    //     console.log(redis);
+    //     rds.redis = redis;
+    //     console.log('ready:' + res);
+    // });
+    rds.redis = redis;
+    return redis;
+    // client.on("error", function (err) {
+    //     console.log("Error " + err);
+    // });
 };
 
 rds.getServerInfo = function () {
-    console.log(client);
+    console.log(redis);
 };
 
 export default rds;
