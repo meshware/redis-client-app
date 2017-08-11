@@ -21,8 +21,8 @@
                     <Menu theme="dark" width="auto">
                         <Menu-item v-for="(key, index) in keys" :name="key.name" @click.native="showContent(key.name)"
                                    style="padding: 5px 24px">
-                            <Icon type="ios-navigate" :size="iconSize"></Icon>
-                            <span class="layout-text">{{key.name}}</span>
+                            <span class="key-type" style="">{{key.type}}</span> 
+                            <span class="layout-text" style="display:block; line-height:15px; margin-left:39px;">{{key.name}}</span>
                         </Menu-item>
                     </Menu>
                 </div>
@@ -75,7 +75,7 @@
 </template>
 
 <script>
-    //    import rds from '../common/redis';
+    import rds from '../common/redis';
 
     export default {
         // name: 'RedisClient-client',
@@ -101,6 +101,7 @@
 
             getDB: function () {
                 let self = this;
+                rds.getDBCount();
                 self.dbs = [
                     {
                         dbId: 0,
@@ -119,16 +120,15 @@
 
             openSubmenu: function (dbIndex) {
                 let self = this;
-                console.log(this.redis);
-
+                // console.log(this.redis);
                 this.redis.select(dbIndex).then(resolve => {
                     if (resolve !== 'OK') {
                         throw new Error('连接DB' + dbIndex + "失败！");
                     }
                     self.selectedDB = dbIndex;
                     this.redis.keys(self.searchKey === '' ? '*' : self.searchKey).then(result => {
-//                            console.log(res)
-                        console.log(result);
+                        // console.log(res);
+                        // console.log(result);
                         if (result && result.length !== 0) {
                             result.forEach(function (key) {
                                 self.redis.type(key).then(res => {
@@ -256,5 +256,16 @@
         width: 100%;
         overflow: auto;
         /*background-color: #5b6270;*/
+    }
+
+    .key-type {
+        display: block;
+        height: 15px;
+        width: 36px;
+        background-color: #3597FA;
+        text-align: center;
+        line-height:15px;
+        border-radius: 2px;
+        float: left;
     }
 </style>

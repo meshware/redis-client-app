@@ -15,9 +15,12 @@ let RDS_PORT = 6379,        //端口号
 
 let rds = {};
 
+/**
+ * 建立连接
+ */
 rds.connect = function (redisAlias) {
     console.log("redisAlias:" + redisAlias);
-    RDS_HOST = '172.27.35.1';
+    // RDS_HOST = '172.27.35.1';
     redis = new Redis(RDS_PORT, RDS_HOST);
     // redis.Command("keys *");
 
@@ -38,6 +41,34 @@ rds.connect = function (redisAlias) {
     //     console.log("Error " + err);
     // });
 };
+
+/**
+ * 获取DB数量
+ */
+rds.getDBCount = function (){
+
+    redis.select(15).then(res => {
+        console.log(res);
+        if (res !== 'OK') {
+            throw new Error('连接DB' + dbIndex + "失败！");
+        }
+    }).catch(error => {
+        console.error(error);
+    });
+
+    redis.select(16).then(res => {
+        console.log(res);
+        if (res !== 'OK') {
+            throw new Error('连接DB' + dbIndex + "失败！");
+        }
+    }).catch(error => {
+        console.error(error);
+    });
+};
+
+function tryMaxDBNum(dbIndex){
+    
+}
 
 rds.getServerInfo = function () {
     console.log(redis);
