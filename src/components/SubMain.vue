@@ -84,7 +84,7 @@
                     if (result && result.length !== 0) {
                         result.forEach(function (key) {
                             self.redis.type(key).then(res => {
-                                console.log(res);
+//                                console.log(res);
                                 self.keys.push({
                                     name: key,
                                     type: res

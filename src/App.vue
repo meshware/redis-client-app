@@ -3,7 +3,7 @@
         <Row type="flex" style="height: 100%">
             <i-col class="layout-menu-left">
                 <div v-if="showTitle" class="layout-logo-left"><p style="text-align: center">Redis Client App {{platform}}</p></div>
-                <div class="groups-div" id="keys">
+                <div v-bind:class = "showTitle ? 'groups-div-mac' : 'groups-div-other'" id="keys">
                     <Menu theme="dark" width="auto" :open-names="['1']">
                         <!--<Button-group style="margin: 5px 15px 5px 20px">-->
                         <!--<Button type="ghost" icon="android-cloud-done"></Button>-->
@@ -88,18 +88,29 @@
 <style scoped>
     @import url('./asserts/css/iview.css');
 
-    ::-webkit-scrollbar-track {
-        border: 0px solid black;
-        background-color: #464c5b;
-    }
-
     ::-webkit-scrollbar {
         width: 10px;
-        background-color: #464c5b;
+        height: 10px;
+        background-color: transparent;
+    }
+
+    ::-webkit-scrollbar-track {
+        width: 10px;
+        /*border: 0 solid black;*/
+        border-color: transparent;
+        background-color: transparent;
     }
 
     ::-webkit-scrollbar-thumb {
         background-color: #373e50;
+    }
+
+    ::-webkit-scrollbar-thumb:hover{
+        background-color:#9f9f9f;
+    }
+
+    ::-webkit-scrollbar-corner {
+        background-color: transparent;
     }
 
     .layout {
@@ -156,9 +167,19 @@
         color: #000000;
     }
 
-    .groups-div {
+    .groups-div-mac {
         position: absolute;
         top: 52px;
+        bottom: 50px;
+        /*height: auto;*/
+        /*height: 100%;*/
+        width: 100%;
+        overflow: auto;
+    }
+
+    .groups-div-other {
+        position: absolute;
+        top: 0px;
         bottom: 50px;
         /*height: auto;*/
         /*height: 100%;*/
