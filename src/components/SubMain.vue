@@ -12,7 +12,7 @@
                 <div class="keys-div" id="keys">
                     <Menu theme="dark" width="auto">
                         <Menu-item v-for="(key, index) in keys" :name="key.name" @click.native="showContent(key.name)"
-                                   style="padding: 5px 24px">
+                                   style="padding: 5px 24px 5px 15px">
                             <span class="key-type" style="">{{key.type}}</span> 
                             <span class="layout-text" style="display:block; line-height:15px; margin-left:39px; white-space:nowrap;">{{key.name}}</span>
                         </Menu-item>

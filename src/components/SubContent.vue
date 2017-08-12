@@ -7,9 +7,15 @@
             <!--</Breadcrumb>-->
         <!--</div>-->
         <Tabs style="-webkit-app-region: drag;">
-            <Tab-pane label="内容" icon="document-text">标签一的内容</Tab-pane>
-            <Tab-pane label="设置" icon="gear-a">标签二的内容</Tab-pane>
-            <Tab-pane label="其他" icon="ios-pulse-strong">标签三的内容</Tab-pane>
+            <Tab-pane label="内容" icon="document-text">
+                标签一的内容
+            </Tab-pane>
+            <Tab-pane label="设置" icon="gear-a">
+                标签二的内容
+            </Tab-pane>
+            <Tab-pane label="其他" icon="ios-pulse-strong">
+                标签三的内容
+            </Tab-pane>
         </Tabs>
     <!--<div class="layout-copy">-->
         <!--2011-2017 &copy; UUGU-->

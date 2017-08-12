@@ -169,7 +169,7 @@
 
     .groups-div-mac {
         position: absolute;
-        top: 52px;
+        top: 45px;
         bottom: 50px;
         /*height: auto;*/
         /*height: 100%;*/
