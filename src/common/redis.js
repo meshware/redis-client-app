@@ -20,14 +20,16 @@ let rds = {};
  */
 rds.connect = function (redisAlias) {
     console.log("redisAlias:" + redisAlias);
-    RDS_HOST = '172.27.35.1';
+    // RDS_HOST = '172.27.35.1';
     redis = new Redis(RDS_PORT, RDS_HOST);
     // redis.Command("keys *");
 
     redis.once('error', function (error) {
+        alert("连接失败！" + error);
         console.error("Error " + error);
     });
     redis.once('end', function () {
+        alert("连接结束！");
         console.info("end");
     });
     // redis.on('ready', function (res) {
@@ -57,13 +59,13 @@ rds.getDBCount = function () {
     return tryMaxDBNum(15).then(count => {
         return typeof count === 'number' ? count : tryMaxDBNum(1, 0)
     }).then(count => {
-        console.log("DBCount=" + (count + 1));
+        console.log("This redis has DB Num is:" + (count + 1));
         return Promise.resolve(count + 1);
     });
 };
 
 function tryMaxDBNum(startIndex, lastSuccessIndex) {
-    console.log("try startIndex:" + startIndex);
+    // console.log("try startIndex:" + startIndex);
     if (startIndex > 64) {
         return Promise.resolve(64);
     }

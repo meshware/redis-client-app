@@ -8,9 +8,7 @@
         <!--</div>-->
         <Tabs value="content" style="-webkit-app-region: drag;">
             <Tab-pane label="内容" name="content" icon="document-text">
-                KEY: {{ $route.params.key }} 
-                <br/>
-                对应的内容是：{{content}}
+                欢迎使用RCA！
             </Tab-pane>
             <Tab-pane label="设置" icon="gear-a">
                 标签二的内容
@@ -26,15 +24,15 @@
 </template>
 
 <script>
-    // import SystemInformation from './landingPage/SystemInformation'
+    import SystemInformation from './landingPage/SystemInformation'
 
-    // import executor from '../common/executor';
+    import executor from '../common/executor';
 
 //    executor.run("ls /");
 
     export default {
         name: 'landing-page',
-        components: {},
+        components: {SystemInformation},
         data () {
             return {
                 key: this.$route.params.key,
@@ -66,24 +64,10 @@
                     this.spanLeft = 5;
                     this.spanRight = 19;
                 }
-            },
-            /**
-             * 获取Key对应值
-             */
-            doGetContent: function(){
-                let self = this;
-                this.key = this.$route.params.key;
-                this.redis.get(this.$route.params.key).then(function (result) {
-                    self.content = result;
-                    console.log(result);
-                }).catch(res => {
-                    self.content = null;
-                    alert(res);
-                });
             }
         },
         created() {
-            this.doGetContent();
+           
         },
         watch: {
             // 如果路由有变化，会再次执行该方法

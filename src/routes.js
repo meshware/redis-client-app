@@ -28,7 +28,7 @@ let router = new Router({
         {
             name: 'index',
             path: '/index',
-            component: require('./components/SubContent.vue'),
+            component: require('./components/SubIndex.vue'),
             children: [
                 {
                     name: 'default',
@@ -43,19 +43,9 @@ let router = new Router({
             ]
         },
         {
-            name: 'strategy',
-            path: '/strategy',
-            component: require('./components/strategy/StrategyList.vue')
-        },
-        {
-            name: 'simulationResult',
-            path: '/simulation/:strategyId/:resultId',
-            component: require('./components/strategy/SimulationResult.vue')
-        },
-        {
-            name: 'test',
-            path: '/test/:userId',
-            component: require('./components/Test.vue')
+            name: 'content',
+            path: '/content/:key',
+            component: require('./components/SubContent.vue')
         },
         {
             path: '*',

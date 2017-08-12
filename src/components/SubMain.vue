@@ -30,12 +30,13 @@
 
 <script>
     import rds from '../common/redis';
+    import router from '../routes';
 
     export default {
         // name: 'RedisClient-client',
         data() {
             return {
-                dbNums: 10,
+                dbNums: 1,
                 keys: [],
                 selectedDB: 0,
                 searchKey: '',
@@ -52,6 +53,9 @@
                 this.$electron.shell.openExternal(link)
             },
 
+            /**
+             * 选择数据库并显示Keys
+             */
             openSubmenu: function (dbIndex) {
                 let self = this;
                 // console.log(this.redis);
@@ -68,8 +72,12 @@
                 });
             },
 
+            /**
+             * 显示子内容页
+             */
             showContent: function (key) {
-                console.log(key);
+                router.push({path: '/content/'+ key});
+                // console.log(key);
             },
 
             /**
@@ -96,10 +104,11 @@
             }
         },
         created() {
+            router.push({path: '/index'});
             console.log(this.redisAlias);
+            // console.log(this.selectedDB);
 //            rds.connect(this.redisAlias);
             rds.getDBCount().then(result => this.dbNums = result);
-//            console.log(this.redis);
         }
     }
 </script>
