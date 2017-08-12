@@ -2,9 +2,9 @@
     <div class="layout" id="app">
         <Row type="flex" style="height: 100%">
             <i-col class="layout-menu-left">
-                <div class="layout-logo-left"><p style="text-align: center">Redis Client App</p></div>
+                <div v-if="showTitle" class="layout-logo-left"><p style="text-align: center">Redis Client App {{platform}}</p></div>
                 <div class="groups-div" id="keys">
-                    <Menu active-name="1-2" theme="dark" width="auto" :open-names="['1']">
+                    <Menu theme="dark" width="auto" :open-names="['1']">
                         <!--<Button-group style="margin: 5px 15px 5px 20px">-->
                         <!--<Button type="ghost" icon="android-cloud-done"></Button>-->
                         <!--<Button type="ghost" icon="ios-sunny-outline"></Button>-->
@@ -69,6 +69,11 @@
 
     export default {
         // name: 'redis-client',
+        data() {
+            return {
+                showTitle: require('os').platform() === 'darwin'
+            }
+        },
         methods: {
             open(link) {
                 this.$electron.shell.openExternal(link)

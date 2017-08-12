@@ -20,7 +20,7 @@ let rds = {};
  */
 rds.connect = function (redisAlias) {
     console.log("redisAlias:" + redisAlias);
-    // RDS_HOST = '172.27.35.1';
+    RDS_HOST = '172.27.35.1';
     redis = new Redis(RDS_PORT, RDS_HOST);
     // redis.Command("keys *");
 
@@ -45,29 +45,37 @@ rds.connect = function (redisAlias) {
 /**
  * 获取DB数量
  */
-rds.getDBCount = function (){
-
-    redis.select(15).then(res => {
-        console.log(res);
-        if (res !== 'OK') {
-            throw new Error('连接DB' + dbIndex + "失败！");
-        }
-    }).catch(error => {
-        console.error(error);
-    });
-
-    redis.select(16).then(res => {
-        console.log(res);
-        if (res !== 'OK') {
-            throw new Error('连接DB' + dbIndex + "失败！");
-        }
-    }).catch(error => {
-        console.error(error);
+rds.getDBCount = function () {
+    // redis.select(15).then(res => {
+    //     console.log(res);
+    //     if (res !== 'OK') {
+    //         throw new Error('连接DB' + dbIndex + "失败！");
+    //     }
+    // }).catch(error => {
+    //     console.error(error);
+    // });
+    return tryMaxDBNum(15).then(count => {
+        return typeof count === 'number' ? count : tryMaxDBNum(1, 0)
+    }).then(count => {
+        console.log("DBCount=" + (count + 1));
+        return Promise.resolve(count + 1);
     });
 };
 
-function tryMaxDBNum(dbIndex){
-    
+function tryMaxDBNum(startIndex, lastSuccessIndex) {
+    console.log("try startIndex:" + startIndex);
+    if (startIndex > 64) {
+        return Promise.resolve(64);
+    }
+    return redis.select(startIndex)
+        .then(() => {
+            return tryMaxDBNum(startIndex + 1, startIndex);
+        }).catch(err => {
+            if (typeof lastSuccessIndex === 'number') {
+                return lastSuccessIndex;
+            }
+            return null;
+        })
 }
 
 rds.getServerInfo = function () {

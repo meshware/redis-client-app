@@ -3,69 +3,23 @@
         <Row type="flex" style="height: 100%">
             <i-col span="5" class="layout-menu-left">
                 <!--<div class="layout-logo-left"></div>-->
-                <!--<Dropdown trigger="click" class="db-select">-->
-                <!--<a href="javascript:void(0)">-->
-                <!--DB选择：-->
-                <!--<Icon type="arrow-down-b"></Icon>-->
-                <!--</a>-->
-                <!--<Dropdown-menu slot="list">-->
-                <!--<Dropdown-item v-for="item in cityList">{{ item.label }}</Dropdown-item>-->
-                <!--</Dropdown-menu>-->
-                <!--</Dropdown>-->
                 <Select class="db-select" v-model="model2" size="small" placeholder="请选择DB...">
-                    <Option v-for="(db, index) in dbs" :value="db.dbId" :key="db.dbId"
-                            @click.native="openSubmenu(db.dbId)">当前DB：{{ db.dbId }}
+                    <Option v-for="(dbIndex, index) in dbNums" :value="index" :key="index"
+                            @click.native="openSubmenu(index)">当前DB：{{ index }}
                     </Option>
                 </Select>
+                <Button class="refresh-btn" type="primary" shape="circle" icon="refresh" size="small" @click="doSearchKey"></Button>
                 <div class="keys-div" id="keys">
                     <Menu theme="dark" width="auto">
                         <Menu-item v-for="(key, index) in keys" :name="key.name" @click.native="showContent(key.name)"
                                    style="padding: 5px 24px">
                             <span class="key-type" style="">{{key.type}}</span> 
-                            <span class="layout-text" style="display:block; line-height:15px; margin-left:39px;">{{key.name}}</span>
+                            <span class="layout-text" style="display:block; line-height:15px; margin-left:39px; white-space:nowrap;">{{key.name}}</span>
                         </Menu-item>
                     </Menu>
                 </div>
-                <!--<Menu theme="dark" width="auto">-->
-                <!--<Submenu v-for="(db, index) in dbs" :name="db.dbId" @click.native="openSubmenu(db.dbId)">-->
-                <!--<template slot="title">-->
-                <!--<Icon type="ios-navigate"></Icon>-->
-                <!--DB{{db.dbId}} Keys:{{db.keySize}}-->
-                <!--</template>-->
-                <!--<Menu-item v-for="(key, index) in keys" :name="key.name"><span style="color: red">{{key.type}}</span>{{key.name}}</Menu-item>-->
-                <!--&lt;!&ndash;<Menu-item name="1-2"><Icon type="ios-close"></Icon> Key1</Menu-item>&ndash;&gt;-->
-                <!--&lt;!&ndash;<Menu-item name="1-3"><Icon type="ios-close"></Icon> Key1</Menu-item>&ndash;&gt;-->
-                <!--</Submenu>-->
-                <!--<Submenu name="2">-->
-                <!--<template slot="title">-->
-                <!--<Icon type="ios-keypad"></Icon>-->
-                <!--GROUP2-->
-                <!--</template>-->
-                <!--<Menu-item name="2-1">DB1</Menu-item>-->
-                <!--<Menu-item name="2-2">DB2</Menu-item>-->
-                <!--</Submenu>-->
-                <!--<Submenu name="3">-->
-                <!--<template slot="title">-->
-                <!--<Icon type="ios-analytics"></Icon>-->
-                <!--GROUP3-->
-                <!--</template>-->
-                <!--<Menu-item name="3-1">DB1</Menu-item>-->
-                <!--<Menu-item name="3-2">DB2</Menu-item>-->
-                <!--</Submenu>-->
-                <!--</Menu>-->
-                <!--<div class="search-div">-->
-                <!--<Input class="search-box" v-model="value13" size="small">-->
-                <!--<Select v-model="select3" slot="prepend" style="width: 80px" size="small">-->
-                <!--<Option value="day">日活</Option>-->
-                <!--<Option value="month">月活</Option>-->
-                <!--</Select>-->
-                <!--<Button slot="append" icon="ios-search" size="small"></Button>-->
-                <!--</Input>-->
-                <!--</div>-->
-                <div class="search-div">
-                    <Input class="db-select" v-model="searchKey" icon="ios-clock-outline" placeholder="请输入查询表达式..."
-                           size="small"/>
-                </div>
+                <Input class="key-filter" v-model="searchKey" icon="ios-eye" placeholder="请输入查询表达式..."
+                       @on-change="doSearchKey" size="small"/>
             </i-col>
             <i-col span="19" style="height: 100%">
                 <router-view></router-view>
@@ -81,12 +35,11 @@
         // name: 'RedisClient-client',
         data() {
             return {
-                dbs: [],
+                dbNums: 10,
                 keys: [],
                 selectedDB: 0,
                 searchKey: '',
-                redisAlias: this.redisAlias,
-                password: ''
+                redisAlias: this.redisAlias
             }
         },
         computed: {
@@ -99,25 +52,6 @@
                 this.$electron.shell.openExternal(link)
             },
 
-            getDB: function () {
-                let self = this;
-                rds.getDBCount();
-                self.dbs = [
-                    {
-                        dbId: 0,
-                        keySize: 124
-                    },
-                    {
-                        dbId: 1,
-                        keySize: 1554
-                    },
-                    {
-                        dbId: 2,
-                        keySize: 164
-                    }
-                ]
-            },
-
             openSubmenu: function (dbIndex) {
                 let self = this;
                 // console.log(this.redis);
@@ -126,24 +60,8 @@
                         throw new Error('连接DB' + dbIndex + "失败！");
                     }
                     self.selectedDB = dbIndex;
-                    this.redis.keys(self.searchKey === '' ? '*' : self.searchKey).then(result => {
-                        // console.log(res);
-                        // console.log(result);
-                        if (result && result.length !== 0) {
-                            result.forEach(function (key) {
-                                self.redis.type(key).then(res => {
-                                    console.log(res);
-                                    self.keys.push({
-                                        name: key,
-                                        type: res
-                                    })
-                                });
-                            })
-                        } else {
-                            console.log("该库无数据！");
-                            self.keys = [];
-                        }
-                    });
+                    self.doSearchKey();
+
                 }).catch(error => {
                     console.log(error);
                     alert(error);
@@ -151,13 +69,36 @@
             },
 
             showContent: function (key) {
-                alert(key);
+                console.log(key);
+            },
+
+            /**
+             * 搜索Key列表
+             */
+            doSearchKey: function () {
+                let self = this;
+                this.redis.keys(self.searchKey === '' ? '*' : self.searchKey).then(result => {
+                    // console.log(res);
+                    // console.log(result);
+                    self.keys = []; //先清空历史数据
+                    if (result && result.length !== 0) {
+                        result.forEach(function (key) {
+                            self.redis.type(key).then(res => {
+                                console.log(res);
+                                self.keys.push({
+                                    name: key,
+                                    type: res
+                                })
+                            });
+                        })
+                    }
+                });
             }
         },
         created() {
             console.log(this.redisAlias);
 //            rds.connect(this.redisAlias);
-            this.getDB();
+            rds.getDBCount().then(result => this.dbNums = result);
 //            console.log(this.redis);
         }
     }
@@ -166,18 +107,29 @@
 <style scoped>
     @import url('./asserts/css/iview.css');
 
-    ::-webkit-scrollbar-track {
-        border: 0px solid black;
-        background-color: #464c5b;
-    }
-
     ::-webkit-scrollbar {
         width: 10px;
-        background-color: #464c5b;
+        height: 10px;
+        background-color: transparent;
+    }
+
+    ::-webkit-scrollbar-track {
+        width: 10px;
+        /*border: 0 solid black;*/
+        border-color: transparent;
+        background-color: transparent;
     }
 
     ::-webkit-scrollbar-thumb {
         background-color: #373e50;
+    }
+
+    ::-webkit-scrollbar-thumb:hover{
+        background-color:#9f9f9f;
+    }
+
+    ::-webkit-scrollbar-corner {
+        background-color: transparent;
     }
 
     .layout {
@@ -231,26 +183,32 @@
 
     .db-select {
         -webkit-app-region: drag;
-        width: 90%;
+        width: 70%;
         /*height: 30px;*/
         background: transparent;
         /*background-color: transparent;*/
         border-radius: 3px;
-        margin: 35px 25px 10px 15px;
+        margin: 35px 5px 10px 15px;
+        float: left;
     }
 
-    .search-div {
+    .key-filter {
         position: absolute;
+        left: 0;
         bottom: 0;
-        width: 100%;
-        /*height:100px;*/
-        /*background-color: #ffc0cb;*/
+        width: 90%;
+        height: 25px;
+        background: transparent;
+        /*background-color: transparent;*/
+        border-radius: 3px;
+        margin: 5px 25px 10px 15px;
+        float: left;
     }
 
     .keys-div {
         position: absolute;
         top: 62px;
-        bottom: 38px;
+        bottom: 42px;
         /*height: auto;*/
         /*height: 100%;*/
         width: 100%;
@@ -262,10 +220,20 @@
         display: block;
         height: 15px;
         width: 36px;
-        background-color: #3597FA;
+        background-color: #9f9f9f;
         text-align: center;
         line-height:15px;
         border-radius: 2px;
         float: left;
+    }
+
+    .refresh-btn {
+        -webkit-app-region: drag;
+        /*height: 30px;*/
+        background: transparent;
+        border-color: transparent;
+        /*border-radius: 3px;*/
+        margin: 35px 15px 10px 5px;
+        float: right;
     }
 </style>
