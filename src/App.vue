@@ -3,6 +3,15 @@
         <Row type="flex" style="height: 100%">
             <i-col class="layout-menu-left">
                 <div v-if="showTitle" class="layout-logo-left"><p style="text-align: center">Redis Client App {{platform}}</p></div>
+                <div class="menu-group">
+                    <Button-group size="small">
+                        <Button type="primary"><Icon type="ios-plus-outline"></Icon>添加</Button>
+                        <Button type="primary"><Icon type="ios-plus-outline"></Icon>前进</Button>
+                        <Button type="primary" icon="ios-skipforward"></Button>
+                        <Button type="primary" icon="ios-skipforward"></Button>
+                        <Button type="primary" icon="ios-skipforward"></Button>
+                    </Button-group>
+                </div>
                 <div v-bind:class = "showTitle ? 'groups-div-mac' : 'groups-div-other'" id="keys">
                     <Menu theme="dark" width="auto" :open-names="['1']">
                         <!--<Button-group style="margin: 5px 15px 5px 20px">-->
@@ -16,7 +25,7 @@
                                 <Icon type="ios-navigate"></Icon>
                                 GROUP1
                             </template>
-                            <Menu-item name="1-1" @click.native="showSubWindows('localredis')">
+                            <Menu-item name="1-1" @dblclick.native="showSubWindows('localredis')">
                                 <Icon type="ios-checkmark"></Icon>
                                 LINK1
                             </Menu-item>
@@ -114,6 +123,7 @@
     }
 
     .layout {
+        -webkit-user-select: none;
         height: 100%;
         /*border: 1px solid #d7dde4;*/
         /*background: #f5f7f9;*/
@@ -179,12 +189,17 @@
 
     .groups-div-other {
         position: absolute;
-        top: 0px;
+        top: 50px;
         bottom: 50px;
         /*height: auto;*/
         /*height: 100%;*/
         width: 100%;
         overflow: auto;
+    }
+
+    .menu-group {
+        margin: 10px 25px 0px 25px;
+
     }
 
     .search-div {
