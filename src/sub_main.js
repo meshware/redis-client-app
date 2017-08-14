@@ -16,11 +16,16 @@ const isDevMode = process.execPath.match(/[\\/]electron/);
 
 // if (isDevMode) enableLiveReload();
 
+const iconName = process.platform === 'win32' ? 'icon.ico' : 'icon.icns';
+const iconPath = path.join(__dirname, './asserts/icons', iconName);
+
 let sub = {};
 
 sub.loadNewWindow = function (redisAlias) {
     const modalPath = path.join('file://', __dirname, './sub_index.html');
     let win = new BrowserWindow({
+        icon: iconPath,
+        title: 'Redis Client Application',
         minHeight: 600,
         minWidth: 1000,
         height: 666,

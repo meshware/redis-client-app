@@ -4,6 +4,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
 import { enableLiveReload } from 'electron-compile';
+import path from 'path';
 import menu from './common/menu';
 import appIcon from './common/tray';
 import log from './common/logger';
@@ -16,9 +17,14 @@ const isDevMode = process.execPath.match(/[\\/]electron/);
 
 if (isDevMode) enableLiveReload();
 
+const iconName = process.platform === 'win32' ? 'icon.ico' : 'icon.icns';
+const iconPath = path.join(__dirname, './asserts/icons', iconName);
+
 const createWindow = async () => {
     // Create the browser window.
     mainWindow = new BrowserWindow({
+        icon: iconPath,
+        title: 'Redis Client Application',
         minHeight: 566,
         minWidth: 400,
         height: 566,
