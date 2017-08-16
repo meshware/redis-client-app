@@ -5,7 +5,7 @@
  */
 "use strict";
 import sysProcess from 'child_process';
-// import Redis from 'redis';
+import Vue from 'vue/dist/vue.js';
 import Redis from 'ioredis';
 
 let RDS_PORT = 6379,        //端口号
@@ -20,7 +20,7 @@ let rds = {};
  */
 rds.connect = function (redisAlias) {
     console.log("redisAlias:" + redisAlias);
-    // RDS_HOST = '172.27.35.1';
+    RDS_HOST = '172.27.35.1';
     redis = new Redis(RDS_PORT, RDS_HOST);
     // redis.Command("keys *");
 
@@ -37,8 +37,8 @@ rds.connect = function (redisAlias) {
     //     rds.redis = redis;
     //     console.log('ready:' + res);
     // });
-    rds.redis = redis;
-    return redis;
+    Vue.redis = Vue.prototype.redis = redis;
+    return Promise.resolve(redis);
     // client.on("error", function (err) {
     //     console.log("Error " + err);
     // });

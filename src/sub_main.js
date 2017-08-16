@@ -6,11 +6,7 @@
 'use strict';
 const BrowserWindow = require('electron').remote.BrowserWindow;
 const path = require('path');
-const ipc = require('electron').ipcRenderer;
-
-// ipc.on('asynchronous-message', function (event, arg) {
-//     event.sender.send('asynchronous-reply', 'pong')
-// })
+const ipc = require('electron').remote.ipcMain;
 
 const isDevMode = process.execPath.match(/[\\/]electron/);
 
@@ -41,11 +37,12 @@ sub.loadNewWindow = function (redisAlias) {
     win.on('close', function () { win = null });
     win.loadURL(modalPath);
     win.show();
-    // win.redisAlias = redisAlias;
-    // ipc.send('redisAlias', redisAlias);
-    // win.webContents.on('did-start-loading', function(){
-    //     win.webContents.send('redisAlias', redisAlias);
-    // });
+
+    //页面加载完成后，发送事件创建redis连接
+    win.webContents.on('did-finish-load', function(){
+        win.webContents.send('createRedisConnection', redisAlias);
+    });
+
     // Open the DevTools.
     if (isDevMode) {
         win.webContents.openDevTools();

@@ -2,14 +2,14 @@
     <div class="layout" id="app">
         <Row type="flex" style="height: 100%">
             <i-col class="layout-menu-left">
-                <div v-if="showTitle" class="layout-logo-left"><p style="text-align: center">Redis Client App {{platform}}</p></div>
+                <div v-if="showTitle" class="layout-logo"><p style="text-align: center">Redis Client App {{platform}}</p></div>
                 <div class="menu-group">
                     <Button-group size="small">
-                        <Button type="primary"><Icon type="ios-plus-outline"></Icon>添加</Button>
-                        <Button type="primary"><Icon type="ios-plus-outline"></Icon>前进</Button>
-                        <Button type="primary" icon="ios-skipforward"></Button>
-                        <Button type="primary" icon="ios-skipforward"></Button>
-                        <Button type="primary" icon="ios-skipforward"></Button>
+                        <Button type="primary"><Icon type="ios-plus-outline"></Icon> 添加</Button>
+                        <Button type="primary"><Icon type="ios-plus-outline"></Icon> 前进</Button>
+                        <!--<Button type="primary" icon="ios-skipforward"></Button>-->
+                        <!--<Button type="primary" icon="ios-skipforward"></Button>-->
+                        <!--<Button type="primary" icon="ios-skipforward"></Button>-->
                     </Button-group>
                 </div>
                 <div v-bind:class = "showTitle ? 'groups-div-mac' : 'groups-div-other'" id="keys">
@@ -21,7 +21,7 @@
                         <!--<Button type="ghost" icon="ios-color-filter-outline"></Button>-->
                         <!--</Button-group>-->
                         <Submenu name="1">
-                            <template slot="title">
+                            <template slot="title" style="padding: 10px 24px">
                                 <Icon type="ios-navigate"></Icon>
                                 GROUP1
                             </template>
@@ -38,7 +38,7 @@
                                 LINK3
                             </Menu-item>
                         </Submenu>
-                        <Submenu name="2">
+                        <Submenu name="2" v-for="dbGourp">
                             <template slot="title">
                                 <Icon type="ios-keypad"></Icon>
                                 GROUP2
@@ -58,10 +58,10 @@
                 </div>
                 <div class="search-div">
                     <Input class="search-box" v-model="value13">
-                    <Select v-model="select3" slot="prepend" style="width: 80px">
-                        <Option value="day">日活</Option>
-                        <Option value="month">月活</Option>
-                    </Select>
+                    <!--<Select v-model="select3" slot="prepend" style="width: 80px">-->
+                        <!--<Option value="day">日活</Option>-->
+                        <!--<Option value="month">月活</Option>-->
+                    <!--</Select>-->
                     <Button slot="append" icon="ios-search"></Button>
                     </Input>
                 </div>
@@ -75,12 +75,14 @@
 
 <script>
     import subMain from './sub_main';
+    import config from './common/config_util';
 
     export default {
-        // name: 'redis-client',
+        name: 'redis-client',
         data() {
             return {
-                showTitle: require('os').platform() === 'darwin'
+                showTitle: require('os').platform() === 'darwin',
+                dbGroups: []
             }
         },
         methods: {
@@ -90,6 +92,10 @@
             showSubWindows: function (redisAlias) {
                 subMain.loadNewWindow(redisAlias);
             }
+        },
+        mounted:function(){
+            let self = this;
+            self.dbGroups = config.getDBGroups();
         }
     }
 </script>
@@ -165,13 +171,13 @@
         box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
     }
 
-    .layout-logo-left {
+    .layout-logo {
         -webkit-app-region: drag;
-        width: 90%;
-        height: 30px;
-        /*background: #5b6270;*/
-        border-radius: 3px;
-        margin: 5px 15px 0px 15px;
+        width: 100%;
+        height: 40px;
+        background: #205080;
+        /*border-radius: 3px;*/
+        margin: 0;
         font-size: 16px;
         text-align: center;
         color: #000000;
@@ -179,7 +185,7 @@
 
     .groups-div-mac {
         position: absolute;
-        top: 45px;
+        top: 75px;
         bottom: 50px;
         /*height: auto;*/
         /*height: 100%;*/
@@ -198,7 +204,7 @@
     }
 
     .menu-group {
-        margin: 10px 25px 0px 25px;
+        margin: 5px 24px 5px 24px;
 
     }
 

@@ -14,10 +14,18 @@ const homeDir = os.homedir();
 let config = {
     filePath: path.join(homeDir, "/RedisClient/"),
     fileName: "config.json",
+    dbConfig: {
+        family: 4,
+        host: "127.0.0.1",
+        port: 6379,
+        type: 1,  //1:无密码模式，2:有密码
+        password: "",
+        db: 0,
+        alias: ""
+    },
     configFile: {
-        serverHost: "127.0.0.1",
-        serverPort: 8080,
-        token: ""
+        groupName: "",
+        dbConfigs:[]
     }
 };
 
@@ -75,13 +83,13 @@ config.loadConfigFile = function (theConfig) {
     }
 };
 
-/**
- * 获取服务器地址
- *
- * @returns {string}
- */
-config.getServerUrl = function () {
-    return "http://" + config.configFile.serverHost + ":" + config.configFile.serverPort;
+config.getDBGroups = function () {
+    if (config.checkFileExist()) {
+        return JSON.parse(fs.readFileSync(config.getConfigFilePath(), 'utf-8'));
+    } else {
+        alert("还未配置任何连接信息！");
+        return [];
+    }
 };
 
 /**

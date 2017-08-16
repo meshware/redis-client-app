@@ -19,6 +19,7 @@ if (isDevMode) enableLiveReload();
 
 const iconName = process.platform === 'win32' ? 'icon.ico' : 'icon.icns';
 const iconPath = path.join(__dirname, './asserts/icons', iconName);
+console.log(iconPath);
 
 const createWindow = async () => {
     // Create the browser window.

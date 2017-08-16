@@ -31,6 +31,7 @@
 <script>
     import rds from '../common/redis';
     import router from '../routes';
+    const ipc = require('electron').ipcRenderer;
 
     export default {
         // name: 'RedisClient-client',
@@ -105,10 +106,15 @@
         },
         created() {
             router.push({path: '/index'});
-            console.log(this.redisAlias);
-            // console.log(this.selectedDB);
-//            rds.connect(this.redisAlias);
-            rds.getDBCount().then(result => this.dbNums = result);
+            console.log("created...");
+        },
+        mounted: function () {
+            let self = this;
+            console.log("mounted...");
+            ipc.on('createRedisConnection', (event, message) => {
+                rds.connect(message);
+                rds.getDBCount().then(result => this.dbNums = result);
+            })
         }
     }
 </script>
@@ -172,6 +178,7 @@
     }
 
     .layout-menu-left {
+        -webkit-app-region: drag;
         height: auto;
         background: #464c5b;
     }
@@ -191,7 +198,6 @@
     }
 
     .db-select {
-        -webkit-app-region: drag;
         width: 70%;
         /*height: 30px;*/
         background: transparent;
