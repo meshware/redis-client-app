@@ -8,7 +8,8 @@ import path from 'path';
 import fs from 'fs';
 import os from 'os';
 import notify from '../common/notify';
-
+const dialog = require('electron').remote.dialog;
+// import {dialog} from 'electron';
 const homeDir = os.homedir();
 
 let config = {
@@ -87,7 +88,7 @@ config.getDBGroups = function () {
     if (config.checkFileExist()) {
         return JSON.parse(fs.readFileSync(config.getConfigFilePath(), 'utf-8'));
     } else {
-        alert("还未配置任何连接信息！");
+        dialog.showErrorBox('错误提示', '还未配置任何连接信息！')        
         return [];
     }
 };

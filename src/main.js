@@ -26,14 +26,15 @@ const createWindow = async () => {
     mainWindow = new BrowserWindow({
         icon: iconPath,
         title: 'Redis Client Application',
-        minHeight: 566,
-        minWidth: 400,
+        // minHeight: 566,
+        // minWidth: 400,
         height: 566,
         width: 400,
         useContentSize: true,
         titleBarStyle: 'hidden-inset',
         autoHideMenuBar: true,
         frame: true,
+        resizable: false,
         darkTheme: true,
         transparent: false //窗口透明
     });
@@ -63,9 +64,9 @@ app.on('ready', () => {
     createWindow();
     menu.menuInit();
     appIcon.loadTray();
-    log.info("Load main process success！");
+    log.info("Load main process success!");
     // Promise.race(menu.menuInit, appIcon.loadTray).then(function (message) {
-    //     log.info("Load main process success！");
+    //     log.info("Load main process success!");
     // }).catch(function (exception) {
     //     log.info(exception);
     // });

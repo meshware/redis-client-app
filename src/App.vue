@@ -5,12 +5,25 @@
                 <div v-if="showTitle" class="layout-logo"><p style="text-align: center">Redis Client App {{platform}}</p></div>
                 <div class="menu-group">
                     <Button-group size="small">
-                        <Button type="primary"><Icon type="ios-plus-outline"></Icon> 添加</Button>
-                        <Button type="primary"><Icon type="ios-plus-outline"></Icon> 前进</Button>
+                        <Button type="primary" @click="addDBModel = true"><Icon type="ios-plus-outline"></Icon> 添加</Button>
+                        <Button type="primary" @click="delDBModel = true"><Icon type="ios-plus-outline"></Icon> 删除</Button>
                         <!--<Button type="primary" icon="ios-skipforward"></Button>-->
                         <!--<Button type="primary" icon="ios-skipforward"></Button>-->
                         <!--<Button type="primary" icon="ios-skipforward"></Button>-->
                     </Button-group>
+                        <Dropdown trigger="click" style="margin-left: 20px">
+                            <a href="javascript:void(0)">
+                                click 触发
+                                <Icon type="arrow-down-b"></Icon>
+                            </a>
+                            <Dropdown-menu slot="list">
+                                <Dropdown-item>驴打滚</Dropdown-item>
+                                <Dropdown-item>炸酱面</Dropdown-item>
+                                <Dropdown-item>豆汁儿</Dropdown-item>
+                                <Dropdown-item>冰糖葫芦</Dropdown-item>
+                                <Dropdown-item>北京烤鸭</Dropdown-item>
+                            </Dropdown-menu>
+                        </Dropdown>
                 </div>
                 <div v-bind:class = "showTitle ? 'groups-div-mac' : 'groups-div-other'" id="keys">
                     <Menu theme="dark" width="auto" :open-names="['1']">
@@ -23,7 +36,7 @@
                         <Submenu name="1">
                             <template slot="title" style="padding: 10px 24px">
                                 <Icon type="ios-navigate"></Icon>
-                                GROUP1
+                                默认分组
                             </template>
                             <Menu-item name="1-1" @dblclick.native="showSubWindows('localredis')">
                                 <Icon type="ios-checkmark"></Icon>
@@ -38,7 +51,7 @@
                                 LINK3
                             </Menu-item>
                         </Submenu>
-                        <Submenu name="2" v-for="dbGourp">
+                        <Submenu name="2" v-for="dbGroup in dbGroups">
                             <template slot="title">
                                 <Icon type="ios-keypad"></Icon>
                                 GROUP2
@@ -70,19 +83,59 @@
             <!--<router-view></router-view>-->
             <!--</i-col>-->
         </Row>
+         <Modal v-model="addDBModel" title="自定义宽度" width="300" @on-ok="ok">
+            <p slot="header" style="color:#f60;text-align:center">
+                <Icon type="information-circled"></Icon>
+                <span>增加数据库连接</span>
+            </p>
+            <div style="text-align:center">
+                <!-- <Form-item label="输入框">
+                    <Input v-model="formItem.input" placeholder="请输入"></Input>
+                </Form-item>
+                <Form-item label="输入框">
+                    <Input v-model="formItem.input" placeholder="请输入"></Input>
+                </Form-item>
+                <Form-item label="选择器">
+                    <Select v-model="formItem.select" placeholder="请选择">
+                        <Option value="beijing">北京市</Option>
+                        <Option value="shanghai">上海市</Option>
+                        <Option value="shenzhen">深圳市</Option>
+                    </Select>
+                </Form-item> -->
+            </div>
+            <!-- <div slot="footer">
+                <Button type="error" size="large" long :loading="modal_loading" @click="del">删除</Button>
+            </div> -->
+        </Modal>
+        <Modal v-model="delDBModel" title="自定义宽度" width="300">
+            <p slot="header" style="color:#f60;text-align:center">
+                <Icon type="information-circled"></Icon>
+                <span>删除确认</span>
+            </p>
+            <div style="text-align:center">
+                <p>此任务删除后，下游 10 个任务将无法执行。</p>
+                <p>是否继续删除？</p>
+            </div>
+            <div slot="footer">
+                <Button type="error" size="large" long :loading="modal_loading" @click="del">删除</Button>
+            </div>
+        </Modal>
     </div>
 </template>
 
 <script>
     import subMain from './sub_main';
     import config from './common/config_util';
+    const dialog = require('electron').remote.dialog;
 
     export default {
         name: 'redis-client',
         data() {
             return {
                 showTitle: require('os').platform() === 'darwin',
-                dbGroups: []
+                dbGroups: [],
+                addDBModel: false,
+                delDBModel: false
             }
         },
         methods: {
@@ -91,6 +144,24 @@
             },
             showSubWindows: function (redisAlias) {
                 subMain.loadNewWindow(redisAlias);
+            },
+            addNewDB () {
+                this.$Modal.confirm({
+                    render: (h) => {
+                        return h('Input', {
+                            props: {
+                                value: this.value,
+                                autofocus: true,
+                                placeholder: 'Please enter your name...'
+                            },
+                            on: {
+                                input: (val) => {
+                                    this.value = val;
+                                }
+                            }
+                        })
+                    }
+                })
             }
         },
         mounted:function(){
@@ -195,7 +266,7 @@
 
     .groups-div-other {
         position: absolute;
-        top: 50px;
+        top: 35px;
         bottom: 50px;
         /*height: auto;*/
         /*height: 100%;*/

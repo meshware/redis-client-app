@@ -71,7 +71,7 @@
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
-    "electron-prebuilt-compile": "1.6.11",
+    "electron-prebuilt-compile": "1.7.5",
     "electron-builder": "^19.18.1"
   }
 }
