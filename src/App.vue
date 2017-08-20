@@ -5,72 +5,43 @@
                 <div v-if="showTitle" class="layout-logo"><p style="text-align: center">Redis Client App {{platform}}</p></div>
                 <div class="menu-group">
                     <Button-group size="small">
-                        <Button type="primary" @click="addDBModel = true"><Icon type="ios-plus-outline"></Icon> 添加</Button>
+                        <Button type="primary" @click="addNewDB"><Icon type="ios-plus-outline"></Icon> 添加</Button>
                         <Button type="primary" @click="delDBModel = true"><Icon type="ios-plus-outline"></Icon> 删除</Button>
                         <!--<Button type="primary" icon="ios-skipforward"></Button>-->
                         <!--<Button type="primary" icon="ios-skipforward"></Button>-->
                         <!--<Button type="primary" icon="ios-skipforward"></Button>-->
                     </Button-group>
-                        <Dropdown trigger="click" style="margin-left: 20px">
-                            <a href="javascript:void(0)">
-                                click 触发
-                                <Icon type="arrow-down-b"></Icon>
-                            </a>
-                            <Dropdown-menu slot="list">
-                                <Dropdown-item>驴打滚</Dropdown-item>
-                                <Dropdown-item>炸酱面</Dropdown-item>
-                                <Dropdown-item>豆汁儿</Dropdown-item>
-                                <Dropdown-item>冰糖葫芦</Dropdown-item>
-                                <Dropdown-item>北京烤鸭</Dropdown-item>
-                            </Dropdown-menu>
-                        </Dropdown>
+                    <Dropdown trigger="click" placement="bottom-end" style="margin-left: 220px; vertical-align: middle;">
+                        <a href="javascript:void(0)">
+                            <Icon type="gear-a" size='20'></Icon>
+                        </a>
+                        <Dropdown-menu slot="list">
+                            <Dropdown-item>其他</Dropdown-item>
+                            <Dropdown placement="left-start">
+                                <Dropdown-item>
+                                    主题
+                                    <Icon type="ios-arrow-right"></Icon>
+                                </Dropdown-item>
+                                <Dropdown-menu slot="list">
+                                    <Dropdown-item name='light' @click.native="themeType = 'light'">白色</Dropdown-item>
+                                    <Dropdown-item name='dark' @click.native="themeType ='dark'">黑色</Dropdown-item>
+                                </Dropdown-menu>
+                            </Dropdown>
+                        </Dropdown-menu>
+                    </Dropdown>
                 </div>
                 <div v-bind:class = "showTitle ? 'groups-div-mac' : 'groups-div-other'" id="keys">
-                    <Menu theme="dark" width="auto" :open-names="['1']">
-                        <!--<Button-group style="margin: 5px 15px 5px 20px">-->
-                        <!--<Button type="ghost" icon="android-cloud-done"></Button>-->
-                        <!--<Button type="ghost" icon="ios-sunny-outline"></Button>-->
-                        <!--<Button type="ghost" icon="ios-crop"></Button>-->
-                        <!--<Button type="ghost" icon="ios-color-filter-outline"></Button>-->
-                        <!--</Button-group>-->
-                        <Submenu name="1">
-                            <template slot="title" style="padding: 10px 24px">
-                                <Icon type="ios-navigate"></Icon>
-                                默认分组
-                            </template>
-                            <Menu-item name="1-1" @dblclick.native="showSubWindows('localredis')">
-                                <Icon type="ios-checkmark"></Icon>
-                                LINK1
+                    <Menu :theme="themeType" active-name="1" width="auto">
+                        <Menu-group title="===数据库连接列表===">
+                            <Menu-item name="1" @dblclick.native="showSubWindows('localredis')">
+                                <Icon type="document-text"></Icon>
+                                连接1
                             </Menu-item>
-                            <Menu-item name="1-2">
-                                <Icon type="ios-close"></Icon>
-                                LINK2
-                            </Menu-item>
-                            <Menu-item name="1-3">
-                                <Icon type="ios-close"></Icon>
-                                LINK3
-                            </Menu-item>
-                        </Submenu>
-                        <Submenu name="2" v-for="dbGroup in dbGroups">
-                            <template slot="title">
-                                <Icon type="ios-keypad"></Icon>
-                                GROUP2
-                            </template>
-                            <Menu-item name="2-1">DB1</Menu-item>
-                            <Menu-item name="2-2">DB2</Menu-item>
-                        </Submenu>
-                        <Submenu name="3">
-                            <template slot="title">
-                                <Icon type="ios-analytics"></Icon>
-                                GROUP3
-                            </template>
-                            <Menu-item name="3-1">DB1</Menu-item>
-                            <Menu-item name="3-2">DB2</Menu-item>
-                        </Submenu>
+                        </Menu-group>
                     </Menu>
                 </div>
                 <div class="search-div">
-                    <Input class="search-box" v-model="value13">
+                    <Input class="search-box" v-model="filterKey">
                     <!--<Select v-model="select3" slot="prepend" style="width: 80px">-->
                         <!--<Option value="day">日活</Option>-->
                         <!--<Option value="month">月活</Option>-->
@@ -83,7 +54,8 @@
             <!--<router-view></router-view>-->
             <!--</i-col>-->
         </Row>
-         <Modal v-model="addDBModel" title="自定义宽度" width="300" @on-ok="ok">
+        <!-- <AddDB></AddDB> -->
+         <Modal v-model="addDBModel" title="自定义宽度" width="300" @on-ok="">
             <p slot="header" style="color:#f60;text-align:center">
                 <Icon type="information-circled"></Icon>
                 <span>增加数据库连接</span>
@@ -117,22 +89,25 @@
                 <p>是否继续删除？</p>
             </div>
             <div slot="footer">
-                <Button type="error" size="large" long :loading="modal_loading" @click="del">删除</Button>
+                <Button type="error" size="large" long :loading="modal_loading" @click="">删除</Button>
             </div>
         </Modal>
     </div>
 </template>
 
 <script>
+    import AddDB from './components/AddDB.vue'
     import subMain from './sub_main';
     import config from './common/config_util';
     const dialog = require('electron').remote.dialog;
 
     export default {
         name: 'redis-client',
+        components: {AddDB},
         data() {
             return {
                 showTitle: require('os').platform() === 'darwin',
+                themeType: 'dark',
                 dbGroups: [],
                 addDBModel: false,
                 delDBModel: false
@@ -147,20 +122,33 @@
             },
             addNewDB () {
                 this.$Modal.confirm({
+                    scrollable:true,
+                    okText:'保存',
                     render: (h) => {
-                        return h('Input', {
+                        return h(AddDB, {
                             props: {
-                                value: this.value,
-                                autofocus: true,
-                                placeholder: 'Please enter your name...'
+                                
                             },
                             on: {
-                                input: (val) => {
-                                    this.value = val;
+                                value1: (value1) => {
+                                    this.v1 = value1
+                                },
+                                value2: (value2) => {
+                                    this.v2 = value2
                                 }
                             }
                         })
-                    }
+                    },
+                    onOk: () => {
+                        if (this.v1 == '' || this.v2 == '') {
+                            this.$Message.error('信息填写不完整!')
+                        }
+                        const msg = this.$Message.loading({
+                            content: '正在保存..',
+                            duration: 0
+                        })
+                        this.saveLink(msg)
+                    }  
                 })
             }
         },
@@ -275,7 +263,7 @@
     }
 
     .menu-group {
-        margin: 5px 24px 5px 24px;
+        margin: 5px 24px 0px 24px;
 
     }
 

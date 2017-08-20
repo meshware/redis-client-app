@@ -8,7 +8,7 @@
                             @click.native="openSubmenu(index)">当前DB：{{ index }}
                     </Option>
                 </Select>
-                <Button class="refresh-btn" type="primary" shape="circle" icon="refresh" size="small" @click="doSearchKey"></Button>
+                <Button class="refresh-btn" type="primary" shape="circle" size="small" @click="doSearchKey"><Icon type="refresh" size="20"></Icon></Button>
                 <div class="keys-div" id="keys">
                     <Menu theme="dark" width="auto">
                         <Menu-item v-for="(key, index) in keys" :name="key.name" @click.native="showContent(key.name)"
@@ -248,7 +248,7 @@
         background: transparent;
         border-color: transparent;
         /*border-radius: 3px;*/
-        margin: 35px 15px 10px 5px;
+        margin: 35px 5px 10px 5px;
         float: right;
     }
 </style>

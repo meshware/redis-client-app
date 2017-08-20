@@ -55,6 +55,7 @@
 </template>
 <script>
     export default {
+        name: "addDB",
         data () {
             return {
                 formItem: {
@@ -72,6 +73,6 @@
         }
     }
 </script>
-<style>
+<style scoped>
     @import url('./asserts/css/iview.css');
 </style>
