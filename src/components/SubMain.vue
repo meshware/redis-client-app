@@ -3,13 +3,15 @@
         <Row type="flex" style="height: 100%">
             <i-col span="5" class="layout-menu-left">
                 <!--<div class="layout-logo-left"></div>-->
-                <Select class="db-select" v-model="model2" size="small" placeholder="请选择DB...">
-                    <Option v-for="(dbIndex, index) in dbNums" :value="index" :key="index"
-                            @click.native="openSubmenu(index)">当前DB：{{ index }}
-                    </Option>
-                </Select>
-                <Button class="refresh-btn" type="primary" shape="circle" size="small" @click="doSearchKey"><Icon type="refresh" size="20"></Icon></Button>
-                <div class="keys-div" id="keys">
+                <div v-bind:class="isMac ? 'topbar-mac' : 'topbar'">
+                    <Select class="db-select" v-model="model2" size="small" placeholder="请选择DB...">
+                        <Option v-for="(dbIndex, index) in dbNums" :value="index" :key="index"
+                                @click.native="openSubmenu(index)">当前DB：{{ index }}
+                        </Option>
+                    </Select>
+                    <Button class="refresh-btn" type="primary" shape="circle" size="small" @click="doSearchKey"><Icon type="refresh" size="20"></Icon></Button>
+                </div>
+                <div v-bind:class="isMac ? 'keys-div-mac' : 'keys-div'" class="" id="keys">
                     <Menu theme="dark" width="auto">
                         <Menu-item v-for="(key, index) in keys" :name="key.name" @click.native="showContent(key.name)"
                                    style="padding: 5px 24px 5px 15px">
@@ -37,6 +39,7 @@
         // name: 'RedisClient-client',
         data() {
             return {
+                isMac: require('os').platform() === 'darwin',
                 dbNums: 1,
                 keys: [],
                 selectedDB: 0,
@@ -197,14 +200,56 @@
         margin: 35px 25px 5px 15px;
     }
 
+    .topbar {
+        width: 100%;
+        margin: 5px 0px 0px 0px;
+    }
+
+    .topbar-mac {
+        width: 100%;
+        margin: 35px 0px 0px 0px;
+    }
+
     .db-select {
         width: 70%;
         /*height: 30px;*/
         background: transparent;
         /*background-color: transparent;*/
         border-radius: 3px;
-        margin: 35px 5px 10px 15px;
+        margin: 0px 5px 10px 15px;
         float: left;
+    }
+
+    .refresh-btn {
+        -webkit-app-region: drag;
+        /*height: 30px;*/
+        background: transparent;
+        border-color: transparent;
+        /*border-radius: 3px;*/
+        margin: 0px 5px 10px 5px;
+        float: right;
+    }
+
+    .keys-div {
+        position: absolute;
+        top: 32px;
+        bottom: 42px;
+        /*height: auto;*/
+        /*height: 100%;*/
+        width: 100%;
+        overflow: auto;
+        /*background-color: #5b6270;*/
+    }
+
+    .keys-div-mac {
+        position: absolute;
+        top: 62px;
+        bottom: 42px;
+        /*height: auto;*/
+        /*height: 100%;*/
+        width: 100%;
+        overflow: auto;
+        /*background-color: #5b6270;*/
     }
 
     .key-filter {
@@ -220,17 +265,6 @@
         float: left;
     }
 
-    .keys-div {
-        position: absolute;
-        top: 62px;
-        bottom: 42px;
-        /*height: auto;*/
-        /*height: 100%;*/
-        width: 100%;
-        overflow: auto;
-        /*background-color: #5b6270;*/
-    }
-
     .key-type {
         display: block;
         height: 15px;
@@ -240,15 +274,5 @@
         line-height:15px;
         border-radius: 2px;
         float: left;
-    }
-
-    .refresh-btn {
-        -webkit-app-region: drag;
-        /*height: 30px;*/
-        background: transparent;
-        border-color: transparent;
-        /*border-radius: 3px;*/
-        margin: 35px 5px 10px 5px;
-        float: right;
     }
 </style>
