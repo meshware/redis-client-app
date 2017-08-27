@@ -6,20 +6,15 @@
                 <!--<Breadcrumb-item>KEY1</Breadcrumb-item>-->
             <!--</Breadcrumb>-->
         <!--</div>-->
-        <Tabs value="content" style="-webkit-app-region: drag;">
-            <Tab-pane label="内容" name="content" icon="document-text">
-                欢迎使用RCA！
-            </Tab-pane>
-            <Tab-pane label="设置" icon="gear-a">
-                标签二的内容
-            </Tab-pane>
-            <Tab-pane label="其他" icon="ios-pulse-strong">
-                标签三的内容
-            </Tab-pane>
-        </Tabs>
-    <!--<div class="layout-copy">-->
-        <!--2011-2017 &copy; UUGU-->
-    <!--</div>-->
+        <Card :dis-hover="true" style="width:100%">
+            <div style="text-align:center">
+                <img src="./asserts/icons/256xieicon.png">
+                <h3>基于IORedis, Electron的Redis桌面客户端！</h3>
+            </div>
+        </Card>
+    <!-- <div class="layout-copy">
+        2011-2017 &copy; UUGU
+    </div> -->
     </div>
 </template>
 
@@ -52,18 +47,6 @@
         methods: {
             open(link) {
                 this.$electron.shell.openExternal(link)
-            },
-            handleTabRemove (name) {
-                this['tab' + name] = false;
-            },
-            toggleClick () {
-                if (this.spanLeft === 5) {
-                    this.spanLeft = 2;
-                    this.spanRight = 22;
-                } else {
-                    this.spanLeft = 5;
-                    this.spanRight = 19;
-                }
             }
         },
         created() {

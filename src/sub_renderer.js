@@ -10,12 +10,14 @@ import jquery from 'jquery';
 import {remote, ipcRenderer} from 'electron';
 import App from './components/SubMain.vue';
 import router from './routes';
+// import VueCodeMirror from 'vue-codemirror'
 
 import iView from 'iview';
 
 const currentWindow = remote.getCurrentWindow();
 
 Vue.use(iView);
+// Vue.use(VueCodeMirror);
 // const ipc = electron.ipcRenderer;
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'));

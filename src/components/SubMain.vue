@@ -4,7 +4,7 @@
             <i-col span="5" class="layout-menu-left">
                 <!--<div class="layout-logo-left"></div>-->
                 <div v-bind:class="isMac ? 'topbar-mac' : 'topbar'">
-                    <Select class="db-select" v-model="model2" size="small" placeholder="请选择DB...">
+                    <Select class="db-select" v-model="selectedDB" size="small" placeholder="请选择DB...">
                         <Option v-for="(dbIndex, index) in dbNums" :value="index" :key="index"
                                 @click.native="openSubmenu(index)">当前DB：{{ index }}
                         </Option>
@@ -13,7 +13,7 @@
                 </div>
                 <div v-bind:class="isMac ? 'keys-div-mac' : 'keys-div'" class="" id="keys">
                     <Menu theme="dark" width="auto">
-                        <Menu-item v-for="(key, index) in keys" :name="key.name" @click.native="showContent(key.name)"
+                        <Menu-item v-for="(key, index) in keys" :name="key.name" @click.native="showContent(key.type,key.name)"
                                    style="padding: 5px 24px 5px 15px">
                             <span class="key-type" style="">{{key.type}}</span> 
                             <span class="layout-text" style="display:block; line-height:15px; margin-left:39px; white-space:nowrap;">{{key.name}}</span>
@@ -24,7 +24,28 @@
                        @on-change="doSearchKey" size="small"/>
             </i-col>
             <i-col span="19" style="height: 100%">
-                <router-view></router-view>
+                    <div id="right-content" style="height: 100%; padding-left:10px; padding-top: 10px">
+                    <!--<div class="layout-breadcrumb">-->
+                        <!--<Breadcrumb>-->
+                            <!--<Breadcrumb-item href="#">DB1</Breadcrumb-item>-->
+                            <!--<Breadcrumb-item>KEY1</Breadcrumb-item>-->
+                        <!--</Breadcrumb>-->
+                    <!--</div>-->
+                    <Tabs value="content" style="-webkit-app-region: drag;">
+                        <Tab-pane label="内容" name="content" icon="document-text">
+                            <router-view></router-view>
+                        </Tab-pane>
+                        <Tab-pane label="终端" icon="ios-pulse-strong">
+                            标签二的内容
+                        </Tab-pane>
+                        <Tab-pane label="设置" icon="gear-a">
+                            标签三的内容
+                        </Tab-pane>
+                    </Tabs>
+                <!--<div class="layout-copy">-->
+                    <!--2011-2017 &copy; UUGU-->
+                <!--</div>-->
+                </div>
             </i-col>
         </Row>
     </div>
@@ -79,8 +100,8 @@
             /**
              * 显示子内容页
              */
-            showContent: function (key) {
-                router.push({path: '/content/'+ key});
+            showContent: function (type, key) {
+                router.push({path: '/content/'+ type + "/" + key});
                 // console.log(key);
             },
 
@@ -116,7 +137,9 @@
             console.log("mounted...");
             ipc.on('createRedisConnection', (event, message) => {
                 rds.connect(message);
-                rds.getDBCount().then(result => this.dbNums = result);
+                rds.getDBCount().then(result => this.dbNums = result).then(
+                    self.openSubmenu(0)
+                );
             })
         }
     }

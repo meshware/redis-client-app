@@ -43,9 +43,14 @@ let router = new Router({
             ]
         },
         {
-            name: 'content',
-            path: '/content/:key',
-            component: require('./components/SubContent.vue')
+            name: 'stringContent',
+            path: '/content/string/:key',
+            component: require('./components/SubContentString.vue')
+        },
+        {
+            name: 'listContent',
+            path: '/content/list/:key',
+            component: require('./components/SubContentList.vue')
         },
         {
             path: '*',

@@ -65,7 +65,9 @@
     "vue": "^2.4.2",
     "vue-electron": "^1.0.6",
     "vue-router": "^2.7.0",
-    "vueify": "^9.4.1"
+    "vueify": "^9.4.1",
+    "vue-codemirror": "^3.1.4",
+    "codemirror": "^5.29.0"
   },
   "devDependencies": {
     "babel-plugin-transform-async-to-generator": "^6.24.1",
