@@ -25,6 +25,13 @@
                 key: this.$route.params.key,
                 columns: [
                     {
+                        title: '键值',
+                        key: 'key',
+                        sortable: true,
+                        width: 150,
+                        fixed: 'left'
+                    },
+                    {
                         title: '内容',
                         key: 'context',
                         sortable: true
@@ -51,18 +58,18 @@
                                             this.show(params.index)
                                         }
                                     }
-                                }, '查看')
-                                // h('Button', {
-                                //     props: {
-                                //         type: 'error',
-                                //         size: 'small'
-                                //     },
-                                //     on: {
-                                //         click: () => {
-                                //             this.remove(params.index)
-                                //         }
-                                //     }
-                                // }, '删除')
+                                }, '查看'),
+                                h('Button', {
+                                    props: {
+                                        type: 'error',
+                                        size: 'small'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.remove(params.index)
+                                        }
+                                    }
+                                }, '删除')
                             ]);
                         }
                     }
@@ -92,15 +99,18 @@
                 let self = this;
                 self.key = this.$route.params.key;
                 self.content = [];
-                self.redis.lrange(this.$route.params.key, 0, -1).then(function (result) {
-                    if (result && result.length !== 0) {
-                        result.forEach(function (key) {
+                self.redis.hgetall(this.$route.params.key).then(function (result) {
+                    // console.log(result);
+                    if (result) {
+                        for(var i in result) {//不使用过滤
+                            // console.log(i,":",man[i]);
                             self.content.push({
-                                context: key
+                                key: i,
+                                context: result[i]
                             })
-                        })
+                        } 
                     }
-                    console.log(self.content);
+                    // console.log(self.content);
                 }).catch(res => {
                     self.content = [];
                     alert(res);
@@ -113,6 +123,7 @@
                 })
             },
             remove (index) {
+                let self = this;
                 this.$Modal.confirm({
                     title: '删除提示',
                     content: '确认删除该键值吗？',

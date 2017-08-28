@@ -20,7 +20,7 @@ let rds = {};
  */
 rds.connect = function (redisAlias) {
     console.log("redisAlias:" + redisAlias);
-    RDS_HOST = '172.27.35.1';
+    // RDS_HOST = '172.27.35.1';
     redis = new Redis(RDS_PORT, RDS_HOST);
     // redis.Command("keys *");
 

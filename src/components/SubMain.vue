@@ -24,7 +24,7 @@
                        @on-change="doSearchKey" size="small"/>
             </i-col>
             <i-col span="19" style="height: 100%">
-                    <div id="right-content" style="height: 100%; padding-left:10px; padding-top: 10px">
+                    <div id="right-content" style="height:100%; padding-left:10px; padding-top:5px">
                     <!--<div class="layout-breadcrumb">-->
                         <!--<Breadcrumb>-->
                             <!--<Breadcrumb-item href="#">DB1</Breadcrumb-item>-->
@@ -225,7 +225,7 @@
 
     .topbar {
         width: 100%;
-        margin: 5px 0px 0px 0px;
+        margin: 13px 0px 0px 0px;
     }
 
     .topbar-mac {
@@ -255,7 +255,7 @@
 
     .keys-div {
         position: absolute;
-        top: 32px;
+        top: 40px;
         bottom: 42px;
         /*height: auto;*/
         /*height: 100%;*/
@@ -297,5 +297,6 @@
         line-height:15px;
         border-radius: 2px;
         float: left;
+        color: #fff;
     }
 </style>

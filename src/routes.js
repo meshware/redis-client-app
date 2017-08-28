@@ -53,6 +53,11 @@ let router = new Router({
             component: require('./components/SubContentList.vue')
         },
         {
+            name: 'hashContent',
+            path: '/content/hash/:key',
+            component: require('./components/SubContentHash.vue')
+        },
+        {
             path: '*',
             redirect: '/'
         }
