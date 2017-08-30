@@ -27,9 +27,7 @@
           "zip"
         ],
         "linux": [
-          "deb",
-          "rpm",
-          "flatpak"
+          "deb"
         ]
       },
       "electronPackagerConfig": {

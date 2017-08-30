@@ -34,11 +34,6 @@ let router = new Router({
                     name: 'default',
                     path: '/systemInformation',
                     component: resolve => require(['./components/landingPage/SystemInformation.vue'], resolve)
-                },
-                {
-                    name: 'test2',
-                    path: '/test2/:userId',
-                    component: resolve => require(['./components/Test.vue'], resolve)
                 }
             ]
         },
@@ -56,6 +51,16 @@ let router = new Router({
             name: 'hashContent',
             path: '/content/hash/:key',
             component: require('./components/SubContentHash.vue')
+        },
+        {
+            name: 'setContent',
+            path: '/content/set/:key',
+            component: require('./components/SubContentSet.vue')
+        },
+        {
+            name: 'zSetContent',
+            path: '/content/zset/:key',
+            component: require('./components/SubContentZSet.vue')
         },
         {
             path: '*',

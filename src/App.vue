@@ -277,4 +277,8 @@
     .search-box {
         background-color: #5b6270;
     }
+
+    .ivu-menu-vertical .ivu-menu-item-group-title {
+        height: 10px;
+    }
 </style>
