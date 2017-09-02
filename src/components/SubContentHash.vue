@@ -102,7 +102,7 @@
                 self.redis.hgetall(this.$route.params.key).then(function (result) {
                     // console.log(result);
                     if (result) {
-                        for(var i in result) {//不使用过滤
+                        for(let i in result) {//不使用过滤
                             // console.log(i,":",man[i]);
                             self.content.push({
                                 key: i,

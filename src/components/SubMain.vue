@@ -24,7 +24,7 @@
                        @on-change="doSearchKey" size="small"/>
             </i-col>
             <i-col span="19" style="height: 100%">
-                    <div id="right-content" style="height:100%; padding-left:10px; padding-top:5px">
+                <div id="right-content" v-bind:class="isMac ? 'right-content-mac' : 'right-content'" style="height:100%; padding-left:10px;">
                     <!--<div class="layout-breadcrumb">-->
                         <!--<Breadcrumb>-->
                             <!--<Breadcrumb-item href="#">DB1</Breadcrumb-item>-->
@@ -298,5 +298,13 @@
         border-radius: 2px;
         float: left;
         color: #fff;
+    }
+
+    .right-content {
+        padding-top: 5px;
+    }
+
+    .right-content-mac {
+        padding-top: 2px;
     }
 </style>
