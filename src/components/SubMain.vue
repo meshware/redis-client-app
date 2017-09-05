@@ -35,11 +35,42 @@
                         <Tab-pane label="内容" name="content" icon="document-text">
                             <router-view></router-view>
                         </Tab-pane>
-                        <Tab-pane label="终端" icon="ios-pulse-strong">
-                            标签二的内容
-                        </Tab-pane>
+                        <!--<Tab-pane label="终端" icon="ios-pulse-strong">-->
+                            <!--标签二的内容-->
+                        <!--</Tab-pane>-->
                         <Tab-pane label="设置" icon="gear-a">
-                            标签三的内容
+                            <div class="setting" id="settingDiv">
+                            <Card :dis-hover="true" style="width:100%; height: 150px">
+                                <p slot="title">清空此库</p>
+                                <div style="text-align:center">
+                                    <h3>基于IORedis, Electron的Redis桌面客户端！</h3>
+                                </div>
+                            </Card>
+                            <Card :dis-hover="true" style="margin-top: 10px; width:100%; height: 150px">
+                                <p slot="title">清空此库</p>
+                                <div style="text-align:center">
+                                    <h3>基于IORedis, Electron的Redis桌面客户端！</h3>
+                                </div>
+                            </Card>
+                            <Card :dis-hover="true" style="margin-top: 10px; width:100%; height: 150px">
+                                <p slot="title">清空此库</p>
+                                <div style="text-align:center">
+                                    <h3>基于IORedis, Electron的Redis桌面客户端！</h3>
+                                </div>
+                            </Card>
+                            <Card :dis-hover="true" style="margin-top: 10px; width:100%; height: 150px">
+                                <p slot="title">清空此库</p>
+                                <div style="text-align:center">
+                                    <h3>基于IORedis, Electron的Redis桌面客户端！</h3>
+                                </div>
+                            </Card>
+                            <Card :dis-hover="true" style="margin-top: 10px; width:100%; height: 150px">
+                                <p slot="title">清空此库</p>
+                                <div style="text-align:center">
+                                    <h3>基于IORedis, Electron的Redis桌面客户端！</h3>
+                                </div>
+                            </Card>
+                            </div>
                         </Tab-pane>
                     </Tabs>
                 <!--<div class="layout-copy">-->
@@ -291,6 +322,16 @@
         width: 100%;
         overflow: auto;
         /*background-color: #5b6270;*/
+    }
+
+    .setting {
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        /*height: auto;*/
+        /*height: 100%;*/
+        width: 100%;
+        overflow: auto;
     }
 
     .key-filter {
