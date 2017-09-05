@@ -154,7 +154,12 @@
         },
         mounted:function(){
             let self = this;
-            self.dbGroups = config.getDBGroups();
+            if (config.checkFileExist()) {
+                self.dbGroups = config.getDBGroups();
+                console.log(self.dbGroups);
+            } else {
+                config.saveConfigFile();
+            }
         }
     }
 </script>

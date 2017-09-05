@@ -7,11 +7,12 @@
 import sysProcess from 'child_process';
 import Vue from 'vue/dist/vue.js';
 import Redis from 'ioredis';
+import config from './config_util';
 
 let RDS_PORT = 6379,        //端口号
     RDS_HOST = '127.0.0.1',    //服务器IP
     RDS_OPTS = {},            //设置项
-    redis;
+    redis = null;
 
 let rds = {};
 
@@ -20,34 +21,46 @@ let rds = {};
  */
 rds.connect = function (redisAlias) {
     console.log("redisAlias:" + redisAlias);
-    // RDS_HOST = '172.27.35.1';
-    redis = new Redis(RDS_PORT, RDS_HOST);
-    // redis.Command("keys *");
+    config.configFile.forEach(function(dbObject){
+        console.log(dbObject);
+        if(redisAlias === dbObject.alias){
+            redis = new Redis(dbObject);
+            // RDS_HOST = '172.24.8.10';
+            // redis = new Redis(RDS_PORT, RDS_HOST);
+            // redis.Command("keys *");
 
-    redis.once('error', function (error) {
-        alert("连接失败！" + error);
-        console.error("Error " + error);
+            redis.once('error', function (error) {
+                alert("连接失败！" + error);
+                console.error("Error " + error);
+            });
+            redis.once('end', function () {
+                alert("连接结束！");
+                console.info("end");
+            });
+            // redis.on('ready', function (res) {
+            //     console.log(redis);
+            //     rds.redis = redis;
+            //     console.log('ready:' + res);
+            // });
+            Vue.redis = Vue.prototype.redis = redis;
+        }
     });
-    redis.once('end', function () {
-        alert("连接结束！");
-        console.info("end");
-    });
-    // redis.on('ready', function (res) {
-    //     console.log(redis);
-    //     rds.redis = redis;
-    //     console.log('ready:' + res);
-    // });
-    Vue.redis = Vue.prototype.redis = redis;
-    return Promise.resolve(redis);
-    // client.on("error", function (err) {
-    //     console.log("Error " + err);
-    // });
+    if (!redis) {
+        return Promise.reject("连接Redis失败，请检查网络或配置问题！");
+    } else{
+        console.log(redis);
+        return Promise.resolve(redis);
+    }
 };
 
 /**
  * 获取DB数量
  */
 rds.getDBCount = function () {
+    if (!redis) {
+        // alert("连接Redis失败，请检查网络或配置问题！");
+        return Promise.reject("连接Redis失败，请检查网络或配置问题！");
+    }
     // redis.select(15).then(res => {
     //     console.log(res);
     //     if (res !== 'OK') {

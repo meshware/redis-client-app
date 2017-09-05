@@ -15,19 +15,16 @@ const homeDir = os.homedir();
 let config = {
     filePath: path.join(homeDir, "/RedisClient/"),
     fileName: "config.json",
-    dbConfig: {
+    dbConfigTemplate: {
         family: 4,
         host: "127.0.0.1",
         port: 6379,
         type: 1,  //1:无密码模式，2:有密码
         password: "",
         db: 0,
-        alias: ""
+        alias: "default"
     },
-    configFile: {
-        groupName: "",
-        dbConfigs:[]
-    }
+    configFile: []
 };
 
 /**
@@ -45,13 +42,14 @@ config.checkFileExist = function () {
  *
  * @param configFile
  */
-config.saveConfigFile = function (configFile) {
+config.saveConfigFile = function (dbConfig) {
     let newConfigFile;
-    if (configFile) {
-        newConfigFile = JSON.stringify(configFile, null, 4);
-        config.configFile = configFile;
+    if (dbConfig) {
+        newConfigFile = JSON.stringify(config.configFile.push(dbConfig), null, 4);
+        config.configFile.push(dbConfig);
         console.log("创建自定义配置文件！")
     } else {
+        config.configFile.push(config.dbConfigTemplate);
         newConfigFile = JSON.stringify(config.configFile, null, 4);
         console.log("创建默认配置文件！")
     }
@@ -77,7 +75,6 @@ config.loadConfigFile = function (theConfig) {
         // console.log(fs.readFileSync(config.getConfigFilePath(), 'utf-8'));
         theConfig.configFile = JSON.parse(fs.readFileSync(config.getConfigFilePath(), 'utf-8'));
         // notify("Server Host：" + theConfig.configFile.serverHost);
-        console.log("新的配置Host：" + theConfig.configFile.serverHost);
         return theConfig.configFile;
     } else {
         return null;

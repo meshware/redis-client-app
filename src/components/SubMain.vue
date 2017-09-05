@@ -136,9 +136,28 @@
             let self = this;
             console.log("mounted...");
             ipc.on('createRedisConnection', (event, message) => {
-                rds.connect(message);
-                rds.getDBCount().then(result => this.dbNums = result).then(
-                    self.openSubmenu(0)
+                message = 'default'; //测试用
+                let promise = rds.connect(message);
+                console.log(promise);
+                promise.then(
+                    function (redis) {
+                        rds.getDBCount().then(
+                            result => self.dbNums = result,
+                            message => alert(message)
+                        ).then(
+                            self.openSubmenu(0),
+                            message => alert(message)
+                        ).catch(
+                            error => alert(error)
+                        );
+                    },
+                    function (s) {
+                        alert(s);
+                    }
+                ).catch(error => {
+                        console.log(error);
+                        alert(error);
+                    }
                 );
             })
         }
@@ -204,7 +223,6 @@
     }
 
     .layout-menu-left {
-        -webkit-app-region: drag;
         height: auto;
         background: #464c5b;
     }
