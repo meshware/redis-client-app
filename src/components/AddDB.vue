@@ -1,5 +1,5 @@
 <template>
-    <Form :model="formItem" :label-width="80">
+    <i-form :model="formItem" :label-width="80">
         <Form-item label="输入框">
             <Input v-model="formItem.input" placeholder="请输入"></Input>
         </Form-item>
@@ -51,7 +51,7 @@
             <Button type="primary">提交</Button>
             <Button type="ghost" style="margin-left: 8px">取消</Button>
         </Form-item>
-    </Form>
+    </i-form>
 </template>
 <script>
     export default {

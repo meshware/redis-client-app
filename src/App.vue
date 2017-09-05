@@ -31,13 +31,19 @@
                     </Dropdown>
                 </div>
                 <div v-bind:class = "showTitle ? 'groups-div-mac' : 'groups-div-other'" id="keys">
-                    <Menu :theme="themeType" active-name="1" width="auto">
+                    <!-- <Menu :theme="themeType" active-name="1" width="auto">
                         <Menu-group title="===数据库连接列表===">
                             <Menu-item name="1" @dblclick.native="showSubWindows('localredis')">
                                 <Icon type="document-text"></Icon>
                                 连接1
                             </Menu-item>
                         </Menu-group>
+                    </Menu> -->
+                    <Menu :theme="themeType" width="auto">
+                        <MenuItem name="index" v-for="(dbConfig, index) in dbGroups" @dblclick.native="showSubWindows(dbConfig.alias)">
+                            <Icon type="ios-navigate" :size="iconSize"></Icon>
+                            <span class="layout-text">{{dbConfig.alias}}</span>
+                        </MenuItem>
                     </Menu>
                 </div>
                 <div class="search-div">
@@ -99,6 +105,7 @@
     import AddDB from './components/AddDB.vue'
     import subMain from './sub_main';
     import config from './common/config_util';
+    import addWindow from './add_window';
     const dialog = require('electron').remote.dialog;
 
     export default {

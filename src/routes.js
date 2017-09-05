@@ -17,7 +17,7 @@ let router = new Router({
         {
             name: 'login',
             path: '/login',
-            component: require('./components/Login.vue')
+            component: require('./components/AddDB.vue')
             // component: resolve => System.import('./components/Login.vue')
             // component: () => import('./components/Login.vue')
             // component: asyncLoader("./components/Login.vue")
