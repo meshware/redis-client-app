@@ -22,7 +22,6 @@ let rds = {};
 rds.connect = function (redisAlias) {
     console.log("redisAlias:" + redisAlias);
     config.configFile.forEach(function(dbObject){
-        console.log(dbObject);
         if(redisAlias === dbObject.alias){
             redis = new Redis(dbObject);
             // RDS_HOST = '172.24.8.10';
@@ -48,7 +47,6 @@ rds.connect = function (redisAlias) {
     if (!redis) {
         return Promise.reject("连接Redis失败，请检查网络或配置问题！");
     } else{
-        console.log(redis);
         return Promise.resolve(redis);
     }
 };

@@ -24,7 +24,7 @@
                                 </Dropdown-item>
                                 <Dropdown-menu slot="list">
                                     <Dropdown-item name='light' @click.native="themeType = 'light'">白色</Dropdown-item>
-                                    <Dropdown-item name='dark' @click.native="themeType ='dark'">黑色</Dropdown-item>
+                                    <Dropdown-item name='dark' @click.native="themeType = 'dark'">黑色</Dropdown-item>
                                 </Dropdown-menu>
                             </Dropdown>
                         </Dropdown-menu>
@@ -40,7 +40,7 @@
                         </Menu-group>
                     </Menu> -->
                     <Menu :theme="themeType" width="auto">
-                        <MenuItem name="index" v-for="(dbConfig, index) in dbGroups" @dblclick.native="showSubWindows(dbConfig.alias)">
+                        <MenuItem :name="index" v-for="(dbConfig, index) in dbGroups" @dblclick.native="showSubWindows(dbConfig.alias)">
                             <Icon type="ios-navigate" :size="iconSize"></Icon>
                             <span class="layout-text">{{dbConfig.alias}}</span>
                         </MenuItem>
@@ -60,31 +60,6 @@
             <!--<router-view></router-view>-->
             <!--</i-col>-->
         </Row>
-        <!-- <AddDB></AddDB> -->
-         <Modal v-model="addDBModel" title="自定义宽度" width="300" @on-ok="">
-            <p slot="header" style="color:#f60;text-align:center">
-                <Icon type="information-circled"></Icon>
-                <span>增加数据库连接</span>
-            </p>
-            <div style="text-align:center">
-                <!-- <Form-item label="输入框">
-                    <Input v-model="formItem.input" placeholder="请输入"></Input>
-                </Form-item>
-                <Form-item label="输入框">
-                    <Input v-model="formItem.input" placeholder="请输入"></Input>
-                </Form-item>
-                <Form-item label="选择器">
-                    <Select v-model="formItem.select" placeholder="请选择">
-                        <Option value="beijing">北京市</Option>
-                        <Option value="shanghai">上海市</Option>
-                        <Option value="shenzhen">深圳市</Option>
-                    </Select>
-                </Form-item> -->
-            </div>
-            <!-- <div slot="footer">
-                <Button type="error" size="large" long :loading="modal_loading" @click="del">删除</Button>
-            </div> -->
-        </Modal>
         <Modal v-model="delDBModel" title="自定义宽度" width="300">
             <p slot="header" style="color:#f60;text-align:center">
                 <Icon type="information-circled"></Icon>
@@ -128,35 +103,36 @@
                 subMain.loadNewWindow(redisAlias);
             },
             addNewDB () {
-                this.$Modal.confirm({
-                    scrollable:true,
-                    okText:'保存',
-                    render: (h) => {
-                        return h(AddDB, {
-                            props: {
-                                
-                            },
-                            on: {
-                                value1: (value1) => {
-                                    this.v1 = value1
-                                },
-                                value2: (value2) => {
-                                    this.v2 = value2
-                                }
-                            }
-                        })
-                    },
-                    onOk: () => {
-                        if (this.v1 == '' || this.v2 == '') {
-                            this.$Message.error('信息填写不完整!')
-                        }
-                        const msg = this.$Message.loading({
-                            content: '正在保存..',
-                            duration: 0
-                        })
-                        this.saveLink(msg)
-                    }  
-                })
+                addWindow.loadNewWindow();
+//                this.$Modal.confirm({
+//                    scrollable:true,
+//                    okText:'保存',
+//                    render: (h) => {
+//                        return h(AddDB, {
+//                            props: {
+//
+//                            },
+//                            on: {
+//                                value1: (value1) => {
+//                                    this.v1 = value1
+//                                },
+//                                value2: (value2) => {
+//                                    this.v2 = value2
+//                                }
+//                            }
+//                        })
+//                    },
+//                    onOk: () => {
+//                        if (this.v1 == '' || this.v2 == '') {
+//                            this.$Message.error('信息填写不完整!')
+//                        }
+//                        const msg = this.$Message.loading({
+//                            content: '正在保存..',
+//                            duration: 0
+//                        })
+//                        this.saveLink(msg)
+//                    }
+//                })
             }
         },
         mounted:function(){

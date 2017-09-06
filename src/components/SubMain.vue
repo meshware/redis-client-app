@@ -1,9 +1,9 @@
 <template>
-    <div class="layout" id="app">
+    <div class="layout" id="app" style="-webkit-user-select: none;" ondragstart="return false;">
         <Row type="flex" style="height: 100%">
             <i-col span="5" class="layout-menu-left">
                 <!--<div class="layout-logo-left"></div>-->
-                <div v-bind:class="isMac ? 'topbar-mac' : 'topbar'">
+                <div v-bind:class="isMac ? 'topbar-mac' : 'topbar'" style="-webkit-app-region: drag;">
                     <Select class="db-select" v-model="selectedDB" size="small" placeholder="请选择DB...">
                         <Option v-for="(dbIndex, index) in dbNums" :value="index" :key="index"
                                 @click.native="openSubmenu(index)">当前DB：{{ index }}
@@ -11,7 +11,7 @@
                     </Select>
                     <Button class="refresh-btn" type="primary" shape="circle" size="small" @click="doSearchKey"><Icon type="refresh" size="20"></Icon></Button>
                 </div>
-                <div v-bind:class="isMac ? 'keys-div-mac' : 'keys-div'" class="" id="keys">
+                <div v-bind:class="isMac ? 'keys-div-mac' : 'keys-div'" id="keys">
                     <Menu theme="dark" width="auto">
                         <Menu-item v-for="(key, index) in keys" :name="key.name" @click.native="showContent(key.type,key.name)"
                                    style="padding: 5px 24px 5px 15px">
@@ -35,41 +35,24 @@
                         <Tab-pane label="内容" name="content" icon="document-text">
                             <router-view></router-view>
                         </Tab-pane>
-                        <!--<Tab-pane label="终端" icon="ios-pulse-strong">-->
-                            <!--标签二的内容-->
-                        <!--</Tab-pane>-->
+                        <Tab-pane label="添加" icon="ios-pulse-strong">
+                            ADD KEY AND CONTENT HERE！
+                        </Tab-pane>
                         <Tab-pane label="设置" icon="gear-a">
                             <div class="setting" id="settingDiv">
                             <Card :dis-hover="true" style="width:100%; height: 150px">
-                                <p slot="title">清空此库</p>
-                                <div style="text-align:center">
-                                    <h3>基于IORedis, Electron的Redis桌面客户端！</h3>
-                                </div>
+                                <p slot="title">内容设置</p>
+                                <Row align="middle">
+                                    <Col span="6">清空此库</Col>
+                                    <Col span="6"><Button @click="flushDB" type="error" size="small">确认清空</Button></Col>
+                                </Row>
                             </Card>
-                            <Card :dis-hover="true" style="margin-top: 10px; width:100%; height: 150px">
-                                <p slot="title">清空此库</p>
-                                <div style="text-align:center">
-                                    <h3>基于IORedis, Electron的Redis桌面客户端！</h3>
-                                </div>
-                            </Card>
-                            <Card :dis-hover="true" style="margin-top: 10px; width:100%; height: 150px">
-                                <p slot="title">清空此库</p>
-                                <div style="text-align:center">
-                                    <h3>基于IORedis, Electron的Redis桌面客户端！</h3>
-                                </div>
-                            </Card>
-                            <Card :dis-hover="true" style="margin-top: 10px; width:100%; height: 150px">
-                                <p slot="title">清空此库</p>
-                                <div style="text-align:center">
-                                    <h3>基于IORedis, Electron的Redis桌面客户端！</h3>
-                                </div>
-                            </Card>
-                            <Card :dis-hover="true" style="margin-top: 10px; width:100%; height: 150px">
-                                <p slot="title">清空此库</p>
-                                <div style="text-align:center">
-                                    <h3>基于IORedis, Electron的Redis桌面客户端！</h3>
-                                </div>
-                            </Card>
+                            <!--<Card :dis-hover="true" style="margin-top: 10px; width:100%; height: 150px">-->
+                                <!--<p slot="title">清空此库</p>-->
+                                <!--<div style="text-align:center">-->
+                                    <!--<h3>基于IORedis, Electron的Redis桌面客户端！</h3>-->
+                                <!--</div>-->
+                            <!--</Card>-->
                             </div>
                         </Tab-pane>
                     </Tabs>
@@ -79,6 +62,19 @@
                 </div>
             </i-col>
         </Row>
+        <Modal v-model="delDBModel" title="清空数据库" width="300">
+            <p slot="header" style="color:#f60;text-align:center">
+                <Icon type="information-circled"></Icon>
+                <span>数据清空</span>
+            </p>
+            <div style="text-align:center">
+                <p>清空数据后，数据将不可找回。</p>
+                <p>是否继续清空？</p>
+            </div>
+            <div slot="footer">
+                <Button type="error" size="large" long :loading="modalLoading" @click="doFlushDB">删除</Button>
+            </div>
+        </Modal>
     </div>
 </template>
 
@@ -96,7 +92,9 @@
                 keys: [],
                 selectedDB: 0,
                 searchKey: '',
-                redisAlias: this.redisAlias
+                redisAlias: this.redisAlias,
+                delDBModel: false,
+                modalLoading: false
             }
         },
         computed: {
@@ -157,6 +155,25 @@
                         })
                     }
                 });
+            },
+            flushDB: function () {
+                let self = this;
+                self.delDBModel = true;
+            },
+            doFlushDB: function () {
+                let self = this;
+                self.modalLoading = true;
+                this.redis.flushdb().then(resolve => {
+                    console.log(resolve);
+                    self.doSearchKey();
+                    self.modalLoading = false;
+                    self.delDBModel = false;
+                }).catch(error => {
+                    console.log(error);
+                    alert(error);
+                    self.modalLoading = false;
+                    self.delDBModel = false;
+                });
             }
         },
         created() {
@@ -167,7 +184,6 @@
             let self = this;
             console.log("mounted...");
             ipc.on('createRedisConnection', (event, message) => {
-                message = 'default'; //测试用
                 let promise = rds.connect(message);
                 console.log(promise);
                 promise.then(
@@ -254,6 +270,7 @@
     }
 
     .layout-menu-left {
+        /*-webkit-app-region: drag;*/
         height: auto;
         background: #464c5b;
     }
@@ -325,13 +342,14 @@
     }
 
     .setting {
-        position: absolute;
+        /*position: absolute;*/
         top: 0px;
         bottom: 0px;
         /*height: auto;*/
         /*height: 100%;*/
         width: 100%;
         overflow: auto;
+        /*background-color: #5b6270;*/
     }
 
     .key-filter {
