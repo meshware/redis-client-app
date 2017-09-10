@@ -31,7 +31,7 @@
                             <!--<Breadcrumb-item>KEY1</Breadcrumb-item>-->
                         <!--</Breadcrumb>-->
                     <!--</div>-->
-                    <Tabs value="content" style="-webkit-app-region: drag;">
+                    <Tabs value="content">
                         <Tab-pane label="内容" name="content" icon="document-text">
                             <router-view></router-view>
                         </Tab-pane>
@@ -377,4 +377,7 @@
         color: #fff;
     }
 
+    .ivu-tabs-bar {
+        -webkit-app-region: drag;
+    }
 </style>

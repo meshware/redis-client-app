@@ -9,28 +9,61 @@
 </body>
 
 <script>
-    import renderer from './sub_renderer';
-    // import Vue from 'vue';
-    // import Test from './test';
-    // import axios from 'axios';
-    // import querystring from 'querystring';
+    'use strict';
+    import Vue from 'vue/dist/vue.js';
+    import axios from 'axios';
+    import jquery from 'jquery';
+    import {remote, ipcRenderer} from 'electron';
+    import App from './components/SubMain.vue';
+    import router from './routes';
+    // import VueCodeMirror from 'vue-codemirror'
 
-    // axios.post("http://123.45.6.7" + '/doLogin',
-    //     querystring.stringify({
-    //     username: 'aaaa',
-    //     password: 'bbbb'
-    //     })
-    //     .then(function (response) {
-    //         console.log(response);
-    //     })
-    //     .catch(function (error) {
-    //         console.log("error");
-    //         console.log(error);
+    import iView from 'iview';
+
+    const currentWindow = remote.getCurrentWindow();
+
+    Vue.use(iView);
+    // Vue.use(VueCodeMirror);
+    // const ipc = electron.ipcRenderer;
+
+    if (!process.env.IS_WEB) Vue.use(require('vue-electron'));
+
+    axios.defaults.withCredentials = true;
+    Vue.axios = Vue.prototype.$axios = axios;
+    Vue.$ = Vue.prototype.$ = jquery;
+    Vue.config.productionTip = false;
+
+    //拦截器
+    axios.interceptors.response.use((response) => {
+        return response;
+    }, (error) => {
+        console.log(error);
+        if (error.response && error.response.status == 401) {
+            router.push({path: '/login'});
+        }
+    });
+
+    // if (!rds.client) {
+    //     new Promise(function (resolve, reject) {
+    //         console.log("开始创建Redis连接！");
+    //         resolve(rds.connect(currentWindow.redisAlias));
+    //         // resolve(rds.redis);
+    //     }).then(function (redis) {
+    //         console.log(redis);
+    //         Vue.redis = Vue.prototype.redis = redis;
+    //     }).catch(function (error) {
+    //         console.error(error);
     //     });
-    //
-    // const app = new Vue(Test).$mount('#test');
-    //
-    // app.text = "Electron Forge with Vue.js! AAAAA";
+    // } else {
+    //     console.log("Redis连接已存在！");
+    //     console.log(rds.redis);
+    // }
 
+    /* eslint-disable no-new */
+    new Vue({
+        components: {App},
+        router,
+        template: '<App/>'
+    }).$mount('#app');
 </script>
 </html>

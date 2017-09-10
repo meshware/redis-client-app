@@ -1,10 +1,12 @@
 <template>
+    <div class="content">
     <Card :bordered="false" :dis-hover="true">
         <p slot="title">KEY: {{ $route.params.key }}</p>
         <p>
             <Table size="small" width="100%" border :columns="columns" :data="content"></Table>
         </p>
     </Card>
+    </div>
 </template>
 
 <script>
@@ -154,4 +156,7 @@
     @import url('codemirror/lib/codemirror.css'); 
     @import url('codemirror/mode/javascript/javascript');
 
+    .content {
+        height: 100%;
+    }
 </style>

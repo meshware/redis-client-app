@@ -17,8 +17,9 @@ const iconPath = path.join(__dirname, './asserts/icons', iconName);
 
 let addWindow = {};
 
+console.log(__dirname);
 addWindow.loadNewWindow = function () {
-    const modalPath = path.join('file://', __dirname, './addDB.html');
+    const modalPath = path.join('file://', __dirname, '../../components/addDB/addDB.html');
     let win = new BrowserWindow({
         icon: iconPath,
         title: '增加数据库连接',

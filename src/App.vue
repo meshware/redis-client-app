@@ -77,15 +77,15 @@
 </template>
 
 <script>
-    import AddDB from './components/AddDB.vue'
+    import AddDB from './components/addDB/AddDB.vue'
     import subMain from './sub_main';
     import config from './common/config_util';
-    import addWindow from './add_window';
+    import addWindow from './scripts/addDB/add_window';
     const dialog = require('electron').remote.dialog;
 
     export default {
         name: 'redis-client',
-        components: {AddDB},
+        components: {},
         data() {
             return {
                 showTitle: require('os').platform() === 'darwin',
