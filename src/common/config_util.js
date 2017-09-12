@@ -45,8 +45,8 @@ config.checkFileExist = function () {
 config.saveConfigFile = function (dbConfig) {
     let newConfigFile;
     if (dbConfig) {
-        newConfigFile = JSON.stringify(config.configFile.push(dbConfig), null, 4);
         config.configFile.push(dbConfig);
+        newConfigFile = JSON.stringify(config.configFile, null, 4);
         console.log("创建自定义配置文件！")
     } else {
         config.configFile.push(config.dbConfigTemplate);
@@ -55,7 +55,7 @@ config.saveConfigFile = function (dbConfig) {
     }
     fs.mkdir(config.filePath, function (err) {
         if (err) {
-            notify(err);
+            // notify(err);
             console.error(err);
         }
         console.log(newConfigFile);

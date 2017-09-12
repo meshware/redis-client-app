@@ -6,12 +6,10 @@
                 <div class="menu-group">
                     <Button-group size="small">
                         <Button type="primary" @click="addNewDB"><Icon type="ios-plus-outline"></Icon> 添加</Button>
+                        <Button type="primary" @click="delDBModel = true"><Icon type="ios-plus-outline"></Icon> 编辑</Button>
                         <Button type="primary" @click="delDBModel = true"><Icon type="ios-plus-outline"></Icon> 删除</Button>
-                        <!--<Button type="primary" icon="ios-skipforward"></Button>-->
-                        <!--<Button type="primary" icon="ios-skipforward"></Button>-->
-                        <!--<Button type="primary" icon="ios-skipforward"></Button>-->
                     </Button-group>
-                    <Dropdown trigger="click" placement="bottom-end" style="margin-left: 220px; vertical-align: middle;">
+                    <Dropdown trigger="click" placement="bottom-end" style="margin-left: 150px; vertical-align: middle;">
                         <a href="javascript:void(0)">
                             <Icon type="gear-a" size='20'></Icon>
                         </a>
