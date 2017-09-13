@@ -43,10 +43,11 @@ config.checkFileExist = function () {
  * @param configFile
  */
 config.saveConfigFile = function (dbConfig) {
+    console.log(dbConfig);
+    console.log(config.configFile);
     let newConfigFile;
     if (dbConfig) {
-        config.configFile.push(dbConfig);
-        newConfigFile = JSON.stringify(config.configFile, null, 4);
+        newConfigFile = JSON.stringify(dbConfig, null, 4);
         console.log("创建自定义配置文件！")
     } else {
         config.configFile.push(config.dbConfigTemplate);
@@ -66,18 +67,12 @@ config.saveConfigFile = function (dbConfig) {
 
 /**
  * 加载配置文件
- *
- * @param theConfig
- * @returns {configFile}
  */
-config.loadConfigFile = function (theConfig) {
+config.loadConfigFile = function () {
     if (config.checkFileExist()) {
         // console.log(fs.readFileSync(config.getConfigFilePath(), 'utf-8'));
-        theConfig.configFile = JSON.parse(fs.readFileSync(config.getConfigFilePath(), 'utf-8'));
+        config.configFile = JSON.parse(fs.readFileSync(config.getConfigFilePath(), 'utf-8'));
         // notify("Server Host：" + theConfig.configFile.serverHost);
-        return theConfig.configFile;
-    } else {
-        return null;
     }
 };
 

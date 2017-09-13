@@ -21,6 +21,7 @@
 </template>
 <script>
     import config from '../../common/config_util';
+    const ipc = require('electron').ipcRenderer;
 
     export default {
         name: "addDB",
@@ -38,9 +39,26 @@
             }
         },
         methods: {
-            saveDB: function(){
+            saveDB: function () {
                 let self = this;
-                config.saveConfigFile(self.dbConfig);
+                if (!self.checkDBAlias(self.dbConfig.alias)) {
+                    config.configFile.push(self.dbConfig);
+                    config.saveConfigFile(config.configFile);
+                    alert("新增数据库成功！");
+                    ipc.send('add-database', 'ping');
+                } else {
+                    alert("存在相同别名数据库，请修改后再添加！");
+                }
+            },
+            checkDBAlias(alias) {
+                let self = this;
+                let hasSameName = false;
+                config.configFile.forEach(function (element) {
+                    if (element.alias === alias) {
+                        hasSameName = true;
+                    }
+                });
+                return hasSameName;
             }
         }
     }

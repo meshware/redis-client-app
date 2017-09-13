@@ -5,13 +5,13 @@
                 <div v-if="showTitle" class="layout-logo"><p style="text-align: center">Redis Client App {{platform}}</p></div>
                 <div class="menu-group">
                     <Button-group size="small">
-                        <Button type="primary" @click="addNewDB"><Icon type="ios-plus-outline"></Icon> 添加</Button>
-                        <Button type="primary" @click="delDBModel = true"><Icon type="ios-plus-outline"></Icon> 编辑</Button>
-                        <Button type="primary" @click="delDBModel = true"><Icon type="ios-plus-outline"></Icon> 删除</Button>
+                        <Button type="primary" @click="addNewDB"><Icon type="ios-plus"></Icon> 添加</Button>
+                        <Button type="primary" @click="delDBModel = true"><Icon type="edit"></Icon> 编辑</Button>
+                        <Button type="primary" @click="delDBModel = true"><Icon type="trash-a"></Icon> 删除</Button>
                     </Button-group>
-                    <Dropdown trigger="click" placement="bottom-end" style="margin-left: 150px; vertical-align: middle;">
+                    <Dropdown trigger="click" placement="bottom-end" style="margin-left: 170px; vertical-align: middle;">
                         <a href="javascript:void(0)">
-                            <Icon type="gear-a" size='20'></Icon>
+                            <Icon type="settings" size="20"></Icon>
                         </a>
                         <Dropdown-menu slot="list">
                             <Dropdown-item>其他</Dropdown-item>
@@ -38,7 +38,7 @@
                         </Menu-group>
                     </Menu> -->
                     <Menu :theme="themeType" width="auto">
-                        <MenuItem :name="index" v-for="(dbConfig, index) in dbGroups" @dblclick.native="showSubWindows(dbConfig.alias)">
+                        <MenuItem :name="index" v-for="(dbConfig, index) in dbGroups" @click.native="chooseDB(index)" @dblclick.native="showSubWindows(dbConfig.alias)">
                             <Icon type="ios-navigate" :size="iconSize"></Icon>
                             <span class="layout-text">{{dbConfig.alias}}</span>
                         </MenuItem>
@@ -64,11 +64,11 @@
                 <span>删除确认</span>
             </p>
             <div style="text-align:center">
-                <p>此任务删除后，下游 10 个任务将无法执行。</p>
+                <p>删除此数据库后，将不能再打开数据库内容。</p>
                 <p>是否继续删除？</p>
             </div>
             <div slot="footer">
-                <Button type="error" size="large" long :loading="modal_loading" @click="">删除</Button>
+                <Button type="error" size="large" long :loading="modal_loading" @click="doDeleteDB">删除</Button>
             </div>
         </Modal>
     </div>
@@ -80,15 +80,18 @@
     import config from './common/config_util';
     import addWindow from './scripts/addDB/add_window';
     const dialog = require('electron').remote.dialog;
+    const ipc = require('electron').remote.ipcMain;
 
     export default {
         name: 'redis-client',
         components: {},
         data() {
             return {
+                iconSize: 15,
                 showTitle: require('os').platform() === 'darwin',
                 themeType: 'dark',
-                dbGroups: [],
+                dbGroups: config.configFile,
+                selDBIndex: null,
                 addDBModel: false,
                 delDBModel: false
             }
@@ -99,6 +102,20 @@
             },
             showSubWindows: function (redisAlias) {
                 subMain.loadNewWindow(redisAlias);
+            },
+            chooseDB(index){
+                this.selDBIndex = index;
+            },
+            doDeleteDB() {
+                this.delDBModel = false;
+                if (this.selDBIndex) {
+                    config.loadConfigFile();
+                    config.configFile.splice(this.selDBIndex, 1);
+                    config.saveConfigFile(config.configFile);
+                    this.dbGroups = config.configFile;
+                } else {
+                    dialog.showErrorBox('操作错误', "未选择需要删除的数据库！");
+                }
             },
             addNewDB () {
                 addWindow.loadNewWindow();
@@ -135,9 +152,11 @@
         },
         mounted:function(){
             let self = this;
+            ipc.on('add-database', function (event, arg) {
+                self.dbGroups = config.getDBGroups();
+            });
             if (config.checkFileExist()) {
                 self.dbGroups = config.getDBGroups();
-                console.log(self.dbGroups);
             } else {
                 config.saveConfigFile();
             }
