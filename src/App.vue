@@ -2,7 +2,7 @@
     <div class="layout" id="app">
         <Row type="flex" style="height: 100%">
             <i-col class="layout-menu-left">
-                <div v-if="showTitle" class="layout-logo"><p style="text-align: center">Redis Client App {{platform}}</p></div>
+                <div v-if="showTitle" class="layout-logo"><p style="text-align: center; padding-top: 6px">Redis Client</p></div>
                 <div class="menu-group">
                     <Button-group size="small">
                         <Button type="primary" @click="addNewDB"><Icon type="ios-plus"></Icon> 添加</Button>
@@ -11,7 +11,7 @@
                     </Button-group>
                     <Dropdown trigger="click" placement="bottom-end" style="margin-left: 170px; vertical-align: middle;">
                         <a href="javascript:void(0)">
-                            <Icon type="settings" size="20"></Icon>
+                            <Icon type="settings" size="18"></Icon>
                         </a>
                         <Dropdown-menu slot="list">
                             <Dropdown-item>其他</Dropdown-item>

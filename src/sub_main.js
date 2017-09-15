@@ -26,6 +26,7 @@ sub.loadNewWindow = function (redisAlias) {
         minWidth: 1000,
         height: 666,
         width: 1088,
+        fullscreenable: false,
         useContentSize: true,
         titleBarStyle: 'hidden-inset',
         autoHideMenuBar: true,

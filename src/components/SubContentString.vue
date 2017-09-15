@@ -1,28 +1,27 @@
 <template>
-    <div class="content">
-    <!--<Card :bordered="false" :dis-hover="true" style="hight: 100%">-->
-        <!--<p slot="title">KEY: {{ $route.params.key }}</p>-->
-        <!--<p>-->
-            <!--<Input v-model="content" type="textarea" :autosize="true" placeholder="请输入..."></Input>-->
-        <!--</p>-->
-    <!--</Card>-->
-        <Row style="margin-outside: 1px">
-            <Col span="2"><p style="text-align: center; font-size: 16px">Key:</p></Col>
-            <Col span="20"><p style="text-align: left; font-size: 16px">{{ $route.params.key }}</p></Col>
-            <Col span="2"><Button type="dashed" size="small" @click="deleteKey($route.params.key)">删除</Button></Col>
-        </Row>
-        <div style="position: absolute; height: 100%; top: 20px; bottom: 10px; width: 100%; padding: 0 10px 0 0;">
-        <Row>
-            <Col span="24">
-                <Input v-model="content" type="textarea" :autosize="{minRows: 10}" placeholder="请输入..."></Input>
-            </Col>
-        </Row>
-        </div>
-    </div>
+    <!--<div class="content">-->
+        <!--<Row style="margin-outside: 1px">-->
+            <!--<Col span="2"><p style="text-align: center; font-size: 16px">Key:</p></Col>-->
+            <!--<Col span="20"><p style="text-align: left; font-size: 16px">{{ $route.params.key }}</p></Col>-->
+            <!--<Col span="2"><Button type="dashed" size="small" @click="deleteKey($route.params.key)">删除</Button></Col>-->
+        <!--</Row>-->
+        <!--<div style="height: 100%; top: 20px; bottom: 10px; width: 100%; padding: 0 10px 0 0;">-->
+            <!--<Input v-model="content" type="textarea" :autosize="false" placeholder="请输入..."></Input>-->
+        <!--</div>-->
+    <!--</div>-->
     <!-- <div id="stringContent">{{content}}</div> -->
     <!-- <div class="codemirror">
         <codemirror v-model="content" :options="editorOption"></codemirror>
     </div> -->
+    <div style="">
+        <div class="quyu clearfix">
+            <div class="q-left">Key: {{ $route.params.key }}</div>
+            <a href="javascript:;" class="delete" @click="deleteKey($route.params.key)">删除</a>
+        </div>
+        <div class="text-area">
+            <textarea v-model="content"></textarea>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -146,5 +145,55 @@
         bottom: 10px;
         left: 10px;
         height: 100%;
+    }
+
+    .quyu {
+        height: 30px;
+        line-height: 30px;
+        color: #5e5e5e;
+        font-size: 16px;
+        font-family: "Microsoft Yahei";
+    }
+
+    .content-new .q-left {
+        float: left;
+    }
+
+    .content-new .delete {
+        float: right;
+        display: block;
+        width: 40px;
+        height: 30px;
+        font-size: 14px;
+        border: 1px dashed #ddd;
+        text-align: center;
+        margin-right: 50px;
+        color: #5a5a5a;
+        line-height: 30px;
+        border-radius: 2px;
+    }
+
+    .text-area {
+        position: absolute;
+        left: 0;
+        top: 45px;
+        right: 20px;
+        bottom: 20px;
+        background: #000;
+    }
+
+    textarea {
+        resize: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        text-indent: 10px;
+        line-height: 24px;
+        color: #5e5e5e;
+        font-size: 14px;
+        width: 100%;
+        overflow-y: auto;
     }
 </style>

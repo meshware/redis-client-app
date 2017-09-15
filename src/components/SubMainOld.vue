@@ -9,18 +9,14 @@
                                 @click.native="openSubmenu(index)">当前DB：{{ index }}
                         </Option>
                     </Select>
-                    <Button class="refresh-btn" type="primary" shape="circle" size="small" @click="doSearchKey">
-                        <Icon type="refresh" size="18"></Icon>
-                    </Button>
+                    <Button class="refresh-btn" type="primary" shape="circle" size="small" @click="doSearchKey"><Icon type="refresh" size="20"></Icon></Button>
                 </div>
                 <div v-bind:class="isMac ? 'keys-div-mac' : 'keys-div'" id="keys">
                     <Menu theme="dark" width="auto">
-                        <Menu-item v-for="(key, index) in keys" :name="key.name"
-                                   @click.native="showContent(key.type,key.name)"
+                        <Menu-item v-for="(key, index) in keys" :name="key.name" @click.native="showContent(key.type,key.name)"
                                    style="padding: 5px 24px 5px 15px">
-                            <span class="key-type" style="">{{key.type}}</span>
-                            <span class="layout-text"
-                                  style="display:block; line-height:15px; margin-left:39px; white-space:nowrap;">{{key.name}}</span>
+                            <span class="key-type" style="">{{key.type}}</span> 
+                            <span class="layout-text" style="display:block; line-height:15px; margin-left:39px; white-space:nowrap;">{{key.name}}</span>
                         </Menu-item>
                     </Menu>
                 </div>
@@ -29,31 +25,40 @@
             </i-col>
             <i-col span="19" style="height: 100%">
                 <div id="right-content" style="height:100%; padding-left:10px; padding-top: 2px;">
-                    <div class="bd-title clearfix" style="-webkit-app-region: drag;">
-                        <ul class="cont-qie clearfix">
-                            <li class="cur-li"><a href="javascript:;">内容</a></li>
-                            <li><a href="javascript:;">添加</a></li>
-                            <li><a href="javascript:;">设置</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="cont-detail">
-                        <div class="content-new content-new-show" style="">
+                    <!--<div class="layout-breadcrumb">-->
+                        <!--<Breadcrumb>-->
+                            <!--<Breadcrumb-item href="#">DB1</Breadcrumb-item>-->
+                            <!--<Breadcrumb-item>KEY1</Breadcrumb-item>-->
+                        <!--</Breadcrumb>-->
+                    <!--</div>-->
+                    <Tabs value="content">
+                        <Tab-pane label="内容" name="content" icon="document-text">
                             <router-view></router-view>
-                        </div>
-                        <div class="content-new">111</div>
-                        <div class="content-new">
+                        </Tab-pane>
+                        <Tab-pane label="添加" icon="ios-pulse-strong">
+                            ADD KEY AND CONTENT HERE！
+                        </Tab-pane>
+                        <Tab-pane label="设置" icon="gear-a">
                             <div class="setting" id="settingDiv">
-                                <Card :dis-hover="true" style="width:100%; height: 150px">
-                                    <p slot="title">内容设置</p>
-                                    <Row align="middle">
-                                        <Col span="6">清空此库</Col>
-                                        <Col span="6"><Button @click="flushDB" type="error" size="small">确认清空</Button></Col>
-                                    </Row>
-                                </Card>
+                            <Card :dis-hover="true" style="width:100%; height: 150px">
+                                <p slot="title">内容设置</p>
+                                <Row align="middle">
+                                    <Col span="6">清空此库</Col>
+                                    <Col span="6"><Button @click="flushDB" type="error" size="small">确认清空</Button></Col>
+                                </Row>
+                            </Card>
+                            <!--<Card :dis-hover="true" style="margin-top: 10px; width:100%; height: 150px">-->
+                                <!--<p slot="title">清空此库</p>-->
+                                <!--<div style="text-align:center">-->
+                                    <!--<h3>基于IORedis, Electron的Redis桌面客户端！</h3>-->
+                                <!--</div>-->
+                            <!--</Card>-->
                             </div>
-                        </div>
-                    </div>
+                        </Tab-pane>
+                    </Tabs>
+                <!--<div class="layout-copy">-->
+                    <!--2011-2017 &copy; UUGU-->
+                <!--</div>-->
                 </div>
             </i-col>
         </Row>
@@ -76,7 +81,6 @@
 <script>
     import rds from '../common/redis';
     import router from '../routes';
-
     const ipc = require('electron').ipcRenderer;
 
     export default {
@@ -126,7 +130,7 @@
              * 显示子内容页
              */
             showContent: function (type, key) {
-                router.push({path: '/content/' + type + "/" + key});
+                router.push({path: '/content/'+ type + "/" + key});
                 // console.log(key);
             },
 
@@ -135,7 +139,7 @@
              */
             doSearchKey: function () {
                 let self = this;
-                this.redis.keys(self.searchKey === '' ? '*' : '*' + self.searchKey + '*').then(result => {
+                this.redis.keys(self.searchKey === '' ? '*' : self.searchKey).then(result => {
                     // console.log(res);
                     // console.log(result);
                     self.keys = []; //先清空历史数据
@@ -178,14 +182,7 @@
         },
         mounted: function () {
             let self = this;
-            let $ = self.$;
             console.log("mounted...");
-            $(".cont-qie li").on("click", function () {
-                $(this).addClass("cur-li").siblings().removeClass("cur-li");
-                var index = $(this).index();
-                $(".cont-detail .content-new").hide().eq(index).show();
-            });
-
             ipc.on('createRedisConnection', (event, message) => {
                 let promise = rds.connect(message);
                 console.log(promise);
@@ -234,8 +231,8 @@
         background-color: #373e50;
     }
 
-    ::-webkit-scrollbar-thumb:hover {
-        background-color: #9f9f9f;
+    ::-webkit-scrollbar-thumb:hover{
+        background-color:#9f9f9f;
     }
 
     ::-webkit-scrollbar-corner {
@@ -318,7 +315,7 @@
         background: transparent;
         border-color: transparent;
         /*border-radius: 3px;*/
-        margin: 0px 5px 0px 5px;
+        margin: 0px 5px 10px 5px;
         float: right;
     }
 
@@ -374,76 +371,13 @@
         width: 36px;
         background-color: #9f9f9f;
         text-align: center;
-        line-height: 15px;
+        line-height:15px;
         border-radius: 2px;
         float: left;
         color: #fff;
     }
 
-    .clearfix {
-        display: inline-table;
-        display: block;
-        zoom: 1
-    }
-
-    .clearfix:after {
-        clear: both;
-        content: ".";
-        display: block;
-        height: 0;
-        visibility: hidden
-    }
-
-    * {
-        padding: 0;
-        margin: 0;
-    }
-
-    a:hover, a:link, a:visited {
-        text-decoration: none
-    }
-
-    li {
-        list-style: none;
-    }
-
-    .content-new {
-        position: absolute;
-        left: 20px;
-        top: 45px;
-        right: 0;
-        bottom: 0;
-        display: none;
-    }
-
-    .content-new-show {
-        display: block;
-    }
-
-    .bd-title {
-        font-size: 16px;
-        position: absolute;
-        left: 20px;
-        top: 10px;
-        bottom: 0;
-        right: 0;
-        height: 40px;
-    }
-
-    .cont-qie {
-        float: left;
-    }
-
-    .cont-qie li {
-        float: left;
-        margin-right: 15px;
-    }
-
-    .cont-qie li a {
-        color: #5a5a5a;
-    }
-
-    .cont-qie .cur-li a {
-        color: #f52f3e;
+    .ivu-tabs-bar {
+        -webkit-app-region: drag;
     }
 </style>
