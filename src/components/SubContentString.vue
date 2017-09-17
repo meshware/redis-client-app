@@ -15,8 +15,9 @@
     </div> -->
     <div style="">
         <div class="quyu clearfix">
-            <div class="q-left">Key: {{ $route.params.key }}</div>
-            <a href="javascript:;" class="delete" @click="deleteKey($route.params.key)">删除</a>
+            <div class="q-left">KEY: {{ $route.params.key }}</div>
+            <Button type="primary" class="delete" size="small" @click="deleteKey($route.params.key)">删除</Button>
+            <!-- <a href="javascript:;" class="delete" @click="deleteKey($route.params.key)">删除</a> -->
         </div>
         <div class="text-area">
             <textarea v-model="content"></textarea>
@@ -149,7 +150,7 @@
 
     .quyu {
         height: 30px;
-        line-height: 30px;
+        /* line-height: 30px; */
         color: #5e5e5e;
         font-size: 16px;
         font-family: "Microsoft Yahei";
@@ -162,15 +163,15 @@
     .content-new .delete {
         float: right;
         display: block;
-        width: 40px;
+        /* width: 40px;
         height: 30px;
         font-size: 14px;
         border: 1px dashed #ddd;
-        text-align: center;
+        text-align: center; */
         margin-right: 50px;
-        color: #5a5a5a;
+        /* color: #5a5a5a;
         line-height: 30px;
-        border-radius: 2px;
+        border-radius: 2px; */
     }
 
     .text-area {

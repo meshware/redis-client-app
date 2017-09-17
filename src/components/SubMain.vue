@@ -34,6 +34,7 @@
                             <li class="cur-li"><a href="javascript:;">内容</a></li>
                             <li><a href="javascript:;">添加</a></li>
                             <li><a href="javascript:;">设置</a></li>
+                            <li><a href="javascript:;">状态</a></li>
                         </ul>
                     </div>
 
@@ -52,6 +53,9 @@
                                     </Row>
                                 </Card>
                             </div>
+                        </div>
+                        <div class="content-new">
+                            查看数据库状态
                         </div>
                     </div>
                 </div>
@@ -372,7 +376,7 @@
         display: block;
         height: 15px;
         width: 36px;
-        background-color: #9f9f9f;
+        background-color: #2d8cf0;
         text-align: center;
         line-height: 15px;
         border-radius: 2px;
@@ -411,7 +415,7 @@
         position: absolute;
         left: 20px;
         top: 45px;
-        right: 0;
+        right: 20px;
         bottom: 0;
         display: none;
     }
@@ -427,7 +431,8 @@
         top: 10px;
         bottom: 0;
         right: 0;
-        height: 40px;
+        height: 27px;
+        border-bottom: 1px solid #eee;
     }
 
     .cont-qie {
@@ -436,7 +441,7 @@
 
     .cont-qie li {
         float: left;
-        margin-right: 15px;
+        margin-right: 20px;
     }
 
     .cont-qie li a {
