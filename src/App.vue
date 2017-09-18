@@ -6,7 +6,7 @@
                 <div class="menu-group">
                     <Button-group size="small">
                         <Button type="primary" @click="addNewDB"><Icon type="ios-plus"></Icon> 添加</Button>
-                        <Button type="primary" @click="delDBModel = true"><Icon type="edit"></Icon> 编辑</Button>
+                        <Button type="primary" @click="updateDB"><Icon type="edit"></Icon> 编辑</Button>
                         <Button type="primary" @click="delDBModel = true"><Icon type="trash-a"></Icon> 删除</Button>
                     </Button-group>
                     <Dropdown trigger="click" placement="bottom-end" style="margin-left: 170px; vertical-align: middle;">
@@ -78,7 +78,7 @@
     import AddDB from './components/addDB/AddDB.vue'
     import subMain from './sub_main';
     import config from './common/config_util';
-    import addWindow from './scripts/addDB/add_window';
+    import addUpdateWindow from './scripts/manage/add_update_window';
     const dialog = require('electron').remote.dialog;
     const ipc = require('electron').remote.ipcMain;
 
@@ -91,7 +91,7 @@
                 showTitle: require('os').platform() === 'darwin',
                 themeType: 'dark',
                 dbGroups: config.configFile,
-                selDBIndex: null,
+                selDBIndex: -1,
                 addDBModel: false,
                 delDBModel: false
             }
@@ -108,7 +108,7 @@
             },
             doDeleteDB() {
                 this.delDBModel = false;
-                if (this.selDBIndex) {
+                if (this.selDBIndex >= 0) {
                     config.loadConfigFile();
                     config.configFile.splice(this.selDBIndex, 1);
                     config.saveConfigFile(config.configFile);
@@ -118,36 +118,18 @@
                 }
             },
             addNewDB () {
-                addWindow.loadNewWindow();
-//                this.$Modal.confirm({
-//                    scrollable:true,
-//                    okText:'保存',
-//                    render: (h) => {
-//                        return h(AddDB, {
-//                            props: {
-//
-//                            },
-//                            on: {
-//                                value1: (value1) => {
-//                                    this.v1 = value1
-//                                },
-//                                value2: (value2) => {
-//                                    this.v2 = value2
-//                                }
-//                            }
-//                        })
-//                    },
-//                    onOk: () => {
-//                        if (this.v1 == '' || this.v2 == '') {
-//                            this.$Message.error('信息填写不完整!')
-//                        }
-//                        const msg = this.$Message.loading({
-//                            content: '正在保存..',
-//                            duration: 0
-//                        })
-//                        this.saveLink(msg)
-//                    }
-//                })
+                addUpdateWindow.loadNewWindow();
+            },
+            /**
+             * 修改数据库连接
+             */
+            updateDB: function (){
+                let self = this;
+                if (self.selDBIndex >= 0) {
+                    addUpdateWindow.loadNewWindow(self.dbGroups[self.selDBIndex]);
+                } else {
+                    alert("请先选择数据库！");
+                }
             }
         },
         mounted:function(){

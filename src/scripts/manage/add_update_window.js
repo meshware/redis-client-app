@@ -1,5 +1,5 @@
 /**
- * 函数库界面
+ * 编辑数据库链接界面
  *
  * @author Zhiguo.Chen
  */
@@ -15,14 +15,14 @@ const isDevMode = process.execPath.match(/[\\/]electron/);
 const iconName = process.platform === 'win32' ? 'icon.ico' : 'icon.icns';
 const iconPath = path.join(__dirname, './asserts/icons', iconName);
 
-let addWindow = {};
+let updateWindow = {};
 
 console.log(__dirname);
-addWindow.loadNewWindow = function () {
+updateWindow.loadNewWindow = function (configFile) {
     const modalPath = path.join('file://', __dirname, '../../components/addDB/addDB.html');
     let win = new BrowserWindow({
         icon: iconPath,
-        title: '增加数据库连接',
+        title: '编辑数据库连接',
         minHeight: 300,
         minWidth: 300,
         height: 300,
@@ -40,9 +40,11 @@ addWindow.loadNewWindow = function () {
     win.show();
 
     //页面加载完成后，发送事件
-    // win.webContents.on('did-finish-load', function () {
-    //     win.webContents.send('transferData', {strategyId: strategyId, strategyVersionId: strategyVersionId});
-    // });
+    if (configFile) {
+        win.webContents.on('did-finish-load', function () {
+            win.webContents.send('transferData', configFile);
+        });
+    }
 
     // Open the DevTools.
     if (isDevMode) {
@@ -50,4 +52,4 @@ addWindow.loadNewWindow = function () {
     }
 };
 
-export default addWindow;
+export default updateWindow;

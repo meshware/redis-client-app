@@ -27,6 +27,8 @@
         name: "addDB",
         data () {
             return {
+                update: false,
+                oldAlias: '',
                 dbConfig: {
                     family: 4,
                     host: "",
@@ -41,7 +43,20 @@
         methods: {
             saveDB: function () {
                 let self = this;
-                if (!self.checkDBAlias(self.dbConfig.alias)) {
+                if (self.update){
+                    config.configFile.forEach(function (element, index) {
+                        let canEdit = true;
+                        if (canEdit && element.alias === self.oldAlias) {
+                            config.configFile[index] = self.dbConfig;
+                            config.saveConfigFile(config.configFile);
+                            alert("修改数据库成功！");
+                            ipc.send('add-database', 'ping');
+                        } else if (element.alias === self.dbConfig.alias && self.dbConfig.alias !== self.oldAlias) {
+                            alert("存在相同别名数据库，请修改后再添加！");
+                            canEdit = false;
+                        }
+                    });
+                } else if (!self.checkDBAlias(self.dbConfig.alias)) {
                     config.configFile.push(self.dbConfig);
                     config.saveConfigFile(config.configFile);
                     alert("新增数据库成功！");
@@ -60,6 +75,17 @@
                 });
                 return hasSameName;
             }
+        },
+        mounted: function () {
+            let self = this;
+            let $ = self.$;
+            console.log("mounted...");
+            ipc.on('transferData', (event, message) => {
+                console.log(message);
+                self.dbConfig = message;
+                self.oldAlias = message.alias;
+                self.update = true;
+            })
         }
     }
 </script>
