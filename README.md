@@ -6,6 +6,9 @@ A redis client application on mac, windows and linux.
 
 > PS: The project is currently the original version, without rigorous testing.
 
+![screenshot1](https://raw.githubusercontent.com/UUGU/redis-client-app/master/screenshots/main.png)
+![screenshot2](https://raw.githubusercontent.com/UUGU/redis-client-app/master/screenshots/submain1.png)
+
 ## Update Log
 
 >### 2017-08-10
