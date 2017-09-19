@@ -4,7 +4,7 @@
 
 A redis client application on mac, windows and linux.
 
-> PS: 项目目前是初始版本，未经严格测试。
+> PS: The project is currently the original version, without rigorous testing.
 
 ## Update Log
 
@@ -14,13 +14,17 @@ A redis client application on mac, windows and linux.
 
 
 ### Install Environment
-* 项目基于Electron，VUE开发，所以依赖Node.js，请安装Node.js最新稳定版本。
+* The project is based on Electron and VUE development, also it is based on Node.js. Please install the latest stable version of Node.js.
 
 ### Runing/Building Step
 
 `1`：`git clone https://github.com/UUGU/redis-client-app.git`   
 `2`：`cd redis-client-app`   
-`3`：`npm install` 安装依赖包  
-`4`：运行或打包
-* `npm run start` 运行本地项目
-* `npm run make` 打包本地项目，生成文件在`./out`目录下
+`3`：`npm install` Install dependency package  
+`4`：Run or pack the application
+* `npm run start` Run the application for development mode.
+* `npm run make` Package the local projects and the generated software is under the `./out` directory.
+
+### Thanks List
+> * jizongquan `UI Support`
+> * lvhuipin `UI Support`
