@@ -22,7 +22,7 @@ updateWindow.loadNewWindow = function (configFile) {
     const modalPath = path.join('file://', __dirname, '../../components/addDB/addDB.html');
     let win = new BrowserWindow({
         icon: iconPath,
-        title: '编辑数据库连接',
+        title: '增加|修改数据库信息',
         minHeight: 300,
         minWidth: 300,
         height: 300,

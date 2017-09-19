@@ -2,14 +2,17 @@
     <div class="layout" id="app">
         <Row type="flex" style="height: 100%">
             <i-col class="layout-menu-left">
-                <div v-if="showTitle" class="layout-logo"><p style="text-align: center; padding-top: 6px">Redis Client</p></div>
+                <div v-if="showTitle" class="layout-logo">
+                    <img style="margin-top: 7px;" src="asserts/icons/logo.png"/>
+                    <!--<p style="text-align: center; padding-top: 6px; color: #ffffff">Redis Client</p>-->
+                </div>
                 <div class="menu-group">
                     <Button-group size="small">
                         <Button type="primary" @click="addNewDB"><Icon type="ios-plus"></Icon> 添加</Button>
                         <Button type="primary" @click="updateDB"><Icon type="edit"></Icon> 编辑</Button>
                         <Button type="primary" @click="delDBModel = true"><Icon type="trash-a"></Icon> 删除</Button>
                     </Button-group>
-                    <Dropdown trigger="click" placement="bottom-end" style="margin-left: 170px; vertical-align: middle;">
+                    <Dropdown trigger="click" placement="bottom-end" style="margin-left: 175px; vertical-align: middle;">
                         <a href="javascript:void(0)">
                             <Icon type="settings" size="18"></Icon>
                         </a>
