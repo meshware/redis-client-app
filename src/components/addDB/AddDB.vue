@@ -57,21 +57,28 @@
                 this.$refs['dbConfig'].validate((valid) => {
                     if (valid) {
                         if (self.update) {
-                            config.configFile.forEach(function (element, index) {
-                                let canEdit = true;
-                                if (element.alias === self.dbConfig.alias && self.dbConfig.alias !== self.oldAlias) {
-                                    self.$Message.error('存在相同别名数据库，请修改后再添加！');
-//                                    alert("存在相同别名数据库，请修改后再添加！");
-                                    canEdit = false;
-                                }
-                                if (canEdit && element.alias === self.oldAlias) {
-                                    config.configFile[index] = self.dbConfig;
-                                    config.saveConfigFile(config.configFile);
-                                    self.$Message.success('修改数据库成功！');
-//                                    alert("修改数据库成功！");
-                                    ipc.send('add-database', 'ping');
-                                }
-                            });
+//                             let canEdit = true;
+//                             config.configFile.forEach(function (element, index) {
+//                                 if (element.alias === self.dbConfig.alias && self.dbConfig.alias !== self.oldAlias) {
+//                                     self.$Message.error('存在相同别名数据库，请修改后再添加！');
+// //                                    alert("存在相同别名数据库，请修改后再添加！");
+//                                     canEdit = false;
+//                                 }
+//                             });
+                            if (!self.checkDBAlias(self.dbConfig.alias) || self.dbConfig.alias === self.oldAlias) {
+                                config.configFile.forEach(function(element, index) {
+                                    if (element.alias === self.oldAlias) {
+                                        console.log(element.alias === self.oldAlias);
+                                        config.configFile[index] = self.dbConfig;
+                                        config.saveConfigFile(config.configFile);
+                                        self.$Message.success('修改数据库成功！');
+                                        //                                    alert("修改数据库成功！");
+                                        ipc.send('add-database', 'ping');
+                                    }
+                                });
+                            } else {
+                                self.$Message.error('存在相同别名数据库，请修改后再添加！');
+                            }
                         } else if (!self.checkDBAlias(self.dbConfig.alias)) {
                             config.configFile.push(self.dbConfig);
                             config.saveConfigFile(config.configFile);

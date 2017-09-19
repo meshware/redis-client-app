@@ -138,6 +138,7 @@
         mounted:function(){
             let self = this;
             ipc.on('add-database', function (event, arg) {
+                console.log('The group list has changed!');
                 self.dbGroups = config.getDBGroups();
             });
             if (config.checkFileExist()) {

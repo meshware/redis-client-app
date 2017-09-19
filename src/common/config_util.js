@@ -76,6 +76,9 @@ config.loadConfigFile = function () {
     }
 };
 
+/**
+ * 获取数据库列表
+ */
 config.getDBGroups = function () {
     if (config.checkFileExist()) {
         return JSON.parse(fs.readFileSync(config.getConfigFilePath(), 'utf-8'));
