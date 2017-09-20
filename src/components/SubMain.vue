@@ -4,11 +4,14 @@
             <i-col span="5" class="layout-menu-left">
                 <!--<div class="layout-logo-left"></div>-->
                 <div v-bind:class="isMac ? 'topbar-mac' : 'topbar'" style="-webkit-app-region: drag;">
-                    <Select class="db-select" v-model="selectedDB" size="small" placeholder="请选择DB...">
+                    <Select class="db-select" v-model="selectedDB" size="small">
                         <Option v-for="(dbIndex, index) in dbNums" :value="index" :key="index"
-                                @click.native="openSubmenu(index)">当前DB：{{ index }}
+                                @click.native="openSubmenu(index)">DB：{{ index }}
                         </Option>
                     </Select>
+                    <Button class="refresh-btn" type="primary" shape="circle" size="small" @click="doSearchKey">
+                        <Icon type="android-happy" size="18"></Icon>
+                    </Button>
                     <Button class="refresh-btn" type="primary" shape="circle" size="small" @click="doSearchKey">
                         <Icon type="refresh" size="18"></Icon>
                     </Button>
@@ -45,7 +48,7 @@
                         <div class="content-new">111</div>
                         <div class="content-new">
                             <div class="setting" id="settingDiv">
-                                <Card :dis-hover="true" style="width:100%; height: 150px">
+                                <Card :bordered="false" :dis-hover="true" style="width:100%; height: 150px">
                                     <p slot="title">内容设置</p>
                                     <Row align="middle">
                                         <Col span="6">清空此库</Col>
@@ -307,7 +310,7 @@
     }
 
     .db-select {
-        width: 70%;
+        width: 80px;
         /*height: 30px;*/
         background: transparent;
         /*background-color: transparent;*/
@@ -322,7 +325,7 @@
         background: transparent;
         border-color: transparent;
         /*border-radius: 3px;*/
-        margin: 0px 5px 0px 5px;
+        margin: -2px 5px 0 0;
         float: right;
     }
 

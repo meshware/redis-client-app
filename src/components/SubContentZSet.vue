@@ -1,6 +1,6 @@
 <template>
     <Card :bordered="false" :dis-hover="true">
-        <p slot="title">KEY: {{ $route.params.key }} <Button type="primary" class="delete" size="small" @click="deleteKey($route.params.key)">删除</Button></p>
+        <p slot="title">KEY: {{ $route.params.key }} <Button type="error" class="delete" size="small" @click="deleteKey($route.params.key)">删除</Button></p>
         <p>
             <Table size="small" width="100%" border :columns="columns" :data="content"></Table>
         </p>

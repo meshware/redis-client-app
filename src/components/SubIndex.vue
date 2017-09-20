@@ -1,5 +1,5 @@
 <template>
-    <div id="right-content" style="height: 100%; padding-left:10px; padding-top: 10px">
+    <div id="right-content" style="height: 100%; padding-left:0; padding-top: 10px">
         <!--<div class="layout-breadcrumb">-->
             <!--<Breadcrumb>-->
                 <!--<Breadcrumb-item href="#">DB1</Breadcrumb-item>-->

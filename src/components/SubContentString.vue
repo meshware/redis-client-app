@@ -16,7 +16,7 @@
     <div style="">
         <div class="quyu clearfix">
             <div class="q-left">KEY: {{ $route.params.key }}</div>
-            <Button type="primary" class="delete" size="small" @click="deleteKey($route.params.key)">删除</Button>
+            <Button type="error" class="delete" size="small" @click="deleteKey($route.params.key)">删除</Button>
             <!-- <a href="javascript:;" class="delete" @click="deleteKey($route.params.key)">删除</a> -->
         </div>
         <div class="text-area">
@@ -198,7 +198,7 @@
         top: 0;
         right: 0;
         bottom: 0;
-        text-indent: 10px;
+        /*text-indent: 10px;*/
         line-height: 24px;
         color: #5e5e5e;
         font-size: 14px;

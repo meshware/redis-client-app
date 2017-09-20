@@ -131,7 +131,7 @@
                 if (self.selDBIndex >= 0) {
                     addUpdateWindow.loadNewWindow(self.dbGroups[self.selDBIndex]);
                 } else {
-                    alert("请先选择数据库！");
+                    dialog.showErrorBox('操作错误', "未选择需要修改的数据库！");
                 }
             }
         },
