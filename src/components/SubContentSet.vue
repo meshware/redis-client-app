@@ -1,6 +1,6 @@
 <template>
     <Card :bordered="false" :dis-hover="true">
-        <p slot="title">KEY: {{ $route.params.key }}</p>
+        <p slot="title">KEY: {{ $route.params.key }} <Button type="primary" class="delete" size="small" @click="deleteKey($route.params.key)">删除</Button></p>
         <p>
             <Table size="small" width="100%" border :columns="columns" :data="content"></Table>
         </p>
@@ -86,6 +86,27 @@
                 this.$electron.shell.openExternal(link)
             },
             /**
+             * 删除Key
+             */
+            deleteKey(key) {
+                let self = this;
+                this.$Modal.confirm({
+                    title: '删除提示',
+                    content: '确认删除该键值吗？',
+                    onOk: () => {
+                        self.redis.del(key).then(function (result) {
+                            if (result === 1) {
+                                self.$router.push({path: '/index'});
+                                self.$('.refresh-btn').click();
+                            }
+                        }).catch(res => {
+                            self.content = [];
+                            alert(res);
+                        });
+                    }
+                });
+            },
+            /**
              * 获取Key对应值
              */
             doGetContent: function(){
@@ -151,7 +172,20 @@
 </script>
 
 <style scoped>
-    @import url('codemirror/lib/codemirror.css'); 
-    @import url('codemirror/mode/javascript/javascript');
-
+    /*@import url('codemirror/lib/codemirror.css'); */
+    /*@import url('codemirror/mode/javascript/javascript');*/
+    .delete {
+        float: right;
+        display: block;
+        /* width: 40px;
+        height: 30px;
+        font-size: 14px;
+        border: 1px dashed #ddd;
+        text-align: center; */
+        margin-right: 5px;
+        margin-top: -2px;
+        /* color: #5a5a5a;
+        line-height: 30px;
+        border-radius: 2px; */
+    }
 </style>

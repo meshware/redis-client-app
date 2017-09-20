@@ -149,15 +149,22 @@
     }
 
     .quyu {
-        height: 30px;
+        /*height: 20px;*/
         /* line-height: 30px; */
-        color: #5e5e5e;
-        font-size: 16px;
-        font-family: "Microsoft Yahei";
+        /*color: #5e5e5e;*/
+        /*font-size: 16px;*/
+        /*font-family: "Microsoft Yahei";*/
+        padding: 13px 0 23px 0;
+        border-bottom:1px solid #e9eaec;
+        line-height: 1;
     }
 
     .content-new .q-left {
         float: left;
+        font-size: 14px;
+        color: #1c2438;
+        font-weight: 700;
+        overflow: hidden;
     }
 
     .content-new .delete {
@@ -168,7 +175,8 @@
         font-size: 14px;
         border: 1px dashed #ddd;
         text-align: center; */
-        margin-right: 50px;
+        margin-right: 10px;
+        margin-top: -7px;
         /* color: #5a5a5a;
         line-height: 30px;
         border-radius: 2px; */
@@ -178,8 +186,8 @@
         position: absolute;
         left: 0;
         top: 45px;
-        right: 20px;
-        bottom: 20px;
+        right: 0;
+        bottom: 10px;
         background: #000;
     }
 

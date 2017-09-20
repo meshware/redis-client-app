@@ -414,7 +414,7 @@
     .content-new {
         position: absolute;
         left: 20px;
-        top: 45px;
+        top: 40px;
         right: 20px;
         bottom: 0;
         display: none;

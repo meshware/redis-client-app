@@ -2,9 +2,9 @@
 <html style="height: 100%">
 <head>
     <meta charset="utf-8">
-    <title>Redis Client</title>
+    <title>Redis Client [SubMain]</title>
 </head>
-<body style="height: 100%"> <!-- 可拖拽 -->
+<body style="height: 100%; overflow: hidden;"> <!-- 可拖拽 -->
 <div id="app"></div>
 </body>
 
@@ -12,7 +12,7 @@
     'use strict';
     import Vue from 'vue/dist/vue.js';
     import axios from 'axios';
-    import jquery from 'jquery';
+    import $ from 'jquery';
     import {remote, ipcRenderer} from 'electron';
     import App from './components/SubMain.vue';
     import router from './routes';
@@ -30,7 +30,7 @@
 
     axios.defaults.withCredentials = true;
     Vue.axios = Vue.prototype.$axios = axios;
-    Vue.$ = Vue.prototype.$ = jquery;
+    Vue.$ = Vue.prototype.$ = $;
     Vue.config.productionTip = false;
 
     //拦截器
@@ -38,9 +38,13 @@
         return response;
     }, (error) => {
         console.log(error);
-        if (error.response && error.response.status == 401) {
-            router.push({path: '/login'});
+        if (error.response && error.response.status === 401) {
+//            router.push({path: '/login'});
         }
+    });
+
+    ipcRenderer.on('createRedisConnection', (event, message) => {
+        $("title").html("Redis Client [" + message + "]");
     });
 
     // if (!rds.client) {
