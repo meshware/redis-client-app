@@ -102,7 +102,7 @@
                         self.redis.del(key).then(function (result) {
                             if (result === 1) {
                                 self.$router.push({path: '/index'});
-                                self.$('.refresh-btn').click();
+                                self.$('#refreshBtn').click();
                             }
                         }).catch(res => {
                             self.content = [];

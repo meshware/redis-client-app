@@ -12,7 +12,7 @@
                     <Button class="refresh-btn" type="primary" shape="circle" size="small" @click="doSearchKey">
                         <Icon type="android-happy" size="18"></Icon>
                     </Button>
-                    <Button class="refresh-btn" type="primary" shape="circle" size="small" @click="doSearchKey">
+                    <Button class="refresh-btn" id="refreshBtn" type="primary" shape="circle" size="small" @click="doSearchKey">
                         <Icon type="refresh" size="18"></Icon>
                     </Button>
                 </div>
@@ -46,7 +46,7 @@
                             <router-view></router-view>
                         </div>
                         <div class="content-new">
-                            <Card>
+                            <Card :bordered="true" :dis-hover="true">
                                 <Form :model="insertRedisFormValue" :rules="ruleValidate" ref="insertRedisForm" :label-width="80" style="with:95%;font-size: 30px; color: #6d7380; font-weight:900;">
                                     <FormItem label="请选择插入的类型:" :label-width="120" prop="insertRedisType">
                                         <RadioGroup v-model="insertRedisFormValue.insertRedisType">
