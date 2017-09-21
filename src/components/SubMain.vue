@@ -12,7 +12,8 @@
                     <Button class="refresh-btn" type="primary" shape="circle" size="small" @click="doSearchKey">
                         <Icon type="android-happy" size="18"></Icon>
                     </Button>
-                    <Button class="refresh-btn" id="refreshBtn" type="primary" shape="circle" size="small" @click="doSearchKey">
+                    <Button class="refresh-btn" id="refreshBtn" type="primary" shape="circle" size="small"
+                            @click="doSearchKey">
                         <Icon type="refresh" size="18"></Icon>
                     </Button>
                 </div>
@@ -46,33 +47,7 @@
                             <router-view></router-view>
                         </div>
                         <div class="content-new">
-                            <Card :bordered="true" :dis-hover="true">
-                                <Form :model="insertRedisFormValue" :rules="ruleValidate" ref="insertRedisForm" :label-width="80" style="with:95%;font-size: 30px; color: #6d7380; font-weight:900;">
-                                    <FormItem label="请选择插入的类型:" :label-width="120" prop="insertRedisType">
-                                        <RadioGroup v-model="insertRedisFormValue.insertRedisType">
-                                            <Radio label="String"></Radio>
-                                            <Radio label="Hash"></Radio>
-                                            <Radio label="List"></Radio>
-                                            <Radio label="Set"></Radio>
-                                        </RadioGroup>
-                                    </FormItem>
-                                    <FormItem label="Key:" prop="insertStringKey">
-                                        <Input v-model="insertRedisFormValue.insertStringKey"/>
-                                    </FormItem>
-                                    <FormItem label="Value:" prop="insertStringValue">
-                                        <Input v-model="insertRedisFormValue.insertStringValue"/>
-                                    </FormItem>
-                                    <FormItem>
-                                        <Button @click.native.prevent="submitInsertForm" type="primary" shape="circle">保存</Button>
-                                    </FormItem>
-                                    <Card style="color:red" v-show="showRedisInsertError">
-                                        <div style="margin-left: 10px">
-                                        <span>错误:</span>
-                                        <Row style="width: 100%; word-wrap:break-word;">{{errorRedisInsertMessage}}</Row>
-                                        </div>
-                                    </Card>
-                                </Form>
-                            </Card>
+                            <insert-data-to-redis @doSearchKey="doSearchKey"></insert-data-to-redis>
                         </div>
                         <div class="content-new">
                             <Setting></Setting>
@@ -92,6 +67,7 @@
     import router from '../routes';
     import Setting from './Setting.vue';
     import Status from './Status.vue';
+    import insertDataToRedis from './InsertDataToRedis.vue'
 
     const ipc = require('electron').ipcRenderer;
 
@@ -99,7 +75,8 @@
         name: 'sub-main',
         components: {
             Setting,
-            Status
+            Status,
+            insertDataToRedis
         },
         data() {
             return {
@@ -109,22 +86,7 @@
                 selectedDB: 0,
                 searchKey: '',
                 redisAlias: this.redisAlias,
-                modalLoading: false,
-                insertRedisFormValue: {
-                    insertStringKey:'',
-                    insertStringValue:'',
-                    insertRedisType:'String',
-                },
-                ruleValidate: {
-                    insertStringKey: [
-                        { required: true, message: 'Key必填', trigger: 'blur' }
-                    ],
-                    insertStringValue: [
-                        { required: true, message: 'Value必填', trigger: 'blur' },
-                    ]
-                },
-                showRedisInsertError: false,
-                errorRedisInsertMessage:''
+                modalLoading: false
             }
         },
         computed: {
@@ -184,70 +146,6 @@
                         })
                     }
                 });
-            },
-            /*
-             * redis插入数据
-             *
-             * */
-            submitInsertForm(){
-                this.$refs.insertRedisForm.validate((valid) => {
-                    if (valid) {
-                        let me = this;
-                        let insertRedisMethod = "";
-                        let redisKey = this.insertRedisFormValue.insertStringKey;
-                        let redisType = this.insertRedisFormValue.insertRedisType;
-                        let redisValue = this.insertRedisFormValue.insertStringValue;
-                        console.log(redisValue);
-                        if(redisType=="String"){
-                            insertRedisMethod = me.redis.set(redisKey,redisValue);
-                        }else if(redisType=="Set"){
-                            insertRedisMethod = me.redis.sadd(redisKey,redisValue);
-                        }else if(redisType=="List"){
-                            insertRedisMethod = me.redis.lpush(redisKey,redisValue);
-                        }else if(redisType=="Hash"){
-                            let valueJson = "";
-                            try {
-                                valueJson = JSON.parse(redisValue.toString());
-                            } catch (e) {
-                                me.showRedisInsertError=true;
-                                me.errorRedisInsertMessage="Value不是正确的Json格式";
-                                return false;
-                            }
-                            insertRedisMethod = me.redis.hmset(redisKey,valueJson);
-                        }
-                        if(insertRedisMethod==""){
-                            me.$Message.error('请选择插入的类型');
-                        }else{
-                            insertRedisMethod.then(function (result) {
-                                if(result==0){
-                                    me.showRedisInsertError=true;
-                                    me.errorRedisInsertMessage="插入未成功,数据重复";
-                                }else if(result =="OK"||result>0){
-                                    me.$Message.info('添加成功');
-                                    me.doSearchKey();
-                                    me.showRedisInsertError=false;
-                                    me.errorRedisInsertMessage='';
-                                    me.$refs['insertRedisForm'].resetFields();
-                                }else{
-                                    me.showRedisInsertError=true;
-                                    me.errorRedisInsertMessage=result;
-                                }
-                            }).catch((error) => {
-                                me.showRedisInsertError=true;
-                                if(error.message=="WRONGTYPE Operation against a key holding the wrong kind of value")
-                                {
-                                    me.errorRedisInsertMessage="其它数据类型占有此key";
-                                }else{
-                                    me.errorRedisInsertMessage=error;
-                                }
-                            });
-                        }
-                    } else {
-                        return false;
-                    }
-                });
-
-
             }
         },
         created() {
