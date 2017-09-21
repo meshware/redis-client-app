@@ -6,10 +6,10 @@
                 <!--<Breadcrumb-item>KEY1</Breadcrumb-item>-->
             <!--</Breadcrumb>-->
         <!--</div>-->
-        <Card :dis-hover="true" style="width:100%">
-            <div style="text-align:center">
+        <Card :bordered="false" :dis-hover="true" style="width:100%">
+            <div style="padding-top:100px; text-align:center">
                 <img src="./asserts/icons/256xieicon.png">
-                <h3>基于IORedis, Electron的Redis桌面客户端！</h3>
+                <h3>基于IORedis, Electron的Redis桌面客户端</h3>
             </div>
         </Card>
     <!-- <div class="layout-copy">

@@ -75,47 +75,32 @@
                             </Card>
                         </div>
                         <div class="content-new">
-                            <div class="setting" id="settingDiv">
-                                <Card :bordered="false" :dis-hover="true" style="width:100%; height: 150px">
-                                    <p slot="title">内容设置</p>
-                                    <Row align="middle">
-                                        <Col span="6">清空此库</Col>
-                                        <Col span="6"><Button @click="flushDB" type="error" size="small">确认清空</Button></Col>
-                                    </Row>
-                                </Card>
-                            </div>
+                            <Setting></Setting>
                         </div>
                         <div class="content-new">
-                            查看数据库状态
+                            <Status></Status>
                         </div>
                     </div>
                 </div>
             </i-col>
         </Row>
-        <Modal v-model="delDBModel" title="清空数据库" width="300">
-            <p slot="header" style="color:#f60;text-align:center">
-                <Icon type="information-circled"></Icon>
-                <span>数据清空</span>
-            </p>
-            <div style="text-align:center">
-                <p>清空数据后，数据将不可找回。</p>
-                <p>是否继续清空？</p>
-            </div>
-            <div slot="footer">
-                <Button type="error" size="large" long :loading="modalLoading" @click="doFlushDB">删除</Button>
-            </div>
-        </Modal>
     </div>
 </template>
 
 <script>
     import rds from '../common/redis';
     import router from '../routes';
+    import Setting from './Setting.vue';
+    import Status from './Status.vue';
 
     const ipc = require('electron').ipcRenderer;
 
     export default {
-        // name: 'RedisClient-client',
+        name: 'sub-main',
+        components: {
+            Setting,
+            Status
+        },
         data() {
             return {
                 isMac: require('os').platform() === 'darwin',
@@ -124,7 +109,6 @@
                 selectedDB: 0,
                 searchKey: '',
                 redisAlias: this.redisAlias,
-                delDBModel: false,
                 modalLoading: false,
                 insertRedisFormValue: {
                     insertStringKey:'',
@@ -152,8 +136,6 @@
             open(link) {
                 this.$electron.shell.openExternal(link)
             },
-
-
             /**
              * 选择数据库并显示Keys
              */
@@ -201,25 +183,6 @@
                             });
                         })
                     }
-                });
-            },
-            flushDB: function () {
-                let self = this;
-                self.delDBModel = true;
-            },
-            doFlushDB: function () {
-                let self = this;
-                self.modalLoading = true;
-                this.redis.flushdb().then(resolve => {
-                    console.log(resolve);
-                    self.doSearchKey();
-                    self.modalLoading = false;
-                    self.delDBModel = false;
-                }).catch(error => {
-                    console.log(error);
-                    alert(error);
-                    self.modalLoading = false;
-                    self.delDBModel = false;
                 });
             },
             /*
@@ -454,17 +417,6 @@
         position: absolute;
         top: 62px;
         bottom: 42px;
-        /*height: auto;*/
-        /*height: 100%;*/
-        width: 100%;
-        overflow: auto;
-        /*background-color: #5b6270;*/
-    }
-
-    .setting {
-        /*position: absolute;*/
-        top: 0px;
-        bottom: 0px;
         /*height: auto;*/
         /*height: 100%;*/
         width: 100%;
