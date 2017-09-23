@@ -3,9 +3,9 @@
         <Card :bordered="false" :dis-hover="true" style="width:100%; height: 150px">
             <p slot="title">内容设置</p>
             <Row align="middle">
-                <Col span="6">清空此库</Col>
-                <Col span="6">
-                    <Button @click="flushDB" type="error" size="small">确认清空</Button>
+                <Col span="19">清空当前选择的数据库中的所有数据，不可恢复！</Col>
+                <Col span="5">
+                    <Button style="margin-top: -5px;" @click="flushDB" type="error" size="small">确认清空</Button>
                 </Col>
             </Row>
         </Card>

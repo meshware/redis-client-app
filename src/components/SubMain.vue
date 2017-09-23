@@ -35,7 +35,7 @@
                 <div id="right-content" style="height:100%; padding-left:10px; padding-top: 2px;">
                     <div class="bd-title clearfix" style="-webkit-app-region: drag;">
                         <ul class="cont-qie clearfix">
-                            <li class="cur-li"><a href="javascript:;">内容</a></li>
+                            <li id="contentTab" class="cur-li"><a href="javascript:;">内容</a></li>
                             <li><a href="javascript:;">添加</a></li>
                             <li><a href="javascript:;">设置</a></li>
                             <li><a href="javascript:;">状态</a></li>
@@ -121,6 +121,7 @@
              * 显示子内容页
              */
             showContent: function (type, key) {
+                this.$('#contentTab').click();
                 router.push({path: '/content/' + type + "/" + key});
                 // console.log(key);
             },
