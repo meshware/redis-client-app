@@ -13,6 +13,9 @@
             <FormItem label="Value:" prop="insertStringValue">
                 <Input v-model="insertRedisFormValue.insertStringValue"/>
             </FormItem>
+            <FormItem label="Sorted Set:" prop="insertSortedSet" v-show="insertRedisFormValue.insertRedisType=='Sorted Set'">
+                <Input v-model="insertRedisFormValue.insertSortedSet"/>
+            </FormItem>
             <FormItem>
                 <Button @click.native.prevent="submitInsertForm" type="primary" shape="circle">保存</Button>
             </FormItem>
@@ -35,11 +38,12 @@
                     {text: 'List'},
                     {text: 'Set'},
                     {text: 'Hash'},
-//                    {text: 'Sorted Set'}
+                    {text: 'Sorted Set'}
                 ],
                 insertRedisFormValue: {
                     insertStringKey: '',
                     insertStringValue: '',
+                    insertSortedSet:1,
                     insertRedisType: 'String',
                 },
                 ruleValidate: {
@@ -68,6 +72,7 @@
                         let redisKey = this.insertRedisFormValue.insertStringKey;
                         let redisType = this.insertRedisFormValue.insertRedisType;
                         let redisValue = this.insertRedisFormValue.insertStringValue;
+                        let sortedSet = this.insertRedisFormValue.insertSortedSet;
                         switch (redisType) {
                             case "String":
                                 insertRedisMethod = me.redis.set(redisKey, redisValue);
@@ -75,9 +80,13 @@
                             case "Set":
                                 insertRedisMethod = me.redis.sadd(redisKey, redisValue);
                             case "Sorted Set":
-                                //zadd不存在，此功能未添加
-                                insertRedisMethod = me.redis.zadd("ABC", "ABC");
-                                break;
+                                if((!isNaN(sortedSet)) && sortedSet%1 === 0) {
+                                    insertRedisMethod = me.redis.zadd(redisKey, sortedSet, redisValue);
+                                }else{
+                                    me.showRedisInsertError = true;
+                                    me.errorRedisInsertMessage = "Sorted Set必须是整数";
+                                    return false;
+                                }
                                 break;
                             case "List":
                                 insertRedisMethod = me.redis.lpush(redisKey, redisValue);
@@ -95,6 +104,7 @@
                                 break;
                         }
                         insertRedisMethod.then(function (result) {
+                            console.log(result);
                             if (result === "OK" || result > 0) {
                                 me.$Message.info('添加成功');
                                 me.$emit('doSearchKey');
