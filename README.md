@@ -9,6 +9,7 @@ A redis client application on mac, windows and linux.
 <div align=center> 
 <img src="./screenshots/main.png" alt="Mac版主界面"/> 
 <img src="./screenshots/submain-mac-1.png" alt="Mac版子界面"/>
+<img src="./screenshots/submain-mac-2.png" alt="Mac版子界面"/>
 <img src="./screenshots/main-linux.png" alt="Linux版主界面"/>
 <img src="./screenshots/submain-linux.png" alt="Linux版子界面"/>
 </div>
