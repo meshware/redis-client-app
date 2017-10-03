@@ -1,23 +1,26 @@
 <template>
-    <div class="content">
+    <div style="">
+        <div class="quyu clearfix">
+            <div class="q-left">KEY: {{ $route.params.key }}</div>
+            <Button type="error" class="delete" size="small" @click="deleteKey($route.params.key)">删除</Button>
+            <!-- <a href="javascript:;" class="delete" @click="deleteKey($route.params.key)">删除</a> -->
+        </div>
+        <div class="text-area">
+            <Table size="small" width="100%" border :columns="columns" :data="content"></Table>
+        </div>
+    </div>
+    <!-- <div class="content">
     <Card :bordered="false" :dis-hover="true">
         <p slot="title">KEY: {{ $route.params.key }} <Button type="error" class="delete" size="small" @click="deleteKey($route.params.key)">删除</Button></p>
         <p>
-            <Table size="small" width="100%" border :columns="columns" :data="content"></Table>
+            <Table size="small" height="100%" width="100%" border :columns="columns" :data="content"></Table>
         </p>
     </Card>
-    </div>
+    <Table size="small" width="100%" border :columns="columns" :data="content"></Table>
+    </div> -->
 </template>
 
 <script>
-    // import CodeMirror from 'codemirror/lib/codemirror';
-    // import { codemirror } from 'vue-codemirror';
-    // import SystemInformation from './landingPage/SystemInformation'
-
-    // import executor from '../common/executor';
-
-//    executor.run("ls /");
-
     export default {
         name: 'landing-page',
         components: {},
@@ -174,13 +177,46 @@
 </script>
 
 <style scoped>
-    .delete {
+    .quyu {
+        /*height: 20px;*/
+        /* line-height: 30px; */
+        /*color: #5e5e5e;*/
+        /*font-size: 16px;*/
+        /*font-family: "Microsoft Yahei";*/
+        padding: 13px 0 23px 0;
+        border-bottom:1px solid #e9eaec;
+        line-height: 1;
+    }
+
+    .content-new .q-left {
+        float: left;
+        font-size: 14px;
+        color: #1c2438;
+        font-weight: 700;
+        overflow: hidden;
+    }
+
+    .content-new .delete {
         float: right;
         display: block;
-        margin-right: 5px;
-        margin-top: -2px;
+        /* width: 40px;
+        height: 30px;
+        font-size: 14px;
+        border: 1px dashed #ddd;
+        text-align: center; */
+        margin-right: 10px;
+        margin-top: -7px;
+        /* color: #5a5a5a;
+        line-height: 30px;
+        border-radius: 2px; */
     }
-    .content {
-        height: 100%;
+
+    .text-area {
+        position: absolute;
+        left: 0;
+        top: 45px;
+        /* right: 0; */
+        bottom: 10px;
+        overflow-y: auto;
     }
 </style>

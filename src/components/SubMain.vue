@@ -414,5 +414,7 @@
 
     .cont-qie .cur-li a {
         color: #f52f3e;
+        border-bottom: 2px solid #f52f3e;
+        display: block;
     }
 </style>

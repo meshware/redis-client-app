@@ -188,7 +188,7 @@
         top: 45px;
         right: 0;
         bottom: 10px;
-        background: #000;
+        /* background: #000; */
     }
 
     textarea {
