@@ -168,6 +168,7 @@
                 console.log(promise);
                 promise.then(
                     function (redis) {
+                        ipc.send('redisConnectionDone', 'success');
                         rds.getDBCount().then(
                             result => self.dbNums = result,
                             message => alert(message)
