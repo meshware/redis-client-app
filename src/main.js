@@ -11,7 +11,7 @@ import log from './common/logger';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
+let main = {};
 
 const isDevMode = process.execPath.match(/[\\/]electron/);
 
@@ -21,9 +21,9 @@ const iconName = process.platform === 'darwin' ? 'icon.icns' : 'icon.ico';
 const iconPath = path.join(__dirname, './asserts/icons', iconName);
 console.log(iconPath);
 
-const createWindow = async () => {
+main.createWindow = async () => {
     // Create the browser window.
-    mainWindow = new BrowserWindow({
+    main.mainWindow = new BrowserWindow({
         icon: iconPath,
         title: 'Redis Client Application',
         // minHeight: 566,
@@ -43,20 +43,20 @@ const createWindow = async () => {
     });
 
     // and load the index.html of the app.
-    mainWindow.loadURL(`file://${__dirname}/index.html`);
+    main.mainWindow.loadURL(`file://${__dirname}/index.html`);
 
     // Open the DevTools.
     if (isDevMode) {
         await installExtension(VUEJS_DEVTOOLS);
-        mainWindow.webContents.openDevTools();
+        main.mainWindow.webContents.openDevTools();
     }
 
     // Emitted when the window is closed.
-    mainWindow.on('closed', () => {
+    main.mainWindow.on('closed', () => {
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
-        mainWindow = null;
+        main.mainWindow = null;
     });
 };
 
@@ -64,9 +64,9 @@ const createWindow = async () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-    createWindow();
+    main.createWindow();
     menu.menuInit();
-    appIcon.loadTray();
+    appIcon.loadTray(main);
     log.info("Load main process success!");
     // Promise.race(menu.menuInit, appIcon.loadTray).then(function (message) {
     //     log.info("Load main process success!");
@@ -87,8 +87,8 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (mainWindow === null) {
-        createWindow();
+    if (main.mainWindow === null) {
+        main.createWindow();
     }
 });
 

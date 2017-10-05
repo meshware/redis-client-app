@@ -273,7 +273,7 @@
                     },
                     series: [{
                         type: 'pie',
-                        name: '内存使用峰值占比',
+                        name: '内存占比',
                         data: dataArray
                     }]
                 });
@@ -315,7 +315,7 @@
                     },
                     series: [{
                         type: 'pie',
-                        name: '内存使用占比',
+                        name: '内存占比',
                         data: dataArray
                     }]
                 });
