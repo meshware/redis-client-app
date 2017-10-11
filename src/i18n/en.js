@@ -83,4 +83,8 @@ exports.content = {
     , window: 'Window'
     , white: 'White'
     , black: 'Black'
+
+    ,insertRedisType: 'Choose insert type: '
+    ,error: 'Error'
+
 };

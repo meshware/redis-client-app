@@ -83,4 +83,7 @@ exports.content = {
     , window: '窗口'
     , white: '白色'
     , black: '黑色'
+
+    ,insertRedisType: '请选择插入的类型: '
+    ,error: '错误'
 };

@@ -2,7 +2,7 @@
     <Card :bordered="true" :dis-hover="true">
         <Form :model="insertRedisFormValue" :rules="ruleValidate" ref="insertRedisForm" :label-width="80"
               style="with:95%;font-size: 30px; color: #6d7380; font-weight:900;">
-            <FormItem label="请选择插入的类型:" :label-width="120" prop="insertRedisType">
+            <FormItem :label="lang.insertRedisType" :label-width="140" prop="insertRedisType">
                 <RadioGroup v-model="insertRedisFormValue.insertRedisType">
                     <Radio v-for="redisType in redisTypes" :label="redisType.text"></Radio>
                 </RadioGroup>
@@ -17,11 +17,11 @@
                 <Input v-model="insertRedisFormValue.insertSortedSet"/>
             </FormItem>
             <FormItem>
-                <Button @click.native.prevent="submitInsertForm" type="primary" shape="circle">保存</Button>
+                <Button @click.native.prevent="submitInsertForm" type="primary" shape="circle">{{lang.save}}</Button>
             </FormItem>
             <Card style="color:red" v-show="showRedisInsertError">
                 <div style="margin-left: 10px">
-                    <span>错误:</span>
+                    <span>{{lang.error}}</span>
                     <Row style="width: 100%; word-wrap:break-word;">{{errorRedisInsertMessage}}</Row>
                 </div>
             </Card>
