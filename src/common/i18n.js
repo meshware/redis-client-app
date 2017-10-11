@@ -1,4 +1,8 @@
+/**
+ * i18n Support
+ */
 'use strict';
+const app = require('electron').remote.app;
 
 const languages = {
     'en': require('../i18n/en').content,
@@ -31,7 +35,7 @@ module.exports = {
             }
             return languages[lang] || languages['en'];
         } else {
-            return 'cn';
+            return languages[(app.getLocale() || '').split('-')[0].toLowerCase() || 'en'];
         }
     },
 
