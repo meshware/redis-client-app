@@ -31,8 +31,10 @@
 
 <script>
     export default{
-        data(){
+        data() {
+            let self = this;
             return {
+                lang: self.i18n,
                 redisTypes: [
                     {text: 'String'},
                     {text: 'List'},
@@ -43,7 +45,7 @@
                 insertRedisFormValue: {
                     insertStringKey: '',
                     insertStringValue: '',
-                    insertSortedSet:1,
+                    insertSortedSet: 1,
                     insertRedisType: 'String',
                 },
                 ruleValidate: {

@@ -9,7 +9,7 @@ appIcon.loadTray = function (main) {
     appIcon = new Tray(iconPath);
     const contextMenu = Menu.buildFromTemplate([
         {
-            label: '打开',
+            label: 'Open',
             type: 'normal',
             // accelerator: 'CommandOrControl+Q',
             click: function () {
@@ -21,15 +21,15 @@ appIcon.loadTray = function (main) {
             }
         },
         {
-            label: '退出',
+            label: 'Exit',
             type: 'normal',
             accelerator: 'CommandOrControl+Q',
             click: function () {
                 const options = {
                     type: 'info',
-                    title: '退出系统',
-                    message: "确认要退出量化平台客户端吗?",
-                    buttons: ['是', '否']
+                    title: 'Exit',
+                    message: "Are you sure to exit?",
+                    buttons: ['Yes', 'No']
                 };
                 dialog.showMessageBox(options, function (index) {
                     if (index === 0) {

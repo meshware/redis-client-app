@@ -16,6 +16,7 @@
     import {remote, ipcRenderer} from 'electron';
     import App from './components/SubMain.vue';
     import router from './routes';
+    import i18n from './common/i18n';
     // import VueCodeMirror from 'vue-codemirror'
 
     import iView from 'iview';
@@ -32,6 +33,7 @@
     Vue.axios = Vue.prototype.$axios = axios;
     Vue.$ = Vue.prototype.$ = $;
     Vue.config.productionTip = false;
+    Vue.i18n = Vue.prototype.i18n = i18n.getLang(window.localStorage.getItem('lang'));
 
     //拦截器
     axios.interceptors.response.use((response) => {

@@ -2,7 +2,7 @@
     <div style="">
         <div class="quyu clearfix">
             <div class="q-left">KEY: {{ $route.params.key }}</div>
-            <Button type="error" class="delete" size="small" @click="deleteKey($route.params.key)">删除</Button>
+            <Button type="error" class="delete" size="small" @click="deleteKey($route.params.key)">{{lang.delete}}</Button>
             <!-- <a href="javascript:;" class="delete" @click="deleteKey($route.params.key)">删除</a> -->
         </div>
         <div class="text-area">
@@ -25,19 +25,21 @@
         name: 'landing-page',
         components: {},
         data () {
+            let self = this;
             return {
+                lang: self.i18n,
                 type: this.$route.params.type,
                 key: this.$route.params.key,
                 columns: [
                     {
-                        title: '内容',
+                        title: self.i18n.content,
                         key: 'context',
                         sortable: true
                         // width: 500,
                         // fixed: 'left'
                     },
                     {
-                        title: '操作',
+                        title: self.i18n.operate,
                         key: 'action',
                         width: 150,
                         align: 'center',
@@ -56,7 +58,7 @@
                                             this.show(params.index)
                                         }
                                     }
-                                }, '查看')
+                                }, self.i18n.display)
                                 // h('Button', {
                                 //     props: {
                                 //         type: 'error',
@@ -95,6 +97,11 @@
              */
             deleteKey(key) {
                 let self = this;
+                console.log(global.lang);
+                console.log(self.$root);
+                console.log(self.$root.$data);
+                console.log(self.$parent.$data);
+                console.log(self.$parent.lang);
                 this.$Modal.confirm({
                     title: '删除提示',
                     content: '确认删除该键值吗？',

@@ -8,24 +8,34 @@
                 </div>
                 <div class="menu-group">
                     <Button-group size="small">
-                        <Button type="primary" @click="addNewDB"><Icon type="ios-plus"></Icon> 添加</Button>
-                        <Button type="primary" @click="updateDB"><Icon type="edit"></Icon> 编辑</Button>
-                        <Button type="primary" @click="delDBModel = true"><Icon type="trash-a"></Icon> 删除</Button>
+                        <Button type="primary" @click="addNewDB"><Icon type="ios-plus"></Icon> {{lang.add}}</Button>
+                        <Button type="primary" @click="updateDB"><Icon type="edit"></Icon> {{lang.edit}}</Button>
+                        <Button type="primary" @click="delDBModel = true"><Icon type="trash-a"></Icon> {{lang.delete}}</Button>
                     </Button-group>
-                    <Dropdown trigger="click" placement="bottom-end" style="margin-left: 175px; vertical-align: middle;">
+                    <Dropdown trigger="click" placement="bottom-end" style="margin-left: 170px; vertical-align: middle;">
                         <a href="javascript:void(0)">
                             <Icon type="settings" size="18"></Icon>
                         </a>
                         <Dropdown-menu slot="list">
-                            <Dropdown-item>其他</Dropdown-item>
+                            <!--<Dropdown-item>其他</Dropdown-item>-->
                             <Dropdown placement="left-start">
                                 <Dropdown-item>
-                                    主题
+                                    {{lang.theme}}
                                     <Icon type="ios-arrow-right"></Icon>
                                 </Dropdown-item>
                                 <Dropdown-menu slot="list">
                                     <Dropdown-item name='light' @click.native="themeType = 'light'">白色</Dropdown-item>
                                     <Dropdown-item name='dark' @click.native="themeType = 'dark'">黑色</Dropdown-item>
+                                </Dropdown-menu>
+                            </Dropdown>
+                            <Dropdown placement="left-start">
+                                <Dropdown-item>
+                                    {{lang.language}}
+                                    <Icon type="ios-arrow-right"></Icon>
+                                </Dropdown-item>
+                                <Dropdown-menu slot="list">
+                                    <Dropdown-item name='cn' @click.native="changeLanguage('cn')">中文</Dropdown-item>
+                                    <Dropdown-item name='en' @click.native="changeLanguage('en')">English</Dropdown-item>
                                 </Dropdown-menu>
                             </Dropdown>
                         </Dropdown-menu>
@@ -82,6 +92,8 @@
     import subMain from './sub_main';
     import config from './common/config_util';
     import addUpdateWindow from './scripts/manage/add_update_window';
+    import i18n from './common/i18n';
+
     const dialog = require('electron').remote.dialog;
     const ipc = require('electron').remote.ipcMain;
 
@@ -96,7 +108,8 @@
                 dbGroups: config.configFile,
                 selDBIndex: -1,
                 addDBModel: false,
-                delDBModel: false
+                delDBModel: false,
+                lang: {}
             }
         },
         methods: {
@@ -133,10 +146,20 @@
                 } else {
                     dialog.showErrorBox('操作错误', "未选择需要修改的数据库！");
                 }
+            },
+            changeLanguage(lang) {
+                let self = this;
+                self.lang = i18n.getLang(lang);
+                console.log(self.lang);
+                window.localStorage.setItem('lang', lang);
+//                global.lang = self.lang;
             }
         },
-        mounted:function(){
+        mounted: function () {
             let self = this;
+//            console.log(global.user_language);
+            self.lang = self.i18n;
+//            global.lang = self.lang;
             ipc.on('add-database', function (event, arg) {
                 console.log('The group list has changed!');
                 self.dbGroups = config.getDBGroups();

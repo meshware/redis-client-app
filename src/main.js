@@ -9,6 +9,10 @@ import menu from './common/menu';
 import appIcon from './common/tray';
 import log from './common/logger';
 
+// const pref = require('./server/pref');
+let user_language = (app.getLocale() || '').split('-')[0].toLowerCase() || 'en';
+global.user_language = user_language;
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let main = {};
@@ -67,7 +71,7 @@ app.on('ready', () => {
     main.createWindow();
     menu.menuInit();
     appIcon.loadTray(main);
-    log.info("Load main process success!");
+    log.info("Load main process success! Current system language type:" + user_language);
     // Promise.race(menu.menuInit, appIcon.loadTray).then(function (message) {
     //     log.info("Load main process success!");
     // }).catch(function (exception) {
@@ -92,5 +96,8 @@ app.on('activate', () => {
     }
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
+// relaunch
+ipcMain.on('relaunch', () => {
+    app.relaunch({args: process.argv.slice(1) + ['--relaunch']});
+    app.exit(0)
+});

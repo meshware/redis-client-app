@@ -35,10 +35,10 @@
                 <div id="right-content" style="height:100%; padding-left:10px; padding-top: 2px;">
                     <div class="bd-title clearfix" style="-webkit-app-region: drag;">
                         <ul class="cont-qie clearfix">
-                            <li id="contentTab" class="cur-li"><a href="javascript:;">内容</a></li>
-                            <li><a href="javascript:;">添加</a></li>
-                            <li><a href="javascript:;">设置</a></li>
-                            <li><a href="javascript:;">状态</a></li>
+                            <li id="contentTab" class="cur-li"><a href="javascript:;">{{lang.content}}</a></li>
+                            <li><a href="javascript:;">{{lang.add_content}}</a></li>
+                            <li><a href="javascript:;">{{lang.setting}}</a></li>
+                            <li><a href="javascript:;">{{lang.status}}</a></li>
                         </ul>
                     </div>
 
@@ -50,7 +50,7 @@
                             <insert-data-to-redis @doSearchKey="doSearchKey"></insert-data-to-redis>
                         </div>
                         <div class="content-new">
-                            <Setting></Setting>
+                            <Setting ref="lang"></Setting>
                         </div>
                         <div class="content-new">
                             <Status></Status>
@@ -79,6 +79,7 @@
             insertDataToRedis
         },
         data() {
+            let self = this;
             return {
                 isMac: require('os').platform() === 'darwin',
                 dbNums: 1,
@@ -86,7 +87,8 @@
                 selectedDB: 0,
                 searchKey: '',
                 redisAlias: this.redisAlias,
-                modalLoading: false
+                modalLoading: false,
+                lang: self.i18n
             }
         },
         computed: {

@@ -106,6 +106,7 @@
         name: 'status',
         components: {},
         data() {
+            let self = this;
             return {
                 delDBModel: false,
                 modalLoading: false,
@@ -113,7 +114,8 @@
                 memoryPeakData: [],
                 clientInfo: {connected_clients: 0},
                 serverInfo: {},
-                dbInfo: {}
+                dbInfo: {},
+                lang: self.i18n
             }
         },
         computed: {

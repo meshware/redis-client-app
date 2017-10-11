@@ -12,6 +12,8 @@ import App from './App.vue';
 import router from './routes';
 
 import iView from 'iview';
+import i18n from './common/i18n';
+
 // import 'iview/dist/styles/iview.css';    // 使用 CSS
 
 Vue.use(iView);
@@ -25,6 +27,7 @@ axios.defaults.withCredentials = true;
 Vue.axios = Vue.prototype.$axios = axios;
 Vue.$ = Vue.prototype.$ = jquery;
 Vue.config.productionTip = false;
+Vue.i18n = Vue.prototype.i18n = i18n.getLang(window.localStorage.getItem('lang'));
 
 //拦截器
 axios.interceptors.response.use((response) => {

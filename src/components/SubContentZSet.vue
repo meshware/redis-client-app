@@ -2,7 +2,7 @@
     <div style="">
         <div class="quyu clearfix">
             <div class="q-left">KEY: {{ $route.params.key }}</div>
-            <Button type="error" class="delete" size="small" @click="deleteKey($route.params.key)">删除</Button>
+            <Button type="error" class="delete" size="small" @click="deleteKey($route.params.key)">{{lang.delete}}</Button>
             <!-- <a href="javascript:;" class="delete" @click="deleteKey($route.params.key)">删除</a> -->
         </div>
         <div class="text-area">
@@ -16,12 +16,14 @@
         name: 'landing-page',
         components: {},
         data () {
+            let self = this;
             return {
+                lang: self.i18n,
                 type: this.$route.params.type,
                 key: this.$route.params.key,
                 columns: [
                     {
-                        title: '序号',
+                        title: this.lang.id,
                         key: 'key',
                         width: 150,
                         fixed: 'left'

@@ -9,7 +9,7 @@
         <Card :bordered="false" :dis-hover="true" style="width:100%">
             <div style="padding-top:100px; text-align:center">
                 <img src="./asserts/icons/256xieicon.png">
-                <h3>基于IORedis, Electron的Redis桌面客户端</h3>
+                <h3>{{lang.app_introduce}}</h3>
             </div>
         </Card>
     <!-- <div class="layout-copy">
@@ -19,17 +19,18 @@
 </template>
 
 <script>
-    import SystemInformation from './landingPage/SystemInformation'
+//    import SystemInformation from './landingPage/SystemInformation'
 
-    import executor from '../common/executor';
-
+//    import executor from '../common/executor';
 //    executor.run("ls /");
 
     export default {
         name: 'landing-page',
-        components: {SystemInformation},
+        components: {},
         data () {
+            let self = this;
             return {
+                lang: self.i18n,
                 key: this.$route.params.key,
                 content: null,
                 spanLeft: 5,

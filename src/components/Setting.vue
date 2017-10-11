@@ -1,25 +1,25 @@
 <template>
     <div class="setting" id="settingDiv">
         <Card :bordered="false" :dis-hover="true" style="width:100%; height: 150px">
-            <p slot="title">内容设置</p>
+            <p slot="title">{{lang.set_content}}</p>
             <Row align="middle">
-                <Col span="19">清空当前选择的数据库中的所有数据，不可恢复！</Col>
+                <Col span="19">{{lang.flush_db_notice}}</Col>
                 <Col span="5">
-                    <Button style="margin-top: -5px;" @click="flushDB" type="error" size="small">确认清空</Button>
+                    <Button style="margin-top: -5px;" @click="flushDB" type="error" size="small">{{lang.confirm}}</Button>
                 </Col>
             </Row>
         </Card>
-        <Modal v-model="delDBModel" title="清空数据库" width="300">
+        <Modal v-model="delDBModel" title="${lang.flush_db}" width="300">
             <p slot="header" style="color:#f60;text-align:center">
                 <Icon type="information-circled"></Icon>
-                <span>数据清空</span>
+                <span>{{lang.flush_db}}</span>
             </p>
             <div style="text-align:center">
-                <p>清空数据后，数据将不可找回。</p>
-                <p>是否继续清空？</p>
+                <p>{{lang.flush_db_notice2}}</p>
+                <p>{{lang.flush_db_notice3}}</p>
             </div>
             <div slot="footer">
-                <Button type="error" size="large" long :loading="modalLoading" @click="doFlushDB">删除</Button>
+                <Button type="error" size="large" long :loading="modalLoading" @click="doFlushDB">{{lang.delete}}</Button>
             </div>
         </Modal>
     </div>
@@ -34,9 +34,11 @@
         name: 'setting',
         components: {},
         data() {
+            let self = this;
             return {
                 delDBModel: false,
-                modalLoading: false
+                modalLoading: false,
+                lang: self.i18n
             }
         },
         computed: {
