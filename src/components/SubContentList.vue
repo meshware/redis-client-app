@@ -103,8 +103,8 @@
                 console.log(self.$parent.$data);
                 console.log(self.$parent.lang);
                 this.$Modal.confirm({
-                    title: '删除提示',
-                    content: '确认删除该键值吗？',
+                    title: this.lang.delete,
+                    content: this.lang.delete_notice,
                     onOk: () => {
                         self.redis.del(key).then(function (result) {
                             if (result === 1) {
@@ -141,14 +141,14 @@
             },
             show (index) {
                 this.$Modal.info({
-                    title: '详细内容',
+                    title: this.lang.content_detail,
                     content: `${this.content[index].context}`
                 })
             },
             remove (index) {
                 this.$Modal.confirm({
-                    title: '删除提示',
-                    content: '确认删除该键值吗？',
+                    title: this.lang.delete,
+                    content: this.lang.delete_notice,
                     onOk: () => {
                         self.redis.hdel(self.$route.params.key, self.content[index].key).then(function (result) {
                             console.log(result);

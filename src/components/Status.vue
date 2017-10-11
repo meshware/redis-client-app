@@ -2,7 +2,7 @@
     <div style="" id="statusDiv">
         <div class="quyu clearfix">
             <div class="q-left"></div>
-            <Button type="error" class="delete" size="small" @click="refreshStatus">刷新</Button>
+            <Button type="error" class="delete" size="small" @click="refreshStatus">{{lang.refresh}}</Button>
             <!--<a href="javascript:;" class="delete" @click="deleteKey($route.params.key)">删除</a>-->
         </div>
         <div class="text-area">
@@ -27,13 +27,13 @@
             <div style="width: 98%; margin-top: 10px">
                 <Row align="middle">
                     <Col span="6" style="text-align: right">
-                    Redis版本：
+                    {{lang.redis_version}}：
                     </Col>
                     <Col span="6">
                     {{serverInfo.redis_version}}
                     </Col>
                     <Col span="6" style="text-align: right">
-                    Redis模式：
+                    {{lang.redis_mode}}：
                     </Col>
                     <Col span="6">
                     {{serverInfo.redis_mode}}
@@ -41,13 +41,13 @@
                 </Row>
                 <Row align="middle">
                     <Col span="6" style="text-align: right">
-                    当前连接数：
+                    {{lang.redis_connects}}：
                     </Col>
                     <Col span="6">
                     {{clientInfo.connected_clients}}
                     </Col>
                     <Col span="6" style="text-align: right">
-                    服务器版本：
+                    {{lang.redis_linux_version}}：
                     </Col>
                     <Col span="6">
                     {{serverInfo.os}}
@@ -55,13 +55,13 @@
                 </Row>
                 <Row align="middle">
                     <Col span="6" style="text-align: right">
-                    进程ID：
+                    {{lang.process_id}}：
                     </Col>
                     <Col span="6">
                     {{serverInfo.process_id}}
                     </Col>
                     <Col span="6" style="text-align: right">
-                    运行天数：
+                    {{lang.run_days}}：
                     </Col>
                     <Col span="6">
                     {{serverInfo.uptime_in_days}}
@@ -142,29 +142,29 @@
                             //     usedMemory.human = element.replace('used_memory_human:', '');
                             // }
                             if (element.indexOf('used_memory_rss:') >= 0) {
-                                usedMemory.name = '使用内存';
+                                usedMemory.name = self.lang.memory_use;
                                 usedMemory.y = parseFloat(element.replace('used_memory_rss:', ''));
                             }
                             if (element.indexOf('used_memory_rss_human:') >= 0) {
                                 usedMemory.human = element.replace('used_memory_rss_human:', '');
                             }
                             if (element.indexOf('used_memory_peak:') >= 0) {
-                                usedMemoryPeak.name = '使用峰值';
+                                usedMemoryPeak.name = self.lang.memory_peak;
                                 usedMemoryPeak.y = parseFloat(element.replace('used_memory_peak:', ''));
                             }
                             if (element.indexOf('used_memory_peak_human:') >= 0) {
                                 usedMemoryPeak.human = element.replace('used_memory_peak_human:', '');
                             }
                             if (element.indexOf('total_system_memory:') >= 0) {
-                                totalMemory.name = '剩余内存';
+                                totalMemory.name = self.lang.memory_surplus;
                                 totalMemory.y = parseFloat(element.replace('total_system_memory:', '')) - usedMemory.y;
 
-                                totalMemoryPeak.name = '剩余内存';
+                                totalMemoryPeak.name = self.lang.memory_surplus;
                                 totalMemoryPeak.y = parseFloat(element.replace('total_system_memory:', '')) - usedMemoryPeak.y;
                             }
                             if (element.indexOf('total_system_memory_human:') >= 0) {
-                                totalMemory.human = (totalMemory.y / 1073741824).toFixed(2) + 'G' //element.replace('total_system_memory_human:', '');
-                                totalMemoryPeak.human = (totalMemoryPeak.y / 1073741824).toFixed(2) + 'G' //element.replace('total_system_memory_human:', '');
+                                totalMemory.human = (totalMemory.y / 1073741824).toFixed(2) + 'G'; //element.replace('total_system_memory_human:', '');
+                                totalMemoryPeak.human = (totalMemoryPeak.y / 1073741824).toFixed(2) + 'G'; //element.replace('total_system_memory_human:', '');
                             }
                         });
                         self.memoryData = [usedMemory, totalMemory];
@@ -234,11 +234,12 @@
                         alert(res);
                     });
                 } else {
-                    self.drawServerChart([{name: '使用内存', y: 0}, {name: '剩余内存', y: 0}]);
-                    self.drawMemoryChart([{name: '峰值内存', y: 0}, {name: '剩余内存', y: 0}]);
+                    self.drawServerChart([{name: self.lang.memory_use, y: 0}, {name: self.lang.memory_surplus, y: 0}]);
+                    self.drawMemoryChart([{name: self.lang.memory_peak, y: 0}, {name: self.lang.memory_surplus, y: 0}]);
                 }
             },
             drawMemoryChart: function (dataArray) {
+                let self = this;
                 Highcharts.chart("memoryChart", {
                     exporting: {
                         enabled: false
@@ -253,7 +254,7 @@
                         plotShadow: false
                     },
                     title: {
-                        text: '内存使用峰值占比'
+                        text: self.lang.memory_peak_title
                     },
                     tooltip: {
                         headerFormat: '{series.name}<br>',
@@ -275,12 +276,13 @@
                     },
                     series: [{
                         type: 'pie',
-                        name: '内存占比',
+                        name: self.lang.memory_radio,
                         data: dataArray
                     }]
                 });
             },
             drawServerChart: function (dataArray) {
+                let self = this;
                 Highcharts.chart("serverChart", {
                     exporting: {
                         enabled: false
@@ -295,7 +297,7 @@
                         plotShadow: false
                     },
                     title: {
-                        text: '内存使用占比'
+                        text: self.lang.memory_use_title
                     },
                     tooltip: {
                         headerFormat: '{series.name}<br>',
@@ -317,7 +319,7 @@
                     },
                     series: [{
                         type: 'pie',
-                        name: '内存占比',
+                        name: self.lang.memory_radio,
                         data: dataArray
                     }]
                 });

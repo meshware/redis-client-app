@@ -1,20 +1,20 @@
 <template>
     <div class="add-db">
     <Form ref="dbConfig" :model="dbConfig" :label-width="60" :rules="ruleInline">
-        <Form-item label="别名" prop="alias">
-            <Input v-model="dbConfig.alias" placeholder="请输入"></Input>
+        <Form-item :label="lang.alias" prop="alias">
+            <Input v-model="dbConfig.alias" placeholder=""></Input>
         </Form-item>
-        <Form-item label="IP地址" prop="host">
-            <Input v-model="dbConfig.host" placeholder="请输入"></Input>
+        <Form-item :label="lang.ip" prop="host">
+            <Input v-model="dbConfig.host" placeholder=""></Input>
         </Form-item>
-        <Form-item label="端口" prop="port">
+        <Form-item :label="lang.port" prop="port">
             <InputNumber v-model="dbConfig.port"></InputNumber>
         </Form-item>
-        <Form-item label="密码">
-            <Input v-model="dbConfig.password" placeholder="请输入"></Input>
+        <Form-item :label="lang.password">
+            <Input v-model="dbConfig.password" placeholder=""></Input>
         </Form-item>
         
-        <Button @click="saveDB" type="primary" long>保存</Button>
+        <Button @click="saveDB" type="primary" long>{{lang.save}}</Button>
 
     </Form>
     </div>
@@ -26,7 +26,9 @@
     export default {
         name: "addDB",
         data () {
+            let self = this;
             return {
+                lang: self.i18n,
                 update: false,
                 oldAlias: '',
                 dbConfig: {
@@ -40,10 +42,10 @@
                 },
                 ruleInline: {
                     host: [
-                        { required: true, message: '请填写IP地址', trigger: 'blur' }
+                        { required: true, message: self.i18n.input_ip, trigger: 'blur' }
                     ],
                     alias: [
-                        { required: true, message: '请填写别名', trigger: 'blur' }
+                        { required: true, message: self.i18n.input_alias, trigger: 'blur' }
                     ]
                 }
             }
@@ -71,25 +73,25 @@
                                         console.log(element.alias === self.oldAlias);
                                         config.configFile[index] = self.dbConfig;
                                         config.saveConfigFile(config.configFile);
-                                        self.$Message.success('修改数据库成功！');
-                                        //                                    alert("修改数据库成功！");
+                                        self.$Message.success(self.lang.update_db_info_success);
+                                        //alert("修改数据库成功！");
                                         ipc.send('add-database', 'ping');
                                     }
                                 });
                             } else {
-                                self.$Message.error('存在相同别名数据库，请修改后再添加！');
+                                self.$Message.error(self.lang.has_same_alias_db);
                             }
                         } else if (!self.checkDBAlias(self.dbConfig.alias)) {
                             config.configFile.push(self.dbConfig);
                             config.saveConfigFile(config.configFile);
-                            self.$Message.success('新增数据库成功！');
+                            self.$Message.success(self.lang.add_db_info_success);
 //                            alert("新增数据库成功！");
                             ipc.send('add-database', 'ping');
                         } else {
-                            self.$Message.error('存在相同别名数据库，请修改后再添加！');
+                            self.$Message.error(self.lang.has_same_alias_db);
                         }
                     } else {
-                        this.$Message.error('表单验证失败，请修改后重试!');
+                        this.$Message.error(self.lang.verify_form_fail);
                         return false;
                     }
                 });
@@ -115,11 +117,13 @@
             let self = this;
             let $ = self.$;
             console.log("mounted...");
+            $("title").html(self.lang.add_db_info);
             ipc.on('transferData', (event, message) => {
                 console.log(message);
                 self.dbConfig = message;
                 self.oldAlias = message.alias;
                 self.update = true;
+                self.$("title").html(self.lang.update_db_info);
             })
         }
     }

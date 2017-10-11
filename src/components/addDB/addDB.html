@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>增加|修改数据库信息</title>
+    <title>Redis Client</title>
     <link rel="stylesheet" href="../../asserts/css/iview.css"/>
 </head>
 <body>
@@ -12,20 +12,22 @@
 
 <script>
     'use strict';
-    import axios from 'axios';
     import Vue from 'vue/dist/vue.js';
     import AddDB from './AddDB.vue'
 //    import Vue2Filters from 'vue2-filters';
     import $ from 'jquery';
     import config from '../../common/config_util';
     import notify from '../../common/notify';
-    import querystring from 'querystring';
+    import i18n from '../../common/i18n';
 //    import './scripts/vue/vue-plugin';
     const dialog = require('electron').remote.dialog;
     const ipc = require('electron').ipcRenderer;
     import iView from 'iview';
 
     Vue.use(iView);
+
+    Vue.$ = Vue.prototype.$ = $;
+    Vue.i18n = Vue.prototype.i18n = i18n.getLang(window.localStorage.getItem('lang'));
     // ipc.on('transferData', (event, message) => {
     //     let strategyId = message.strategyId;
     //     let strategyVersionId = message.strategyVersionId;

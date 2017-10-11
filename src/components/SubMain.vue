@@ -28,7 +28,7 @@
                         </Menu-item>
                     </Menu>
                 </div>
-                <Input class="key-filter" v-model="searchKey" icon="ios-eye" placeholder="请输入查询表达式..."
+                <Input class="key-filter" v-model="searchKey" icon="ios-eye" :placeholder="lang.search_notice"
                        @on-change="doSearchKey" size="small"/>
             </i-col>
             <i-col span="19" style="height: 100%">

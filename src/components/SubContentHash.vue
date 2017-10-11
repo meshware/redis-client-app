@@ -23,21 +23,21 @@
                 key: this.$route.params.key,
                 columns: [
                     {
-                        title: '键值',
+                        title: self.i18n.key,
                         key: 'key',
                         sortable: true,
                         width: 150,
                         fixed: 'left'
                     },
                     {
-                        title: '内容',
+                        title: self.i18n.content,
                         key: 'context',
                         sortable: true
                         // width: 500,
                         // fixed: 'left'
                     },
                     {
-                        title: '操作',
+                        title: self.i18n.operate,
                         key: 'action',
                         width: 150,
                         align: 'center',
@@ -56,7 +56,7 @@
                                             this.show(params.index)
                                         }
                                     }
-                                }, '查看'),
+                                }, self.i18n.display),
                                 h('Button', {
                                     props: {
                                         type: 'error',
@@ -67,7 +67,7 @@
                                             this.remove(params.index)
                                         }
                                     }
-                                }, '删除')
+                                }, self.i18n.delete)
                             ]);
                         }
                     }
@@ -96,8 +96,8 @@
             deleteKey(key) {
                 let self = this;
                 this.$Modal.confirm({
-                    title: '删除提示',
-                    content: '确认删除该键值吗？',
+                    title: this.lang.delete,
+                    content: this.lang.delete_notice,
                     onOk: () => {
                         self.redis.del(key).then(function (result) {
                             if (result === 1) {
@@ -137,15 +137,15 @@
             },
             show (index) {
                 this.$Modal.info({
-                    title: '详细内容',
+                    title: this.lang.content_detail,
                     content: `${this.content[index].context}`
                 })
             },
             remove (index) {
                 let self = this;
                 this.$Modal.confirm({
-                    title: '删除提示',
-                    content: '确认删除该键值吗？',
+                    title: this.lang.delete,
+                    content: this.lang.delete_notice,
                     onOk: () => {
                         self.redis.hdel(self.$route.params.key, self.content[index].key).then(function (result) {
                             console.log(result);

@@ -24,8 +24,8 @@
                                     <Icon type="ios-arrow-right"></Icon>
                                 </Dropdown-item>
                                 <Dropdown-menu slot="list">
-                                    <Dropdown-item name='light' @click.native="themeType = 'light'">白色</Dropdown-item>
-                                    <Dropdown-item name='dark' @click.native="themeType = 'dark'">黑色</Dropdown-item>
+                                    <Dropdown-item name='light' @click.native="themeType = 'light'">{{lang.white}}</Dropdown-item>
+                                    <Dropdown-item name='dark' @click.native="themeType = 'dark'">{{lang.black}}</Dropdown-item>
                                 </Dropdown-menu>
                             </Dropdown>
                             <Dropdown placement="left-start">
@@ -71,17 +71,17 @@
             <!--<router-view></router-view>-->
             <!--</i-col>-->
         </Row>
-        <Modal v-model="delDBModel" title="自定义宽度" width="300">
+        <Modal v-model="delDBModel" title="custom" width="300">
             <p slot="header" style="color:#f60;text-align:center">
                 <Icon type="information-circled"></Icon>
-                <span>删除确认</span>
+                <span>{{lang.delete_notice}}</span>
             </p>
             <div style="text-align:center">
-                <p>删除此数据库后，将不能再打开数据库内容。</p>
-                <p>是否继续删除？</p>
+                <p>{{lang.delete_db_notice1}}</p>
+                <p>{{lang.delete_db_notice2}}</p>
             </div>
             <div slot="footer">
-                <Button type="error" size="large" long :loading="modal_loading" @click="doDeleteDB">删除</Button>
+                <Button type="error" size="large" long :loading="modal_loading" @click="doDeleteDB">{{lang.delete}}</Button>
             </div>
         </Modal>
     </div>
@@ -123,6 +123,7 @@
                 this.selDBIndex = index;
             },
             doDeleteDB() {
+                let self = this;
                 this.delDBModel = false;
                 if (this.selDBIndex >= 0) {
                     config.loadConfigFile();
@@ -130,7 +131,7 @@
                     config.saveConfigFile(config.configFile);
                     this.dbGroups = config.configFile;
                 } else {
-                    dialog.showErrorBox('操作错误', "未选择需要删除的数据库！");
+                    dialog.showErrorBox(self.lang.operate_error, self.lang.unselect_db);
                 }
             },
             addNewDB () {
@@ -144,7 +145,7 @@
                 if (self.selDBIndex >= 0) {
                     addUpdateWindow.loadNewWindow(self.dbGroups[self.selDBIndex]);
                 } else {
-                    dialog.showErrorBox('操作错误', "未选择需要修改的数据库！");
+                    dialog.showErrorBox(self.lang.operate_error, self.lang.unselect_db);
                 }
             },
             changeLanguage(lang) {
