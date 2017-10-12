@@ -1,18 +1,19 @@
-# redis-client-app
+# RCA (redis-client-app)
 
 ## Intruduction
 
 A redis client application on mac, windows and linux.
 
-> PS: The project is currently the original version, without rigorous testing.
+> PS: The project is still the original version, without rigorous testing. Expect the interested person to download and try it out.
 
-<img style="box-shadow: 3px 2px 15px #888888; padding:3px;" src="./screenshots/main-windows.png" alt="Windows版主界面"/>
 <img style="box-shadow: 3px 2px 15px #888888; padding:3px;" src="./screenshots/main.png" alt="Mac版主界面"/> 
 <img style="box-shadow: 3px 2px 15px #888888; padding:3px;" src="./screenshots/submain-mac-1.png" alt="Mac版子界面"/>
+<img style="box-shadow: 3px 2px 15px #888888; padding:3px;" src="./screenshots/submain-mac-4.png" alt="Mac版子界面"/>
 <img style="box-shadow: 3px 2px 15px #888888; padding:3px;" src="./screenshots/submain-mac-2.png" alt="Mac版子界面"/>
 <img style="box-shadow: 3px 2px 15px #888888; padding:3px;" src="./screenshots/submain-mac-3.png" alt="Mac版子界面"/>
 <img style="box-shadow: 3px 2px 15px #888888; padding:3px;" src="./screenshots/main-linux.png" alt="Linux版主界面"/>
 <img style="box-shadow: 3px 2px 15px #888888; padding:3px;" src="./screenshots/submain-linux.png" alt="Linux版子界面"/>
+<img style="box-shadow: 3px 2px 15px #888888; padding:3px;" src="./screenshots/main-windows.png" alt="Windows版主界面"/>
 
 <!-- ![screenshot1](./screenshots/main.png)
 ![screenshot2](./screenshots/submain-mac-1.png)
@@ -22,7 +23,7 @@ A redis client application on mac, windows and linux.
 
 >### 2017-10-12
 >
-> 1. The project was first released. Thanks the contributors: [wentao.fan](https://github.com/felix5fan)
+> 1. The project was first released.
 
 >### 2017-08-10
 >
