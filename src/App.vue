@@ -58,7 +58,7 @@
                     </Menu>
                 </div>
                 <div class="search-div">
-                    <Input class="search-box" v-model="filterKey" @on-change="doFilter">
+                    <Input class="search-box" v-model="filterKey" @on-change="doFilter" :placeholder="lang.filter_db_placeholder">
                     <!--<Select v-model="select3" slot="prepend" style="width: 80px">-->
                         <!--<Option value="day">日活</Option>-->
                         <!--<Option value="month">月活</Option>-->

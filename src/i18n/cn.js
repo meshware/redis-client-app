@@ -57,6 +57,7 @@ exports.content = {
     , verify_form_fail: '表单验证失败，请修改后重试！'
     , operate_error: '操作错误'
     , unselect_db: '还未选择需要操作的数据库！'
+    , filter_db_placeholder: '输入关键词过滤数据库...'
 
     , check_update: '检查更新'
     , close: '关闭'

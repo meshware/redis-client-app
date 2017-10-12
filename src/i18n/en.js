@@ -57,6 +57,7 @@ exports.content = {
     , verify_form_fail: 'The form validation failed, please revise and try again!'
     , operate_error: 'Operate Error'
     , unselect_db: 'You have not selected the database you need to manipulate!'
+    , filter_db_placeholder: 'Enter the keyword filter database...'
 
     , check_update: 'Check for updates'
     , close: 'Close'
