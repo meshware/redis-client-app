@@ -6,6 +6,7 @@ A redis client application on mac, windows and linux.
 
 > PS: The project is currently the original version, without rigorous testing.
 
+<img style="box-shadow: 3px 2px 15px #888888; padding:3px;" src="./screenshots/main-windows.png" alt="Windows版主界面"/>
 <img style="box-shadow: 3px 2px 15px #888888; padding:3px;" src="./screenshots/main.png" alt="Mac版主界面"/> 
 <img style="box-shadow: 3px 2px 15px #888888; padding:3px;" src="./screenshots/submain-mac-1.png" alt="Mac版子界面"/>
 <img style="box-shadow: 3px 2px 15px #888888; padding:3px;" src="./screenshots/submain-mac-2.png" alt="Mac版子界面"/>
