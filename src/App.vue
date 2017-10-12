@@ -58,7 +58,7 @@
                     </Menu>
                 </div>
                 <div class="search-div">
-                    <Input class="search-box" v-model="filterKey">
+                    <Input class="search-box" v-model="filterKey" @on-change="doFilter">
                     <!--<Select v-model="select3" slot="prepend" style="width: 80px">-->
                         <!--<Option value="day">日活</Option>-->
                         <!--<Option value="month">月活</Option>-->
@@ -109,19 +109,29 @@
                 selDBIndex: -1,
                 addDBModel: false,
                 delDBModel: false,
-                lang: {}
+                lang: {},
+                filterKey: ''
             }
         },
         methods: {
             open(link) {
                 this.$electron.shell.openExternal(link)
             },
+            /**
+             * 打开数据库子窗口
+             */
             showSubWindows: function (redisAlias) {
                 subMain.loadNewWindow(redisAlias);
             },
-            chooseDB(index){
+            /**
+             * 单击某数据库切换选择游标
+             */
+            chooseDB(index) {
                 this.selDBIndex = index;
             },
+            /**
+             * 删除数据库
+             */
             doDeleteDB() {
                 let self = this;
                 this.delDBModel = false;
@@ -134,13 +144,16 @@
                     dialog.showErrorBox(self.lang.operate_error, self.lang.unselect_db);
                 }
             },
-            addNewDB () {
+            /**
+             * 打开新增数据库窗口
+             */
+            addNewDB() {
                 addUpdateWindow.loadNewWindow();
             },
             /**
              * 修改数据库连接
              */
-            updateDB: function (){
+            updateDB: function () {
                 let self = this;
                 if (self.selDBIndex >= 0) {
                     addUpdateWindow.loadNewWindow(self.dbGroups[self.selDBIndex]);
@@ -148,12 +161,32 @@
                     dialog.showErrorBox(self.lang.operate_error, self.lang.unselect_db);
                 }
             },
+            /**
+             * 切换显示语言
+             *
+             * @param lang
+             */
             changeLanguage(lang) {
                 let self = this;
                 self.lang = i18n.getLang(lang);
-                console.log(self.lang);
                 window.localStorage.setItem('lang', lang);
 //                global.lang = self.lang;
+            },
+            /**
+             * 过滤数据库
+             */
+            doFilter() {
+                let self = this;
+                if (self.filterKey !== '') {
+                    self.dbGroups = [];
+                    config.getDBGroups().forEach(function (element, index) {
+                        if (element.alias.indexOf(self.filterKey) >= 0) {
+                            self.dbGroups.push(element);
+                        }
+                    });
+                } else {
+                    self.dbGroups = config.getDBGroups();
+                }
             }
         },
         mounted: function () {
