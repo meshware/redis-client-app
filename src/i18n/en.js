@@ -87,5 +87,4 @@ exports.content = {
 
     ,insertRedisType: 'Choose insert type: '
     ,error: 'Error'
-
 };

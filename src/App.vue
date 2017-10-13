@@ -12,7 +12,7 @@
                         <Button type="primary" @click="updateDB"><Icon type="edit"></Icon> {{lang.edit}}</Button>
                         <Button type="primary" @click="delDBModel = true"><Icon type="trash-a"></Icon> {{lang.delete}}</Button>
                     </Button-group>
-                    <Dropdown trigger="click" placement="bottom-end" style="margin-left: 170px; vertical-align: middle;">
+                    <Dropdown trigger="click" placement="bottom-end" style="margin-left: 190px; vertical-align: middle;">
                         <a href="javascript:void(0)">
                             <Icon type="settings" size="18"></Icon>
                         </a>
@@ -311,15 +311,15 @@
     }
 
     .menu-group {
-        margin: 5px 24px 0px 24px;
+        margin: 5px 10px 0px 15px;
 
     }
 
     .search-div {
         position: absolute;
-        left: 20px;
+        left: 15px;
         bottom: 15px;
-        width: 90%;
+        width: 93%;
     }
 
     .search-box {
