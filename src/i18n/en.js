@@ -87,4 +87,8 @@ exports.content = {
 
     ,insertRedisType: 'Choose insert type: '
     ,error: 'Error'
+    ,deleteConfirm: 'Delete Confirmation'
+    ,deleteConfirmInfo: 'The original data will be covered！'
+    ,deleteConfirmYesOrNo:'Do you want delete original data？'
+
 };

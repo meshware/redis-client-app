@@ -87,4 +87,7 @@ exports.content = {
 
     ,insertRedisType: '请选择插入的类型: '
     ,error: '错误'
+    ,deleteConfirm: '删除确认'
+    ,deleteConfirmInfo: '原有数据将被覆盖！'
+    ,deleteConfirmYesOrNo:'是否删除原有数据？'
 };
