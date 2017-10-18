@@ -17,7 +17,6 @@ const iconPath = path.join(__dirname, './asserts/icons', iconName);
 
 let updateWindow = {};
 
-console.log(__dirname);
 updateWindow.loadNewWindow = function (configFile) {
     const modalPath = path.join('file://', __dirname, '../../components/addDB/addDB.html');
     let win = new BrowserWindow({

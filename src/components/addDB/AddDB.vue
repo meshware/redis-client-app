@@ -70,12 +70,12 @@
                             if (!self.checkDBAlias(self.dbConfig.alias) || self.dbConfig.alias === self.oldAlias) {
                                 config.configFile.forEach(function(element, index) {
                                     if (element.alias === self.oldAlias) {
-                                        console.log(element.alias === self.oldAlias);
+                                        // console.log(element.alias === self.oldAlias);
                                         config.configFile[index] = self.dbConfig;
                                         config.saveConfigFile(config.configFile);
                                         self.$Message.success(self.lang.update_db_info_success);
                                         //alert("修改数据库成功！");
-                                        ipc.send('add-database', 'ping');
+                                        ipc.send('add-database', config.configFile);
                                     }
                                 });
                             } else {
@@ -86,7 +86,7 @@
                             config.saveConfigFile(config.configFile);
                             self.$Message.success(self.lang.add_db_info_success);
 //                            alert("新增数据库成功！");
-                            ipc.send('add-database', 'ping');
+                            ipc.send('add-database', config.configFile);
                         } else {
                             self.$Message.error(self.lang.has_same_alias_db);
                         }
@@ -105,6 +105,7 @@
             checkDBAlias(alias) {
                 let self = this;
                 let hasSameName = false;
+                config.loadConfigFile();
                 config.configFile.forEach(function (element) {
                     if (element.alias === alias) {
                         hasSameName = true;

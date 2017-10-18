@@ -196,7 +196,8 @@
 //            global.lang = self.lang;
             ipc.on('add-database', function (event, arg) {
                 console.log('The group list has changed!');
-                self.dbGroups = config.getDBGroups();
+                self.dbGroups = arg;
+                // self.dbGroups = config.getDBGroups();
             });
             if (config.checkFileExist()) {
                 self.dbGroups = config.getDBGroups();
