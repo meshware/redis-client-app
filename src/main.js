@@ -17,13 +17,14 @@ global.user_language = user_language;
 // be closed automatically when the JavaScript object is garbage collected.
 let main = {};
 
+let is_tray_initialized;
+
 const isDevMode = process.execPath.match(/[\\/]electron/);
 
 if (isDevMode) enableLiveReload();
 
 const iconName = process.platform === 'darwin' ? 'icon.icns' : 'icon.ico';
 const iconPath = path.join(__dirname, './asserts/icons', iconName);
-console.log(iconPath);
 
 main.createWindow = async () => {
     // Create the browser window.
@@ -62,6 +63,13 @@ main.createWindow = async () => {
         // when you should delete the corresponding element.
         main.mainWindow = null;
     });
+
+    main.mainWindow.webContents.on('did-finish-load', () => {
+        if (!is_tray_initialized) {
+            appIcon.loadTray(main);
+            is_tray_initialized = true;
+        }
+    });
 };
 
 // This method will be called when Electron has finished
@@ -70,13 +78,7 @@ main.createWindow = async () => {
 app.on('ready', () => {
     main.createWindow();
     menu.menuInit();
-    appIcon.loadTray(main);
     log.info("Load main process success! Current system language type:" + user_language);
-    // Promise.race(menu.menuInit, appIcon.loadTray).then(function (message) {
-    //     log.info("Load main process success!");
-    // }).catch(function (exception) {
-    //     log.info(exception);
-    // });
 });
 
 // Quit when all windows are closed.

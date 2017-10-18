@@ -40,7 +40,7 @@ sub.loadNewWindow = function (redisAlias) {
     win.show();
 
     //页面加载完成后，发送事件创建redis连接
-    win.webContents.on('did-finish-load', function(){
+    win.webContents.on('did-finish-load', function () {
         win.webContents.send('createRedisConnection', redisAlias);
     });
 

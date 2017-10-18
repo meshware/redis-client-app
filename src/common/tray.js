@@ -1,4 +1,4 @@
-import {app, Tray, ipcMain, Menu, dialog} from 'electron';
+import {app, Tray, ipcMain, Menu, dialog, shell} from 'electron';
 import path from 'path';
 
 let appIcon = {};
@@ -7,11 +7,39 @@ appIcon.loadTray = function (main) {
     const iconName = process.platform === 'win32' ? 'windows-icon.png' : 'iconTemplate.png';
     const iconPath = path.join(__dirname, '../asserts/icons', iconName);
     appIcon = new Tray(iconPath);
-    const contextMenu = Menu.buildFromTemplate([
+    let menu = [];
+
+    if (process.platform === 'darwin') {
+        menu.push({
+            label: 'Show/Hide Dock',
+            type: 'normal',
+            // accelerator: 'CommandOrControl+D',
+            click: () => {
+                let is_dock_visible = app.dock.isVisible();
+                if (is_dock_visible) {
+                    app.dock.hide();
+                } else {
+                    app.dock.show();
+                }
+            }
+        })
+    }
+
+    menu = menu.concat([
+        {
+            label: 'Feedback',
+            type: 'normal',
+            click: () => {
+            shell.openExternal('https://github.com/UUGU/redis-client-app/issues');
+        }
+        },
+        {
+            type: 'separator'
+        },
         {
             label: 'Open',
             type: 'normal',
-            // accelerator: 'CommandOrControl+Q',
+            // accelerator: 'CommandOrControl+O',
             click: function () {
                 if (main.mainWindow === null) {
                     main.createWindow();
@@ -47,6 +75,7 @@ appIcon.loadTray = function (main) {
             }
         }
     ]);
+    const contextMenu = Menu.buildFromTemplate(menu);
     appIcon.setToolTip('Redis Client');
     appIcon.setContextMenu(contextMenu);
 };

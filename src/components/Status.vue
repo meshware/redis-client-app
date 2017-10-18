@@ -113,7 +113,15 @@
                 memoryData: [],
                 memoryPeakData: [],
                 clientInfo: {connected_clients: 0},
-                serverInfo: {},
+                serverInfo: {
+                    redis_version: 'unknown',
+                    redis_mode: 'unknown',
+                    os: 'unknown',
+                    arch_bits: 'unknown',
+                    process_id: 'unknown',
+                    tcp_port: 'unknown',
+                    uptime_in_days: 'unknown'
+                },
                 dbInfo: {},
                 lang: self.i18n
             }
@@ -131,6 +139,17 @@
                 let usedMemoryPeak = {};
                 let totalMemoryPeak = {};
                 if (self.redis) {
+                    self.clientInfo = {connected_clients: 0};
+                    self.serverInfo = {
+                        redis_version: 'unknown',
+                        redis_mode: 'unknown',
+                        os: 'unknown',
+                        arch_bits: 'unknown',
+                        process_id: 'unknown',
+                        tcp_port: 'unknown',
+                        uptime_in_days: 'unknown'
+                    };
+//                    self.dbInfo = {};
                     self.redis.info("memory").then(function (result) {
                         console.log(result.split('\n'));
                         result.split('\n').forEach(function (element) {
