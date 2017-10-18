@@ -70,12 +70,11 @@
                             if (!self.checkDBAlias(self.dbConfig.alias) || self.dbConfig.alias === self.oldAlias) {
                                 config.configFile.forEach(function(element, index) {
                                     if (element.alias === self.oldAlias) {
-                                        // console.log(element.alias === self.oldAlias);
                                         config.configFile[index] = self.dbConfig;
                                         config.saveConfigFile(config.configFile);
                                         self.$Message.success(self.lang.update_db_info_success);
-                                        //alert("修改数据库成功！");
                                         ipc.send('add-database', config.configFile);
+                                        self.oldAlias = self.dbConfig.alias;
                                     }
                                 });
                             } else {
