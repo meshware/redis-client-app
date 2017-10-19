@@ -101,5 +101,5 @@ app.on('activate', () => {
 // relaunch
 ipcMain.on('relaunch', () => {
     app.relaunch({args: process.argv.slice(1) + ['--relaunch']});
-    app.exit(0)
+    app.exit(0);
 });
