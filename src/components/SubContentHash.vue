@@ -98,6 +98,9 @@
                 this.$Modal.confirm({
                     title: this.lang.delete,
                     content: this.lang.delete_notice,
+                    okText: this.lang.ok,
+                    cancelText: this.lang.cancel,
+                    scrollable: true,
                     onOk: () => {
                         self.redis.del(key).then(function (result) {
                             if (result === 1) {
@@ -138,7 +141,11 @@
             show (index) {
                 this.$Modal.info({
                     title: this.lang.content_detail,
-                    content: `${this.content[index].context}`
+                    content: `${this.content[index].context}`,
+                    width: 600,
+                    okText: this.lang.ok,
+                    cancelText: this.lang.cancel,
+                    scrollable: true
                 })
             },
             remove (index) {
@@ -146,6 +153,9 @@
                 this.$Modal.confirm({
                     title: this.lang.delete,
                     content: this.lang.delete_notice,
+                    okText: this.lang.ok,
+                    cancelText: this.lang.cancel,
+                    scrollable: true,
                     onOk: () => {
                         self.redis.hdel(self.$route.params.key, self.content[index].key).then(function (result) {
                             console.log(result);
@@ -171,11 +181,7 @@
             '$route': 'doGetContent'
         },
         mounted:function(){
-            let self = this;
-            // self.codemirror = CodeMirror('stringContent', {
-            //     mode: 'javascript',
-            //     lineNumbers: true
-            //     })
+
         }
     }
 </script>

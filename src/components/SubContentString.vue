@@ -89,8 +89,11 @@
             deleteKey(key) {
                 let self = this;
                 this.$Modal.confirm({
-                    title: '删除提示',
-                    content: '确认删除该键值吗？',
+                    title: this.lang.delete,
+                    content: this.lang.delete_notice,
+                    okText: this.lang.ok,
+                    cancelText: this.lang.cancel,
+                    scrollable: true,
                     onOk: () => {
                         self.redis.del(key).then(function (result) {
                             if (result === 1) {

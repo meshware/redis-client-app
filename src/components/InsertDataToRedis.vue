@@ -10,7 +10,7 @@
                 <p>{{lang.deleteConfirmYesOrNo}}</p>
             </div>
             <div slot="footer">
-                <Button type="error" size="small" long @click="del">删除</Button>
+                <Button type="error" size="small" long @click="del">{{lang.delete}}</Button>
             </div>
         </Modal>
         <Form :model="insertRedisFormValue" :rules="ruleValidate" ref="insertRedisForm" :label-width="80"
@@ -32,7 +32,7 @@
                 <Input v-model="insertRedisFormValue.insertSortedSet"/>
             </FormItem>
             <FormItem>
-                <Button @click.native.prevent="submitInsertForm" type="primary" shape="circle">{{lang.save}}</Button>
+                <Button @click.native.prevent="submitInsertForm" type="primary">{{lang.save}}</Button>
             </FormItem>
             <Card style="color:red" v-show="showRedisInsertError">
                 <div style="margin-left: 10px">
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-    export default{
+    export default {
         data() {
             let self = this;
             return {
@@ -94,7 +94,7 @@
              * redis插入数据
              *
              * */
-            insertRedisData(){
+            insertRedisData() {
                 let me = this;
                 let insertRedisMethod = "";
                 let redisKey = this.insertRedisFormValue.insertStringKey;
@@ -113,7 +113,7 @@
                             insertRedisMethod = me.redis.zadd(redisKey, sortedSet, redisValue);
                         } else {
                             me.showRedisInsertError = true;
-                            if (me.lang._lang_name == '简体中文') {
+                            if (me.lang._lang_name === '简体中文') {
                                 me.errorRedisInsertMessage = "Sorted Set必须是整数";
                             } else {
                                 me.errorRedisInsertMessage = "Sorted Set should be integer";
@@ -130,7 +130,7 @@
                             valueJson = JSON.parse(redisValue.toString());
                         } catch (e) {
                             me.showRedisInsertError = true;
-                            if (me.lang._lang_name == '简体中文') {
+                            if (me.lang._lang_name === '简体中文') {
                                 me.errorRedisInsertMessage = "Value不是正确的Json格式";
                             } else {
                                 me.errorRedisInsertMessage = "Value should be Json";
@@ -152,7 +152,7 @@
                     }
                     me.showRedisInsertError = true;
                     if (result === 0) {
-                        if (me.lang._lang_name == '简体中文') {
+                        if (me.lang._lang_name === '简体中文') {
                             me.errorRedisInsertMessage = "数据重复";
                         } else {
                             me.errorRedisInsertMessage = "duplicate data";
@@ -169,7 +169,7 @@
              *submit data
              *
              **/
-            submitInsertForm(){
+            submitInsertForm() {
                 let me = this;
                 me.$refs.insertRedisForm.validate((valid) => {
                     if (valid) {
@@ -188,7 +188,7 @@
                 });
             }
         },
-        mounted(){
+        mounted() {
         }
     }
 </script>
