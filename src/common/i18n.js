@@ -28,14 +28,19 @@ module.exports = {
     getLang: (lang) => {
         if (lang) {
             lang = lang.toLowerCase();
-            if (lang === 'cn' || lang === 'zh-cn') {
+            if (lang === 'cn' || lang === 'zh-CN' || lang === 'zh') {
                 lang = 'cn';
             } else {
                 lang = 'en';
             }
             return languages[lang] || languages['en'];
         } else {
-            return languages[(app.getLocale() || '').split('-')[0].toLowerCase() || 'en'];
+            let local = (app.getLocale() || '').split('-')[0].toLowerCase();
+            if (local && local === 'zh') {
+                return languages['cn'];
+            } else {
+                return languages['en'];
+            }
         }
     },
 
