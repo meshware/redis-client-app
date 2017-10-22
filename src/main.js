@@ -37,7 +37,7 @@ main.createWindow = async () => {
         width: 400,
         // maximizable: false,
         fullscreenable: false,
-        skipTaskbar: true,
+        // skipTaskbar: true,
         useContentSize: true,
         titleBarStyle: 'hidden-inset',
         autoHideMenuBar: true,
