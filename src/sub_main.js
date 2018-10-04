@@ -28,11 +28,11 @@ sub.loadNewWindow = function (redisAlias) {
         width: 1088,
         fullscreenable: false,
         useContentSize: true,
-        titleBarStyle: 'hidden-inset',
+        titleBarStyle: 'hiddenInset',
         autoHideMenuBar: true,
         frame: true,
         darkTheme: true,
-        transparent: false //窗口透明
+        transparent: true //窗口透明
     });
 
     win.on('close', function () { win = null });

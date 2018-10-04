@@ -19,6 +19,7 @@
             <Button type="error" class="delete" size="small" @click="deleteKey($route.params.key)">{{lang.delete}}</Button>
             <!-- <a href="javascript:;" class="delete" @click="deleteKey($route.params.key)">删除</a> -->
         </div>
+        <p>过期时间：1s</p>
         <div class="text-area">
             <textarea v-model="content"></textarea>
         </div>
@@ -122,7 +123,6 @@
             }
         },
         created() {
-            
             this.doGetContent();
         },
         watch: {

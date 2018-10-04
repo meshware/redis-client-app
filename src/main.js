@@ -39,12 +39,12 @@ main.createWindow = async () => {
         fullscreenable: false,
         // skipTaskbar: true,
         useContentSize: true,
-        titleBarStyle: 'hidden-inset',
+        titleBarStyle: 'hiddenInset',
         autoHideMenuBar: true,
         frame: true,
         resizable: false,
         darkTheme: true,
-        transparent: false //窗口透明
+        transparent: true //窗口透明
     });
 
     // and load the index.html of the app.
