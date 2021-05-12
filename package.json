@@ -56,9 +56,9 @@
     }
   },
   "dependencies": {
-    "axios": "^0.19.1",
+    "axios": "^0.21.1",
     "electron-compile": "^6.4.4",
-    "electron-devtools-installer": "^2.2.4",
+    "electron-devtools-installer": "^3.2.0",
     "electron-forge": "^5.2.4",
     "electron-log": "^4.0.3",
     "electron-updater": "^3.1.2",
@@ -67,21 +67,21 @@
     "iview": "^3.5.4",
     "jquery": "^3.2.1",
     "redis": "^2.8.0",
-    "sockjs-client": "^1.4.0",
+    "sockjs-client": "^1.5.1",
     "vue": "^2.5.17",
     "vue-electron": "^1.0.6",
-    "vue-router": "^3.0.1",
+    "vue-router": "^3.5.1",
     "vueify": "^9.4.1",
-    "vue-template-compiler": "^2.5.17",
-    "vue-codemirror": "^4.0.5",
-    "codemirror": "^5.50.2"
+    "vue-template-compiler": "^2.6.12",
+    "vue-codemirror": "^4.0.6",
+    "codemirror": "^5.61.0"
   },
   "devDependencies": {
     "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-preset-env": "^1.6.1",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "electron-prebuilt-compile": "4.0.0",
-    "electron-builder": "^21.2.0",
-    "vue-template-compiler": "^2.5.16"
+    "electron-prebuilt-compile": "8.2.0",
+    "electron-builder": "^22.11.3",
+    "vue-template-compiler": "^2.6.12"
   }
 }
